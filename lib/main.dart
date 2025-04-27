@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:balungao_nhs/firebase_options.dart';
 import 'package:balungao_nhs/pages/views/sections/desktop/about_us.dart';
 import 'package:balungao_nhs/pages/views/sections/desktop/about_us_content.dart';
 import 'package:balungao_nhs/pages/views/sections/mobile/about_us_content_mobile.dart';
@@ -25,23 +26,16 @@ Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
 
     await Supabase.initialize(
-      url: 'https://zimpntwjohlskjsevpbe.supabase.co',
+      url: 'https://txjuiwfelwllnaaqxvrr.supabase.co',
       anonKey:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InppbXBudHdqb2hsc2tqc2V2cGJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYzNDg4MjUsImV4cCI6MjA1MTkyNDgyNX0.tIjt_0qHqFglNokTTO-6XW2euRUzQUUi_PB8puncDj8',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4anVpd2ZlbHdsbG5hYXF4dnJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU3NDczODEsImV4cCI6MjA2MTMyMzM4MX0.08fi9SINbXX5NGpuSUuTCrVrolvdP_MdG4xYtYc7SoY',
     );
 
     // Perform async initialization tasks
     await SharedPreferences.getInstance();
     await Firebase.initializeApp(
-      options: const FirebaseOptions(
-        apiKey: "AIzaSyCN9fKKOi7P5WPzaZgUwUP_rSIO4ABJbco",
-        authDomain: "balungaonhs-29b22.firebaseapp.com",
-        projectId: "balungaonhs-29b22",
-        storageBucket: "balungaonhs-29b22.firebasestorage.app",
-        messagingSenderId: "1040305288347",
-        appId: "1:1040305288347:web:35973ead46a7f342a4423e",
-      ),
-    );
+    options: DefaultFirebaseOptions.currentPlatform, // This picks the right configuration
+  );
 
     // Handle Flutter framework errors
     FlutterError.onError = (FlutterErrorDetails details) {

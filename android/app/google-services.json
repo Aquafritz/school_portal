@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "1040305288347",
-    "project_id": "balungaonhs-29b22",
-    "storage_bucket": "balungaonhs-29b22.firebasestorage.app"
+    "project_number": "31528871369",
+    "project_id": "school-portal-49b1b",
+    "storage_bucket": "school-portal-49b1b.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1040305288347:android:73aece1902fa2c66a4423e",
+        "mobilesdk_app_id": "1:31528871369:android:2099c35895389a057c3418",
         "android_client_info": {
           "package_name": "com.example.pbma_portal"
         }
@@ -15,7 +15,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBOxkOf8XzdcVKGr4c0nahcYC0V1kgh86s"
+          "current_key": "AIzaSyD2SgLmpnJwc5qjUaFNSnlKpjW2fkSI494"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:31528871369:android:cfb1f7ce8685f6177c3418",
+        "android_client_info": {
+          "package_name": "com.salomague.schoolportal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2SgLmpnJwc5qjUaFNSnlKpjW2fkSI494"
         }
       ],
       "services": {

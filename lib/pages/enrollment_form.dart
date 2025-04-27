@@ -151,7 +151,7 @@ class _EnrollmentFormState extends State<EnrollmentForm> {
         // Handle profile image upload
         if (_webImageData != null) {
           try {
-            const bucketName = 'Balungao NHS';
+            const bucketName = 'salomaguenhs';
             final fileName =
                 'student_pictures/${DateTime.now().millisecondsSinceEpoch}.png';
             await supabase.storage.from(bucketName).uploadBinary(
@@ -176,7 +176,7 @@ class _EnrollmentFormState extends State<EnrollmentForm> {
         // Handle other file uploads
         for (var file in _selectedFiles) {
           try {
-            const bucketName = 'Balungao NHS';
+            const bucketName = 'salomaguenhs';
             final fileName =
                 'uploads/${DateTime.now().millisecondsSinceEpoch}_${file.name}';
             await supabase.storage.from(bucketName).uploadBinary(

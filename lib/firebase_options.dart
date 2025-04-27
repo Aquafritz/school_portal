@@ -41,48 +41,47 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCN9fKKOi7P5WPzaZgUwUP_rSIO4ABJbco',
-    appId: '1:1040305288347:web:35973ead46a7f342a4423e',
-    messagingSenderId: '1040305288347',
-    projectId: 'balungaonhs-29b22',
-    authDomain: 'balungaonhs-29b22.firebaseapp.com',
-    storageBucket: 'balungaonhs-29b22.firebasestorage.app',
-    measurementId: 'G-MJJME8FR61',
+    apiKey: 'AIzaSyCpMcUbOxQqcg1pX4CterWqUn2UE6uXkHU',
+    appId: '1:31528871369:web:b6846d611cd48dfe7c3418',
+    messagingSenderId: '31528871369',
+    projectId: 'school-portal-49b1b',
+    authDomain: 'school-portal-49b1b.firebaseapp.com',
+    storageBucket: 'school-portal-49b1b.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBOxkOf8XzdcVKGr4c0nahcYC0V1kgh86s',
-    appId: '1:1040305288347:android:73aece1902fa2c66a4423e',
-    messagingSenderId: '1040305288347',
-    projectId: 'balungaonhs-29b22',
-    storageBucket: 'balungaonhs-29b22.firebasestorage.app',
+    apiKey: 'AIzaSyD2SgLmpnJwc5qjUaFNSnlKpjW2fkSI494',
+    appId: '1:31528871369:android:2099c35895389a057c3418',
+    messagingSenderId: '31528871369',
+    projectId: 'school-portal-49b1b',
+    storageBucket: 'school-portal-49b1b.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBti4lYbKIQMRKlIhsJ79v0eYGFYshcg0I',
-    appId: '1:1040305288347:ios:5d52a6cf07bbec17a4423e',
-    messagingSenderId: '1040305288347',
-    projectId: 'balungaonhs-29b22',
-    storageBucket: 'balungaonhs-29b22.firebasestorage.app',
+    apiKey: 'AIzaSyBFoDALG4-m0G_2TuQvTbDvhJYMMz2Gf78',
+    appId: '1:31528871369:ios:7747c1132553bd567c3418',
+    messagingSenderId: '31528871369',
+    projectId: 'school-portal-49b1b',
+    storageBucket: 'school-portal-49b1b.firebasestorage.app',
     iosBundleId: 'com.example.pbmaPortal',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBti4lYbKIQMRKlIhsJ79v0eYGFYshcg0I',
-    appId: '1:1040305288347:ios:5d52a6cf07bbec17a4423e',
-    messagingSenderId: '1040305288347',
-    projectId: 'balungaonhs-29b22',
-    storageBucket: 'balungaonhs-29b22.firebasestorage.app',
+    apiKey: 'AIzaSyBFoDALG4-m0G_2TuQvTbDvhJYMMz2Gf78',
+    appId: '1:31528871369:ios:7747c1132553bd567c3418',
+    messagingSenderId: '31528871369',
+    projectId: 'school-portal-49b1b',
+    storageBucket: 'school-portal-49b1b.firebasestorage.app',
     iosBundleId: 'com.example.pbmaPortal',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCN9fKKOi7P5WPzaZgUwUP_rSIO4ABJbco',
-    appId: '1:1040305288347:web:52d640471e508f70a4423e',
-    messagingSenderId: '1040305288347',
-    projectId: 'balungaonhs-29b22',
-    authDomain: 'balungaonhs-29b22.firebaseapp.com',
-    storageBucket: 'balungaonhs-29b22.firebasestorage.app',
-    measurementId: 'G-0T3XHN6H08',
+    apiKey: 'AIzaSyCpMcUbOxQqcg1pX4CterWqUn2UE6uXkHU',
+    appId: '1:31528871369:web:b811f96603b1ebcb7c3418',
+    messagingSenderId: '31528871369',
+    projectId: 'school-portal-49b1b',
+    authDomain: 'school-portal-49b1b.firebaseapp.com',
+    storageBucket: 'school-portal-49b1b.firebasestorage.app',
   );
+
 }
