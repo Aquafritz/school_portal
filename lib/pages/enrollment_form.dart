@@ -585,6 +585,11 @@ class _EnrollmentFormState extends State<EnrollmentForm> {
 
                       SizedBox(height: 30),
                       if (selectededucLevel == 'Junior High School') ...[
+                        JuniorHighSchool(
+                          key: _juniorHSKey,
+                          onDataChanged: _updateStudentData,
+                        ),
+                        SizedBox(height: 30),
                         JuniorHighSchoolEnrollment(
                             key: _juniorHSinforKey,
                             spacing: 50.0,
@@ -630,10 +635,10 @@ class _EnrollmentFormState extends State<EnrollmentForm> {
                               height: buttonHeight,
                               child: TextButton(
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
+                                  backgroundColor: WidgetStateProperty.all(
                                     Color(0xFF002f24),
                                   ),
-                                  shape: MaterialStateProperty.all(
+                                  shape: WidgetStateProperty.all(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                     ),
