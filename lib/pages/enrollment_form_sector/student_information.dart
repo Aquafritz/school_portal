@@ -32,6 +32,12 @@ class StudentInformation extends StatefulWidget {
 
 class StudentInformationState extends State<StudentInformation>
     with AutomaticKeepAliveClientMixin {
+  final _householdIdFocusNode = FocusNode();
+  final _motherTongueFocusNode = FocusNode();
+  final FocusNode _religionFocusNode = FocusNode();
+  final FocusNode _schoolYearFocusNode = FocusNode();
+  final FocusNode _placeOfBirthFocusNode = FocusNode();
+  final FocusNode _psaFocusNode = FocusNode();
   final FocusNode _lrnFocusNode = FocusNode();
   final FocusNode _lastNameFocusNode = FocusNode();
   final FocusNode _firstNameFocusNode = FocusNode();
@@ -45,7 +51,12 @@ class StudentInformationState extends State<StudentInformation>
   final FocusNode _middleNameFocusNode = FocusNode();
   final FocusNode _extensionNameFocusNode = FocusNode();
 
+  final _householdIdController = TextEditingController();
+  final _motherTongueController = TextEditingController();
+  final TextEditingController _religionController = TextEditingController();
   final TextEditingController _lrnController = TextEditingController();
+  final TextEditingController _placeOfBirthController = TextEditingController();
+  final TextEditingController _psaController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _middleNameController = TextEditingController();
@@ -56,11 +67,20 @@ class StudentInformationState extends State<StudentInformation>
   final TextEditingController _indigenousController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _schoolYearController = TextEditingController();
+  String _is4PsBeneficiary = '';
+
 
 
   // Method to reset form
   void resetFields() {
     setState(() {
+    _householdIdController.clear();
+    _motherTongueController.clear();
+    _religionController.clear();
+    _placeOfBirthController.clear();
+    _psaController.clear();
+    _schoolYearController.clear();
     _lrnController.clear();
     _lastNameController.clear();
     _firstNameController.clear();
@@ -73,6 +93,7 @@ class StudentInformationState extends State<StudentInformation>
     _genderController.clear();
     _phoneNumberController.clear();
     _gender = '';
+    _is4PsBeneficiary = '';
     _indigenousGroup = '';
     
     // Reset image-related fields
@@ -94,6 +115,12 @@ class StudentInformationState extends State<StudentInformation>
   @override
   void initState() {
     super.initState();
+    _householdIdController.addListener(_notifyParent);
+    _motherTongueController.addListener(_notifyParent);
+    _religionController.addListener(_notifyParent);
+    _placeOfBirthController.addListener(_notifyParent);
+    _psaController.addListener(_notifyParent);
+    _schoolYearController.addListener(_notifyParent);
     _lrnController.addListener(_notifyParent);
     _lastNameController.addListener(_notifyParent);
     _firstNameController.addListener(_notifyParent);
@@ -106,7 +133,13 @@ class StudentInformationState extends State<StudentInformation>
     _genderController.addListener(_notifyParent);
     _phoneNumberController.addListener(_notifyParent);
 
+    _householdIdFocusNode.addListener(_onFocusChange);
+    _motherTongueFocusNode.addListener(_onFocusChange);
     _lrnFocusNode.addListener(_onFocusChange);
+    _religionFocusNode.addListener(_onFocusChange);
+    _psaFocusNode.addListener(_onFocusChange);
+    _placeOfBirthFocusNode.addListener(_onFocusChange);
+    _schoolYearFocusNode.addListener(_onFocusChange);
     _lastNameFocusNode.addListener(_onFocusChange);
     _firstNameFocusNode.addListener(_onFocusChange);
     _middleNameFocusNode.addListener(_onFocusChange);
@@ -121,6 +154,18 @@ class StudentInformationState extends State<StudentInformation>
 
   @override
   void dispose() {
+    _householdIdController.dispose();
+    _householdIdFocusNode.dispose();
+    _motherTongueController.dispose();
+    _motherTongueFocusNode.dispose();
+    _religionController.dispose();
+    _religionFocusNode.dispose();
+    _placeOfBirthController.dispose();
+    _placeOfBirthFocusNode.dispose();
+    _psaController.dispose();
+    _psaFocusNode.dispose();
+    _schoolYearController.dispose();
+    _schoolYearFocusNode.dispose();
     _lrnController.dispose();
     _lrnFocusNode.dispose();
     _lastNameFocusNode.dispose();
@@ -159,20 +204,29 @@ class StudentInformationState extends State<StudentInformation>
   
 
   Map<String, dynamic> getFormData() {
-    return {
-      'lrn': _lrnController.text,
-      'last_name': _lastNameController.text,
-      'first_name': _firstNameController.text,
-      'middle_name': _middleNameController.text,
-      'extension_name': _extensionNameController.text,
-      'age': _ageController.text,
-      'birthdate': _birthdateController.text,
-      'gender': _gender,
-      'indigenous_group': _indigenousGroup,
-      'email_Address': _emailAddressController.text,
-      'phone_number': _phoneNumberController.text,
-    };
-  }
+  return {
+    'school_year': _schoolYearController.text,
+    'lrn': _lrnController.text,
+    'psa': _psaController.text,
+    'last_name': _lastNameController.text,
+    'first_name': _firstNameController.text,
+    'middle_name': _middleNameController.text,
+    'extension_name': _extensionNameController.text,
+    'age': _ageController.text,
+    'birthdate': _birthdateController.text,
+    'gender': _gender,
+    'place_of_birth': _placeOfBirthController.text,
+    'indigenous_group': _indigenousGroup,
+    'email_Address': _emailAddressController.text,
+    'religion': _religionController.text,
+    'phone_number': _phoneNumberController.text,
+    'mother_tongue': _motherTongueController.text,
+    'is_4ps_beneficiary': _is4PsBeneficiary,
+    if (_is4PsBeneficiary == 'Yes')
+      '4ps_household_id': _householdIdController.text,
+  };
+}
+
 
     Future<void> _pickImage() async {
     if (kIsWeb) {
@@ -184,7 +238,7 @@ class StudentInformationState extends State<StudentInformation>
         if (files!.isEmpty) return;
 
         final reader = html.FileReader();
-        reader.readAsArrayBuffer(files[0]!);
+        reader.readAsArrayBuffer(files[0]);
         reader.onLoadEnd.listen((e) {
           final imageData = reader.result as Uint8List;
           setState(() {
@@ -361,9 +415,9 @@ class StudentInformationState extends State<StudentInformation>
                             children: [
                               if (_lrnFocusNode.hasFocus || _lrnController.text.isNotEmpty)
                                 TextSpan(
-                                  text: '*',
+                                  text: '(if applicable)',
                                   style: TextStyle(
-                                    color: Colors.red,
+                                    color: Color.fromARGB(255, 101, 100, 100), 
                                   ),
                                 ),
                             ],
@@ -383,13 +437,12 @@ class StudentInformationState extends State<StudentInformation>
                       ),
                       ),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your LRN';
-                        } else if (value.length != 12) {
+                        if (value != null && value.isNotEmpty && value.length != 12) {
                           return 'LRN must be exactly 12 digits';
                         }
                         return null;
                       },
+
                       onChanged: (text) {
                         setState(() {});
                       },
@@ -400,8 +453,63 @@ class StudentInformationState extends State<StudentInformation>
                       ],
                     ),
                   ),
-                ],
-              )
+                  SizedBox(height: 16.0),
+
+          // NEW: School Year Field (Mobile)
+          Container(
+  width: screenWidth * 0.8,
+  child: TextFormField(
+    controller: _schoolYearController,
+    focusNode: _schoolYearFocusNode,
+    keyboardType: TextInputType.number, 
+    inputFormatters: [FilteringTextInputFormatter.digitsOnly], 
+    decoration: InputDecoration(
+      label: RichText(
+        text: TextSpan(
+          text: 'School Year',
+          style: TextStyle(
+            color: Color.fromARGB(255, 101, 100, 100),
+            fontSize: 16,
+          ),
+          children: [
+            if (_schoolYearFocusNode.hasFocus || _schoolYearController.text.isNotEmpty)
+              TextSpan(
+                text: '*',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+          ],
+        ),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+      ),
+    ),
+    validator: (value) {
+      if (value == null || value.isEmpty) {
+        return 'Please enter school year';
+      }
+      return null;
+    },
+    onChanged: (text) {
+      setState(() {});
+    },
+  ),
+),
+
+        ],
+      )
+              
             : Row(
                 children: [
                   // LRN field
@@ -422,9 +530,9 @@ class StudentInformationState extends State<StudentInformation>
                             children: [
                               if (_lrnFocusNode.hasFocus || _lrnController.text.isNotEmpty)
                                 TextSpan(
-                                  text: '*',
+                                  text: '(if applicable)',
                                   style: TextStyle(
-                                    color: Colors.red,
+                                    color: Color.fromARGB(255, 101, 100, 100), 
                                   ),
                                 ),
                             ],
@@ -444,13 +552,12 @@ class StudentInformationState extends State<StudentInformation>
                       ),
                       ),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your LRN';
-                        } else if (value.length != 12) {
+                        if (value != null && value.isNotEmpty && value.length != 12) {
                           return 'LRN must be exactly 12 digits';
                         }
                         return null;
                       },
+
                       onChanged: (text) {
                         setState(() {});
                       },
@@ -461,7 +568,61 @@ class StudentInformationState extends State<StudentInformation>
                       ],
                     ),
                   ),
-                  SizedBox(width: widget.spacing),
+                   SizedBox(width: spacing),
+
+          // NEW: School Year Field (Desktop)
+          Container(
+            width: 200,
+            child: TextFormField(
+              controller: _schoolYearController,
+              focusNode: _schoolYearFocusNode,
+              keyboardType: TextInputType.number, 
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly], 
+              decoration: InputDecoration(
+                label: RichText(
+                  text: TextSpan(
+                    text: 'S.Y: yyyy - yyyy',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 101, 100, 100),
+                      fontSize: 16,
+                    ),
+                    children: [
+                      if (_schoolYearFocusNode.hasFocus || _schoolYearController.text.isNotEmpty)
+                        TextSpan(
+                          text: '*',
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+                ),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter school year';
+                }
+                return null;
+              },
+              onChanged: (text) {
+                setState(() {});
+              },
+            ),
+          ),
+
+          SizedBox(width: widget.spacing),
                   // Upload 2x2 picture
                   GestureDetector(
                     onTap: _pickImage,
@@ -513,6 +674,58 @@ class StudentInformationState extends State<StudentInformation>
               spacing: spacing,
               runSpacing: spacing,
               children: [
+                Container(
+      width: fieldWidth,
+      child: TextFormField(
+        controller: _psaController,
+        focusNode: _psaFocusNode,
+        keyboardType: TextInputType.number, 
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly], 
+        decoration: InputDecoration(
+          labelText: null,
+          label: RichText(
+            text: TextSpan(
+              text: 'PSA Birth Certificate No.',
+              style: TextStyle(
+                color: Color.fromARGB(255, 101, 100, 100),
+                fontSize: 16,
+              ),
+              children: [
+                if (_psaFocusNode.hasFocus || _psaController.text.isNotEmpty)
+                  TextSpan(
+                    text: '(if available upon registration)',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Color.fromARGB(255, 101, 100, 100),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+          ),
+        ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter your PSA Birth Certificate No.';
+          }
+          return null;
+        },
+        onChanged: (text) {
+          setState(() {});
+        },
+      ),
+    ),
                 Container(
                   width: fieldWidth,
                   child: TextFormField(
@@ -834,6 +1047,70 @@ class StudentInformationState extends State<StudentInformation>
                     ),
                   ),
                 ),
+                Container(
+  width: fieldWidth,
+  child: TextFormField(
+    controller: _placeOfBirthController,
+    focusNode: _placeOfBirthFocusNode,
+    textCapitalization: TextCapitalization.words,
+    decoration: InputDecoration(
+      labelText: null,
+      label: RichText(
+        text: TextSpan(
+          text: 'Place of Birth',
+          style: TextStyle(
+            color: Color.fromARGB(255, 101, 100, 100),
+            fontSize: 16,
+          ),
+          children: [
+            if (_placeOfBirthFocusNode.hasFocus || _placeOfBirthController.text.isNotEmpty)
+              TextSpan(
+                text: '*',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+          ],
+        ),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+      ),
+    ),
+    validator: (value) {
+      if (value == null || value.isEmpty) {
+        return 'Please enter your place of birth';
+      }
+      return null;
+    },
+    onChanged: (text) {
+      setState(() {});
+    },
+    keyboardType: TextInputType.text,
+    inputFormatters: [
+      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9\s]')),
+      TextInputFormatter.withFunction((oldValue, newValue) {
+        String newText = newValue.text.split(' ').map((word) {
+          if (word.isNotEmpty) {
+            return word[0].toUpperCase() + word.substring(1).toLowerCase();
+          }
+          return '';
+        }).join(' ');
+        return newValue.copyWith(text: newText);
+      }),
+    ],
+  ),
+),
+
               ],
             ),
           ),
@@ -994,6 +1271,61 @@ class StudentInformationState extends State<StudentInformation>
                   },
                   )
                 ),
+                Container(
+  width: fieldWidth,
+  child: TextFormField(
+    controller: _religionController,
+    focusNode: _religionFocusNode,
+    textCapitalization: TextCapitalization.words,
+    decoration: InputDecoration(
+      labelText: null,
+      label: RichText(
+        text: TextSpan(
+          text: 'Religion',
+          style: TextStyle(
+            color: Color.fromARGB(255, 101, 100, 100),
+            fontSize: 16,
+          ),
+          children: [
+            if (_religionFocusNode.hasFocus || _religionController.text.isNotEmpty)
+              TextSpan(
+                text: '*',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+          ],
+        ),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+      ),
+    ),
+    validator: (value) {
+      if (value == null || value.isEmpty) {
+        return 'Please enter your religion';
+      }
+      return null;
+    },
+    onChanged: (text) {
+      setState(() {});
+    },
+    keyboardType: TextInputType.text,
+    inputFormatters: [
+      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9\s]')),
+    ],
+  ),
+),
+
                 // SizedBox(width: widget.spacing),
                 Container(
                   width: fieldWidth,
@@ -1036,6 +1368,8 @@ class StudentInformationState extends State<StudentInformation>
            Padding(
             padding: const EdgeInsets.all(8.0),
             child: Wrap(
+              spacing: spacing,
+              runSpacing: spacing,
               children: [
                 Container(
                   width: fieldWidth,
@@ -1095,6 +1429,154 @@ class StudentInformationState extends State<StudentInformation>
                   ),
                 ),
                 // SizedBox(width: widget.spacing),
+                Container(
+  width: fieldWidth,
+  child: TextFormField(
+    controller: _motherTongueController,
+    focusNode: _motherTongueFocusNode,
+    textCapitalization: TextCapitalization.words,
+    decoration: InputDecoration(
+      labelText: null,
+      label: RichText(
+        text: TextSpan(
+          text: 'Mother Tongue',
+          style: TextStyle(
+            color: Color.fromARGB(255, 101, 100, 100),
+            fontSize: 16,
+          ),
+          children: [
+            if (_motherTongueFocusNode.hasFocus || _motherTongueController.text.isNotEmpty)
+              TextSpan(
+                text: '*',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+          ],
+        ),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+      ),
+    ),
+    validator: (value) {
+      if (value == null || value.isEmpty) {
+        return 'Please enter your mother tongue';
+      }
+      return null;
+    },
+    onChanged: (text) {
+      setState(() {});
+    },
+    keyboardType: TextInputType.text,
+    inputFormatters: [
+      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+    ],
+  ),
+),
+// 4Ps Beneficiary Dropdown
+Container(
+  width: fieldWidth,
+  child: DropdownButtonFormField<String>(
+    value: _is4PsBeneficiary.isEmpty ? null : _is4PsBeneficiary,
+    decoration: InputDecoration(
+      labelText: null,
+      label: RichText(
+        text: TextSpan(
+          text: 'Is your family a beneficiary of 4Ps?',
+          style: TextStyle(
+            color: Color.fromARGB(255, 101, 100, 100),
+            fontSize: 16,
+          ),
+        ),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+      ),
+    ),
+    items: ['Yes', 'No'].map((value) {
+      return DropdownMenuItem<String>(
+        value: value,
+        child: Text(value),
+      );
+    }).toList(),
+    onChanged: (value) {
+      setState(() {
+        _is4PsBeneficiary = value!;
+        if (_is4PsBeneficiary == 'No') {
+          _householdIdController.clear();
+        }
+      });
+    },
+    validator: (value) {
+      if (value == null || value.isEmpty) {
+        return 'Please select Yes or No';
+      }
+      return null;
+    },
+  ),
+),
+
+// Conditional Household ID field if Yes is selected
+if (_is4PsBeneficiary == 'Yes')
+  Container(
+    width: fieldWidth,
+    child: TextFormField(
+      controller: _householdIdController,
+      focusNode: _householdIdFocusNode,
+      decoration: InputDecoration(
+        labelText: null,
+        label: RichText(
+          text: TextSpan(
+            text: 'If Yes, please write the 4Ps Household ID Number',
+            style: TextStyle(
+              color: Color.fromARGB(255, 101, 100, 100),
+              fontSize: 16,
+            ),
+          ),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
+        ),
+      ),
+      validator: (value) {
+        if (_is4PsBeneficiary == 'Yes' && (value == null || value.isEmpty)) {
+          return 'Please enter the 4Ps Household ID Number';
+        }
+        return null;
+      },
+      keyboardType: TextInputType.number,
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+    ),
+  ),
+
               ],
             ),
           ),
