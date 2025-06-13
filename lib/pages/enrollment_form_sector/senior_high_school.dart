@@ -299,8 +299,6 @@ class SeniorHighSchoolState extends State<SeniorHighSchool>
   List<DropdownMenuItem<String>> _getStrandItems() {
     if (_selectedTrack == 'Academic Track') {
       return [
-        'Accountancy, Business, and Management (ABM)',
-        'Science, Technology, Engineering and Mathematics (STEM)',
         'Humanities and Social Sciences (HUMSS)',
       ].map((String value) => DropdownMenuItem<String>(
             value: value,
@@ -308,7 +306,9 @@ class SeniorHighSchoolState extends State<SeniorHighSchool>
           )).toList();
     } else if (_selectedTrack == 'Technical-Vocational-Livelihood (TVL)') {
       return [
-        'Cookery (CO)',
+        'Food and Beverages Services (FBS)',
+        'Cosmetology',
+        'Drafting',
         'Information and Communication Technology (ICT)',
         
       ].map((String value) => DropdownMenuItem<String>(

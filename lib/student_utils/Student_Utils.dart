@@ -41,7 +41,7 @@ Future<String> generateStudentID() async {
       await collection.orderBy('student_id', descending: true).limit(1).get();
 
   if (querySnapshot.docs.isEmpty) {
-    return '${currentYear}-BNHS-0001';
+    return '${currentYear}-SNHS-0001';
   }
 
   final lastDoc = querySnapshot.docs.first;
@@ -49,7 +49,7 @@ Future<String> generateStudentID() async {
   final lastNumber = int.parse(lastID.split('-').last);
   final nextNumber = lastNumber + 1;
 
-  return '${currentYear}-BNHS-${nextNumber.toString().padLeft(4, '0')}';
+  return '${currentYear}-SNHS-${nextNumber.toString().padLeft(4, '0')}';
 }
 
 Future<void> approveStudent(String studentDocId) async {
@@ -97,7 +97,7 @@ Future<void> approveStudent(String studentDocId) async {
       // Create student account
       final userCredential = await tempAuth.createUserWithEmailAndPassword(
         email: email.trim(),
-        password: 'iloveBNHS_123',
+        password: 'iloveSNHS_123',
       );
 
       final uid = userCredential.user?.uid;
