@@ -1,5 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:balungao_nhs/pages/Alumni/alumni_dashboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -375,6 +376,13 @@ class _SignInMobileState extends State<SignInMobile> {
               context,
               MaterialPageRoute(
                 builder: (context) => AdminDashboard(),
+              ),
+            );
+             } else if (accountType == "alumni") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AlumniDashboard(),
               ),
             );
           } else if (accountType == "student") {

@@ -2,6 +2,7 @@
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:balungao_nhs/firebase_options.dart';
+import 'package:balungao_nhs/pages/Alumni/alumni_dashboard.dart';
 import 'package:balungao_nhs/pages/views/sections/desktop/about_us.dart';
 import 'package:balungao_nhs/pages/views/sections/desktop/about_us_content.dart';
 import 'package:balungao_nhs/pages/views/sections/mobile/about_us_content_mobile.dart';
@@ -105,6 +106,8 @@ class MyApp extends StatelessWidget {
                       return AdminDashboard(); // Navigate to Admin Dashboard
                     } else if (accountType == 'instructor') {
                       return AdminDashboard(); // Navigate to Teacher UI
+                        } else if (accountType == 'alumni') {
+                      return AlumniDashboard(); // Navigate to Teacher UI
                     } else if (accountType == 'student') {
                       return StudentUI(); // Navigate to Student UI
                     } else {

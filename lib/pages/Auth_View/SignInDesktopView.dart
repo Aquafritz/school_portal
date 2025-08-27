@@ -2,6 +2,7 @@
 
 import 'dart:ui';
 
+import 'package:balungao_nhs/pages/Alumni/alumni_dashboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -371,6 +372,13 @@ class _SignInDesktopState extends State<SignInDesktop> {
               context,
               MaterialPageRoute(
                 builder: (context) => AdminDashboard(),
+              ),
+            );
+           } else if (accountType == "alumni") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AlumniDashboard(),
               ),
             );
           } else if (accountType == "student") {

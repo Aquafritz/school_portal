@@ -4,6 +4,8 @@ import 'package:balungao_nhs/Manage/JHSStudentDetails.dart';
 import 'package:balungao_nhs/Manage/JHSStudentInSection.dart';
 import 'package:balungao_nhs/Manage/JHSStudentReportCard.dart';
 import 'package:balungao_nhs/Manage/SubjectsandGradeJHS.dart';
+import 'package:balungao_nhs/Manage/editAlumni.dart';
+import 'package:balungao_nhs/pages/Auth_View/adding_alumniacc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -58,11 +60,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
   String selectedJHSGrade = "All";
 
   String? selectedSubjectId;
+  String? selectedAlumniId;
   String? selectedInstructorId;
   String? selectedSectionId;
 
   bool _showAddSubjects = false;
-  bool _showEditSubjects = false;
+  bool _showEditSubjects = false;  
+  bool _showAddAlumni = false;
+  bool _showEditAlumni = false;
   bool _showAddInstructors = false;
   bool _showEditInstructors = false;
   bool _showAddSections = false;
@@ -568,6 +573,34 @@ class _AdminDashboardState extends State<AdminDashboard> {
     );
   }
   //BuildManageSubjectsContent
+
+  //BuildAlumni
+
+   void toggleAddAlumni() {
+    setState(() {
+      _showAddAlumni = !_showAddAlumni;
+    });
+  }
+
+  void closeAddAlumni() {
+    setState(() {
+      _showAddAlumni = false;
+    });
+  }
+
+  void toggleEditAlumni() {
+    setState(() {
+      _showEditAlumni = !_showEditAlumni;
+    });
+  }
+
+  void closeEditAlumni() {
+    setState(() {
+      _showEditAlumni = false;
+    });
+  }
+
+  //Build ALumni
 
   //BuildManageInstructorContent
   void toggleAddInstructors() {
@@ -2271,6 +2304,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
         return _buildNewcomersContent();
       case 'Manage Re-Enrolled Students':
         return _buildReEnrolledStudentContent();
+      case 'Manage Alumni':
+        return _buildAlumniContent();
       case 'Manage Subjects':
         if (_selectedSubMenu == 'junior') {
           return _buildJuniorManageSubjects();
@@ -5661,6 +5696,381 @@ class _AdminDashboardState extends State<AdminDashboard> {
     );
   }
 
+  Widget _buildAlumniContent(){
+     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    return Stack(
+      children: [
+        Container(
+          color: Colors.grey[300],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'Manage Alumni',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Color(0xFF002f24)),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    onPressed: toggleAddAlumni,
+                    child: Text(
+                      'Add New Alumni',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Card(
+                  margin: EdgeInsets.all(16),
+                  elevation: 10,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Alumni Lists',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 16),
+
+                        // Fixed header row
+                        Table(
+                          border: TableBorder.all(color: Colors.grey),
+                          columnWidths: const <int, TableColumnWidth>{
+                            0: FixedColumnWidth(40.0),
+                            1: FlexColumnWidth(),
+                            2: FlexColumnWidth(),
+                            3: FlexColumnWidth(),
+                            4: FlexColumnWidth(),
+                            5: FlexColumnWidth(),
+                            6: FlexColumnWidth(),
+                            7: FixedColumnWidth(160.0),
+                          },
+                          children: [
+                            TableRow(
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                              ),
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('#',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Full Name',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Email Address',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Address',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Year Graduated',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Track',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Strand',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Actions',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+
+                        // Scrollable data rows
+                        Expanded(
+                          child: StreamBuilder<QuerySnapshot>(
+                            stream: FirebaseFirestore.instance
+                                .collection('users')
+                                .where('accountType', isEqualTo: 'alumni')
+
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                  child: DefaultTextStyle(
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Color(0xFF03b97c),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    child: AnimatedTextKit(
+                                      animatedTexts: [
+                                        WavyAnimatedText('LOADING...'),
+                                      ],
+                                      isRepeatingAnimation: true,
+                                    ),
+                                  ),
+                                );
+                              }
+
+                              if (!snapshot.hasData ||
+                                  snapshot.data!.docs.isEmpty) {
+                                return Center(
+                                  child: Text(
+                                    'No Teacher Added',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontStyle: FontStyle.italic,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                );
+                              }
+
+                              final users = snapshot.data!.docs;
+
+                              return SingleChildScrollView(
+                                physics: BouncingScrollPhysics(),
+                                child: Table(
+                                  border: TableBorder.all(color: Colors.grey),
+                                  columnWidths: const <int, TableColumnWidth>{
+                                    0: FixedColumnWidth(40.0),
+                                    1: FlexColumnWidth(),
+                                    2: FlexColumnWidth(),
+                                    3: FlexColumnWidth(),
+                                    4: FlexColumnWidth(),
+                                    5: FlexColumnWidth(),
+                                    6: FlexColumnWidth(),
+                                    7: FixedColumnWidth(160.0),
+                                  },
+                                  children: [
+                                    for (var i = 0; i < users.length; i++)
+                                      TableRow(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text((i + 1).toString()),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              '${users[i]['first_name']} '
+                                              '${users[i]['middle_name']?.isNotEmpty == true ? users[i]['middle_name'] + ' ' : ''}'
+                                              '${users[i]['last_name']}',
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child:
+                                                Text(users[i]['email_Address']),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child:
+                                                Text(users[i]['adress']),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(users[i]['yearGraduated']),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(users[i]['Track']),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(users[i]
+                                                    ['Strand'] ??
+                                                'N/A'),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              children: [
+                                                IconButton(
+                                                  icon: Icon(Icons.edit,
+                                                      color: Colors.blue),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      selectedAlumniId =
+                                                          users[i].id;
+                                                      toggleEditAlumni();
+                                                    });
+                                                  },
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: DropdownButton<String>(
+                                                    value: users[i][
+                                                        'Status'], // Assuming 'status' holds 'active' or 'inactive'
+                                                    icon: Icon(Icons
+                                                        .more_vert), // Dropdown icon
+                                                    items: <String>[
+                                                      'active',
+                                                      'inactive'
+                                                    ].map((String status) {
+                                                      return DropdownMenuItem<
+                                                          String>(
+                                                        value: status,
+                                                        child: Text(status),
+                                                      );
+                                                    }).toList(),
+                                                    onChanged:
+                                                        (String? newStatus) {
+                                                      if (newStatus != null &&
+                                                          newStatus !=
+                                                              users[i]
+                                                                  ['Status']) {
+                                                        _showStatusChangeDialog(
+                                                            context,
+                                                            users[i].id,
+                                                            newStatus); // Call the dialog method
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        AnimatedSwitcher(
+          duration: Duration(milliseconds: 550),
+          child: _showAddAlumni
+              ? Stack(children: [
+                  Positioned.fill(
+                    child: GestureDetector(
+                      onTap: closeAddAlumni,
+                      child: Stack(
+                        children: [
+                          BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                            child:
+                                Container(color: Colors.black.withOpacity(0.5)),
+                          ),
+                          Center(
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: AnimatedContainer(
+                                duration: Duration(milliseconds: 500),
+                                width: screenWidth / 1.2,
+                                height: screenHeight / 1.2,
+                                curve: Curves.easeInOut,
+                                child: AddALumniAccountDialog(
+                                  screenHeight: screenHeight,
+                                  screenWidth: screenWidth,
+                                  key: ValueKey('AddAlumni'),
+                                  closeAddAlumni: closeAddAlumni,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ])
+              : SizedBox.shrink(),
+        ),
+        // AnimatedSwitcher(
+        //   duration: Duration(milliseconds: 550),
+        //   child: _showEditAlumni
+        //        Stack(
+        //           children: [
+        //             Positioned.fill(
+        //               child: GestureDetector(
+        //                 onTap: closeEditAlumni,
+        //                 child: Stack(
+        //                   children: [
+        //                     BackdropFilter(
+        //                       filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+        //                       child: Container(
+        //                           color: Colors.black.withOpacity(0.5)),
+        //                     ),
+        //                     Center(
+        //                       child: GestureDetector(
+        //                         onTap: () {},
+        //                         child: AnimatedContainer(
+        //                           duration: Duration(milliseconds: 500),
+        //                           width: screenWidth / 1.2,
+        //                           height: screenHeight / 1.2,
+        //                           curve: Curves.easeInOut,
+        //                           child: EditAlumni(
+        //                             alumniId: selectedAlumniId,
+        //                             screenHeight: screenHeight,
+        //                             screenWidth: screenWidth,
+        //                             closeEditAlumni: closeEditAlumni,
+        //                           ),
+        //                         ),
+        //                       ),
+        //                     ),
+        //                   ],
+        //                 ),
+        //               ),
+        //             ),
+        //           ],
+        //         )
+        //       : SizedBox.shrink(),
+        // )
+      ],
+    );
+  }
   Widget _buildManageSubjects() {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -9148,6 +9558,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   'Manage Newcomers', Iconsax.task, 'Manage Newcomers'),
               _buildDrawerItem('Manage Re-Enrolled Students ', Iconsax.task,
                   'Manage Re-Enrolled Students'),
+              _buildDrawerItem('Manage Alumni', Iconsax.user, 'Manage Alumni'),
               ExpansionTile(
                 leading: Icon(Iconsax.activity, color: Colors.black),
                 title: Text('Manage Subjects',
