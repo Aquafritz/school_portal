@@ -148,7 +148,7 @@ class MissionAndVisionMobile extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "BNHS VISION",
+                        "SNHS VISION",
                         style: TextStyle(
                           color: Color.fromARGB(255, 0, 30, 54),
                           fontFamily: "B",
@@ -157,7 +157,7 @@ class MissionAndVisionMobile extends StatelessWidget {
                       ),
                       SizedBox(height: screenWidth / 30),
                       Text(
-                        "The BNHS is envisioned to be a child friendly school through the provision of an excellent educational delivery system and the necessary school facilities towards quality education.",
+                        "The SNHS is envisioned to be a child friendly school through the provision of an excellent educational delivery system and the necessary school facilities towards quality education.",
                         style: TextStyle(
                           color: Color.fromARGB(255, 0, 30, 54),
                           fontFamily: "M",
@@ -180,7 +180,7 @@ class MissionAndVisionMobile extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "BNHS MISSION",
+                        "SNHS MISSION",
                         style: TextStyle(
                           color: Color.fromARGB(255, 0, 30, 54),
                           fontFamily: "B",

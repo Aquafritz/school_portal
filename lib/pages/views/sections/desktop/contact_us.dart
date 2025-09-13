@@ -117,7 +117,7 @@ class _ContactUsState extends State<ContactUs> {
                                 shape: BoxShape.circle,
                               ),
                               child: Image.asset(
-                                "assets/balungaonhs.png",
+                                "assets/LOGOFORSALOMAGUE.png",
                                 width: screenWidth/35,
                               height: screenWidth/35,
                                 fit: BoxFit.cover,
@@ -128,7 +128,7 @@ class _ContactUsState extends State<ContactUs> {
                                 GestureDetector(
                                   onTap: () {
                                     _launchURL(
-                                        "https://www.facebook.com/profile.php?id=100092664623289");
+                                        "https://www.facebook.com/SalomagueSurNHS");
                                   },
                                   child: Stack(children: [
                                     Container(
@@ -191,7 +191,7 @@ class _ContactUsState extends State<ContactUs> {
                                 GestureDetector(
                                   onTap: () {
                                     _LocationURL(
-                                        "https://www.google.com/maps/place/BNHS+(Balungao+National+High+School)/@15.8958116,120.6716341,17z/data=!3m1!4b1!4m6!3m5!1s0x33913b708f5b72cf:0x7f772b23b637c007!8m2!3d15.8958065!4d120.674209!16s%2Fg%2F1tvdg9_v?entry=ttu&g_ep=EgoyMDI1MDExNS4wIKXMDSoASAFQAw%3D%3D");
+                                        "https://www.google.com/maps/place/Salomague+National+High+School/@15.9104487,120.2244597,17z/data=!3m1!4b1!4m6!3m5!1s0x339159c1cbe1c057:0x4ccca2b042d04ddb!8m2!3d15.9104436!4d120.2270346!16s%2Fg%2F1hdzjjy4w?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D");
                                   },
                                   child: Container(
                                     width: screenWidth/35,
@@ -275,65 +275,65 @@ class _ContactUsState extends State<ContactUs> {
               ),
               // Map section with zoom buttons  
               Expanded(
-                child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 40),
-                  color: Colors.green,
-                  child: Stack(
-                    children: [
-                      FlutterMap(
-                        mapController: _mapController,
-                        options: MapOptions(
-                          initialCenter: LatLng(15.895685, 120.674170),
-                          initialZoom: _currentZoom,
-                          maxZoom: 18,
-                          minZoom: 1,
-                        ),
-                        children: [
-                          TileLayer(
-                            tileProvider: CancellableNetworkTileProvider(),
-                            urlTemplate:
-                                'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                            userAgentPackageName: 'com.example.pbma_portal',
-                          ),
-                          MarkerLayer(
-                            markers: [
-                              Marker(
-                                point: LatLng(15.895685, 120.674170),
-                                width: screenWidth/25,
-                                height: screenWidth/25,
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.red,
-                                  size: screenWidth/30,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Positioned(
-                        bottom: 10,
-                        right: 10,
-                        child: Column(
-                          children: [
-                            FloatingActionButton(
-                              onPressed: _zoomIn,
-                              child: Icon(Icons.zoom_in),
-                              mini: true,
-                            ),
-                            SizedBox(height: 10),
-                            FloatingActionButton(
-                              onPressed: _zoomOut,
-                              child: Icon(Icons.zoom_out),
-                              mini: true,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+  child: Container(
+    margin: EdgeInsets.symmetric(vertical: 40),
+    color: Colors.green,
+    child: Stack(
+      children: [
+        FlutterMap(
+          mapController: _mapController,
+          options: MapOptions(
+            initialCenter: LatLng(15.9103, 120.2270), // Salomague Sur NHS
+            initialZoom: _currentZoom,
+            maxZoom: 18,
+            minZoom: 1,
+          ),
+          children: [
+            TileLayer(
+              tileProvider: CancellableNetworkTileProvider(),
+              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+              userAgentPackageName: 'com.example.pbma_portal',
+            ),
+            MarkerLayer(
+              markers: [
+                Marker(
+                  point: LatLng(15.9103, 120.2270), // Marker at the school
+                  width: screenWidth / 25,
+                  height: screenWidth / 25,
+                  child: Icon(
+                    Icons.location_on,
+                    color: Colors.red,
+                    size: screenWidth / 30,
                   ),
                 ),
+              ],
+            ),
+          ],
+        ),
+        Positioned(
+          bottom: 10,
+          right: 10,
+          child: Column(
+            children: [
+              FloatingActionButton(
+                onPressed: _zoomIn,
+                child: Icon(Icons.zoom_in),
+                mini: true,
               ),
+              SizedBox(height: 10),
+              FloatingActionButton(
+                onPressed: _zoomOut,
+                child: Icon(Icons.zoom_out),
+                mini: true,
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+
             ],
           ),
         ));

@@ -186,7 +186,7 @@ class _MissionAndVisionState extends State<MissionAndVision>
                                                           const BoxDecoration(
                                                         image: DecorationImage(
                                                           image: AssetImage(
-                                                            "assets/pholder.png",
+                                                            "assets/snhsprincipal.jpg",
                                                           ),
                                                           fit: BoxFit.cover,
                                                         ),
@@ -297,7 +297,7 @@ class _MissionAndVisionState extends State<MissionAndVision>
                                     child: Column(
                                       children: [
                                         Text(
-                                          "Rachel T. Pande,",
+                                          "Bernardo A. Frialde, EdD",
                                           style: TextStyle(
                                             color:
                                                 Color.fromARGB(255, 0, 30, 54),
@@ -353,7 +353,7 @@ class _MissionAndVisionState extends State<MissionAndVision>
               ),
             ),
             Expanded(
-              child: Container(
+              child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -367,7 +367,7 @@ class _MissionAndVisionState extends State<MissionAndVision>
                           ),
                         ),
                         Text(
-                          "BNHS VISION",
+                          "SNHS VISION",
                           style: TextStyle(
                             color: Color(0xFF002f24),
                             fontFamily: "B",
@@ -375,7 +375,17 @@ class _MissionAndVisionState extends State<MissionAndVision>
                           ),
                         ),
                         Text(
-                          "The BNHS is envisioned to be a child friendly school through the provision of an excellent educational delivery system and the necessary school facilities towards quality education.",
+                        """We dream of Filipinos
+who passionately love their country
+and whose values and competencies
+enable them to realize their full potential
+and contribute meaningfully to building the nation.
+
+As a learner-centered public institution,
+the Department of Education
+continuously improves itself
+to better serve its stakeholders.
+""",
                           style: TextStyle(
                             color: Color(0xFF002f24),
                             fontFamily: "M",
@@ -395,7 +405,7 @@ class _MissionAndVisionState extends State<MissionAndVision>
                           ),
                         ),
                         Text(
-                          "BNHS MISION",
+                          "SNHS MISION",
                           style: TextStyle(
                             color: Color(0xFF002f24),
                             fontFamily: "B",
@@ -403,13 +413,21 @@ class _MissionAndVisionState extends State<MissionAndVision>
                           ),
                         ),
                         Text(
-                          "The school aims to ensure effective instructional delivery system through the expertise of highly -competent teaching staff and to provide essential school facilities towards the attainment of quality education for academic excellence.",
-                          style: TextStyle(
-                            color: Color(0xFF002f24),
-                            fontFamily: "M",
-                            fontSize: screenWidth / 68,
-                          ),
-                        ),
+  """To protect and promote the right of every Filipino to quality, equitable, culture-based, and complete basic education where: 
+
+Students learn in a child-friendly, gender-sensitive, safe, and motivating environment.
+Teachers facilitate learning and constantly nurture every learner.
+Administrators and staff, as stewards of the institution, ensure an enabling and supportive environment for effective learning to happen.
+Family, community and other stakeholders are actively engaged
+and share responsibility for developing life-long learners.""",
+  style: TextStyle(
+    color: Color(0xFF002f24),
+    fontFamily: "M",
+    fontSize: screenWidth / 68,
+  ),
+  textAlign: TextAlign.justify,
+),
+
                       ],
                     )
                   ],

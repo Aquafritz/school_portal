@@ -201,7 +201,7 @@ class _SecondSectionState extends State<SecondSection>
                   maxHeight: 70,
                   textController: _WHY,
                   child: Text(
-                    "Why Balungao National High School?",
+                    "Why Salomague National High School?",
                     style: TextStyle(
                         fontSize: screenWidth / 35,
                         fontFamily: "B",
@@ -238,7 +238,7 @@ class _SecondSectionState extends State<SecondSection>
                   maxHeight: 110,
                   textController: _PBMAoffers,
                   child: Text(
-                    "At Balungao National High School, we are committed to providing quality education, fostering holistic development, and empowering students to achieve academic excellence and personal growth in a nurturing and inclusive environment, with a wide array of strands to choose from that cater to every student's unique interests and career aspirations.",
+                    "At Salomague National High School, we are committed to providing quality education, fostering holistic development, and empowering students to achieve academic excellence and personal growth in a nurturing and inclusive environment, with a wide array of strands to choose from that cater to every student's unique interests and career aspirations.",
                     style: TextStyle(
                         fontFamily: "R",
                         fontSize: screenWidth / 70,
@@ -287,7 +287,7 @@ class _SecondSectionState extends State<SecondSection>
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20)),
                                     image: DecorationImage(
-                                      image: AssetImage("assets/primeshs.jpg"),
+                                      image: AssetImage("assets/jhsdashboard.jpg"),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -383,7 +383,7 @@ class _SecondSectionState extends State<SecondSection>
                                         textOpacityAnimation:
                                             _descOpacityAnimation,
                                         child: Text(
-                                          "BNHS offers various special programs",
+                                          "SNHS offers various special programs",
                                           style: TextStyle(
                                             fontFamily: "M",
                                             fontSize: screenWidth / 85,
@@ -445,7 +445,7 @@ class _SecondSectionState extends State<SecondSection>
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20)),
                                     image: DecorationImage(
-                                      image: AssetImage("assets/primetesda.jpg"),
+                                      image: AssetImage("assets/shsdashboard.jpg"),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -543,7 +543,7 @@ class _SecondSectionState extends State<SecondSection>
                                         maxHeight: screenWidth * 0.07,
                                         textController: _desc,
                                         child: Text(
-                                          "BNHS offers different strand and track",
+                                          "SNHS offers different strand and track",
                                           style: TextStyle(
                                             fontFamily: "M",
                                             fontSize: screenWidth / 85,

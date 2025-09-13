@@ -137,7 +137,7 @@ class _SignInMobileState extends State<SignInMobile> {
                       ),
                       Container(
                         alignment: Alignment.center,
-                        child: Image.asset('assets/balungaonhs.png',
+                        child: Image.asset('assets/LOGOFORSALOMAGUE.png',
                             width: logoSize,
                             height: logoSize,
                             fit: BoxFit.contain),
@@ -232,10 +232,10 @@ class _SignInMobileState extends State<SignInMobile> {
                         width: inputFieldWidth,
                         child: ElevatedButton(
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
+                              backgroundColor: WidgetStateProperty.all<Color>(
                                   Color(0xFF002f24)),
-                              elevation: MaterialStateProperty.all<double>(5),
-                              shape: MaterialStateProperty.all<OutlinedBorder>(
+                              elevation: WidgetStateProperty.all<double>(5),
+                              shape: WidgetStateProperty.all<OutlinedBorder>(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),

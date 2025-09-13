@@ -188,7 +188,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
             SnackBar(
                 content: Row(
               children: [
-                Image.asset('balungaonhs.png', scale: 40),
+                Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                 SizedBox(width: 10),
                 Text('Student with ID $studentId not found'),
               ],
@@ -204,7 +204,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Row(
         children: [
-          Image.asset('balungaonhs.png', scale: 40),
+          Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
           SizedBox(width: 10),
           Text('Selected students moved to drop list'),
         ],
@@ -218,7 +218,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Row(
         children: [
-          Image.asset('balungaonhs.png', scale: 40),
+          Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
           SizedBox(width: 10),
           Text('No students selected'),
         ],
@@ -466,7 +466,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Student deleted successfully'),
           ],
@@ -477,7 +477,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Failed to delete student: $e'),
           ],
@@ -522,7 +522,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Subject deleted successfully'),
           ],
@@ -533,7 +533,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Error deleting subject: $e'),
           ],
@@ -640,7 +640,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Instructor status updated to inactive'),
           ],
@@ -651,7 +651,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Failed to update status: $e'),
           ],
@@ -673,7 +673,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Instructor status updated to inactive'),
           ],
@@ -684,7 +684,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Failed to update status: $e'),
           ],
@@ -876,7 +876,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Section deleted successfully'),
           ],
@@ -887,7 +887,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Error deleting section: $e'),
           ],
@@ -1052,7 +1052,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('JHS Configuration deleted successfully'),
           ],
@@ -1063,7 +1063,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Failed to delete JHS configuration: $e'),
           ],
@@ -1152,7 +1152,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text(
                 'JHS Configuration activated and student enrollments reset successfully'),
@@ -1164,7 +1164,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Failed to activate jhs configuration: $error'),
           ],
@@ -1217,7 +1217,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('JHS Configuration saved successfully!'),
           ],
@@ -1228,7 +1228,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Failed to save jhs configuration: $error'),
           ],
@@ -1286,7 +1286,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Enrollment status and sections reset for all students.'),
           ],
@@ -1297,7 +1297,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Failed to update enrollment status: $error'),
           ],
@@ -1432,7 +1432,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('SHS Configuration deleted successfully'),
           ],
@@ -1443,7 +1443,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Failed to delete configuration: $e'),
           ],
@@ -1520,7 +1520,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text(
                 'SHS Configuration activated and student enrollments reset successfully'),
@@ -1532,7 +1532,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Failed to activate configuration: $error'),
           ],
@@ -1574,7 +1574,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('SHS Configuration saved successfully!'),
           ],
@@ -1585,7 +1585,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Failed to save configuration: $error'),
           ],
@@ -1643,7 +1643,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Enrollment status and sections reset for shs students.'),
           ],
@@ -1654,7 +1654,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Failed to update enrollment status: $error'),
           ],
@@ -1813,7 +1813,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       List<Map<String, dynamic>> matchingStudents = [];
 
       for (var studentDoc in snapshot.docs) {
-        var studentData = studentDoc.data() as Map<String, dynamic>;
+        var studentData = studentDoc.data();
         final studentFullName =
             '${studentData['first_name']} ${studentData['last_name']}'.trim();
         final strand = studentData['seniorHigh_Strand'] ?? '';
@@ -3384,7 +3384,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   Future<List<Map<String, dynamic>>> _fetchStudentData() async {
     final snapshot = await FirebaseFirestore.instance.collection('users').get();
     return snapshot.docs
-        .map((doc) => doc.data() as Map<String, dynamic>)
+        .map((doc) => doc.data())
         .toList();
   }
 
@@ -3828,7 +3828,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   }
 
                   final students = snapshot.data!.docs.where((student) {
-                    final data = student.data() as Map<String, dynamic>;
+                    final data = student.data();
                     final query = _searchQuery.toLowerCase();
 
                   final studentId = (data['student_id'] ?? '').toString().toLowerCase();
@@ -5365,8 +5365,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(Color(0xFF002f24)),
-                      shape: MaterialStateProperty.all(
+                          WidgetStateProperty.all(Color(0xFF002f24)),
+                      shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -5721,8 +5721,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(Color(0xFF002f24)),
-                      shape: MaterialStateProperty.all(
+                          WidgetStateProperty.all(Color(0xFF002f24)),
+                      shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -6095,8 +6095,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(Color(0xFF002f24)),
-                      shape: MaterialStateProperty.all(
+                          WidgetStateProperty.all(Color(0xFF002f24)),
+                      shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -6484,8 +6484,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(Color(0xFF002f24)),
-                      shape: MaterialStateProperty.all(
+                          WidgetStateProperty.all(Color(0xFF002f24)),
+                      shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -6861,8 +6861,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(Color(0xFF002f24)),
-                      shape: MaterialStateProperty.all(
+                          WidgetStateProperty.all(Color(0xFF002f24)),
+                      shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -7315,7 +7315,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                       SnackBar(
                                           content: Row(
                                         children: [
-                                          Image.asset('balungaonhs.png', scale: 40),
+                                          Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                                           SizedBox(width: 10),
                                           Text(
                                               'Please select a jhs configuration to activate'),
@@ -7618,11 +7618,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                 child: ElevatedButton(
                                   style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStatePropertyAll<Color>(
+                                        WidgetStatePropertyAll<Color>(
                                             Color(0xFF002f24)),
                                     elevation:
-                                        MaterialStateProperty.all<double>(5),
-                                    shape: MaterialStateProperty.all<
+                                        WidgetStateProperty.all<double>(5),
+                                    shape: WidgetStateProperty.all<
                                         OutlinedBorder>(
                                       RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(8),
@@ -7749,7 +7749,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                       SnackBar(
                                           content: Row(
                                         children: [
-                                          Image.asset('balungaonhs.png', scale: 40),
+                                          Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                                           SizedBox(width: 10),
                                           Text(
                                               'Please select a shs configuration to activate'),
@@ -7983,11 +7983,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                 child: ElevatedButton(
                                   style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStatePropertyAll<Color>(
+                                        WidgetStatePropertyAll<Color>(
                                             Color(0xFF002f24)),
                                     elevation:
-                                        MaterialStateProperty.all<double>(5),
-                                    shape: MaterialStateProperty.all<
+                                        WidgetStateProperty.all<double>(5),
+                                    shape: WidgetStateProperty.all<
                                         OutlinedBorder>(
                                       RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(8),
@@ -8356,8 +8356,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(Color(0xFF002f24)),
-                      shape: MaterialStateProperty.all(
+                          WidgetStateProperty.all(Color(0xFF002f24)),
+                      shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -8760,8 +8760,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(Color(0xFF002f24)),
-                      shape: MaterialStateProperty.all(
+                          WidgetStateProperty.all(Color(0xFF002f24)),
+                      shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -9405,25 +9405,25 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                             context, data['student_id']);
                                       },
                                       style: ButtonStyle(
-                                        elevation: MaterialStateProperty.all(0),
-                                        shadowColor: MaterialStateProperty.all(
+                                        elevation: WidgetStateProperty.all(0),
+                                        shadowColor: WidgetStateProperty.all(
                                             Colors.transparent),
-                                        overlayColor: MaterialStateProperty.all(
+                                        overlayColor: WidgetStateProperty.all(
                                             Colors.transparent),
                                         backgroundColor:
-                                            MaterialStateProperty.all(
+                                            WidgetStateProperty.all(
                                                 Colors.transparent),
-                                        shape: MaterialStateProperty.all(
+                                        shape: WidgetStateProperty.all(
                                           RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(20),
                                           ),
                                         ),
-                                        foregroundColor: MaterialStateProperty
+                                        foregroundColor: WidgetStateProperty
                                             .resolveWith<Color>(
-                                          (Set<MaterialState> states) {
+                                          (Set<WidgetState> states) {
                                             if (states.contains(
-                                                MaterialState.hovered)) {
+                                                WidgetState.hovered)) {
                                               return Colors.green;
                                             }
                                             return Colors.red;
@@ -9543,7 +9543,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/balungaonhs.png', // Replace with your asset image path
+                    'assets/LOGOFORSALOMAGUE.png', // Replace with your asset image path
                     height: 130,
                   ),
                 ],

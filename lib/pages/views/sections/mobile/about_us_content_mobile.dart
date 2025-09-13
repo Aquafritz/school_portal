@@ -102,7 +102,7 @@ class _AboutUsContentMobileState extends State<AboutUsContentMobile>
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(50),
                         child: Image.asset(
-                          "assets/balungaonhs.png",
+                          "assets/LOGOFORSALOMAGUE.png",
                           height: screenWidth / 15,
                           width: screenWidth / 15,
                         ),
@@ -110,7 +110,7 @@ class _AboutUsContentMobileState extends State<AboutUsContentMobile>
                     ),
                     SizedBox(width: 10),
                     Text(
-                      "BNHS",
+                      "SNHS",
                       style: TextStyle(
                         color: Color(0xFF002f24),
                         fontFamily: "B",
@@ -145,7 +145,7 @@ class _AboutUsContentMobileState extends State<AboutUsContentMobile>
                 children: [
                   ClipOval(
                     child: Image.asset(
-                      "assets/balungaonhs.png",
+                      "assets/LOGOFORSALOMAGUE.png",
                       height: 80,
                       width: 80,
                       fit: BoxFit.cover,
@@ -302,7 +302,7 @@ class _AboutUsContentMobileState extends State<AboutUsContentMobile>
                             children: [
                               Center(
                                 child: Text(
-                                  "Balungao National",
+                                  "Salomague National",
                                   style: TextStyle(
                                       fontFamily: "B",
                                       fontSize: 35,
@@ -329,14 +329,14 @@ class _AboutUsContentMobileState extends State<AboutUsContentMobile>
                                 height: 30,
                               ),
                               Text(
-                                "Today, the Balungao National High School, twenty-two (22) year after its founding, is slowly gaining recognition as an educational institution in this part of our province. Originally composed, in 1997, of 250 students housed in a 5 room building and manned by an Principal and 8 faculty members, the school, now on its 28th year of operations is comprised of 1428 students, a Principal IV,1 Asst.SHS Principal II, 4 department heads, 58 strong and able faculty members, 4 administrative officers, 1 School Nurse, and 4 security guards.",
+                                "Today, the Salomague National High School, twenty-two (22) year after its founding, is slowly gaining recognition as an educational institution in this part of our province. Originally composed, in 1997, of 250 students housed in a 5 room building and manned by an Principal and 8 faculty members, the school, now on its 28th year of operations is comprised of 1428 students, a Principal IV,1 Asst.SHS Principal II, 4 department heads, 58 strong and able faculty members, 4 administrative officers, 1 School Nurse, and 4 security guards.",
                                 style: TextStyle(fontFamily: "R", fontSize: 18),
                               ),
                               SizedBox(
                                 height: 30,
                               ),
                               Text(
-                                "Ever inspired by the above challenge, not withstanding the disparity in the ratio of teachers from a vis a vis the great number of students, the school continues in its fulfillment of its mission of preparing the youth for their future roles as responsible adults. Despite the numerous problems which the school is undergoing, with the school still wanting in so many facilities, the school personnel, with Mrs. Rachel T. Pande, Principal IV, at the helm, holding the reins of the Administration, take the stand of solidarity and commitment in their effort to propel the BALUNGAO NATIONAL HIGH SCHOOL upward and wiggle it out of its humble beginnings.",
+                                "Ever inspired by the above challenge, not withstanding the disparity in the ratio of teachers from a vis a vis the great number of students, the school continues in its fulfillment of its mission of preparing the youth for their future roles as responsible adults. Despite the numerous problems which the school is undergoing, with the school still wanting in so many facilities, the school personnel, with Mrs. Rachel T. Pande, Principal IV, at the helm, holding the reins of the Administration, take the stand of solidarity and commitment in their effort to propel the Salomague NATIONAL HIGH SCHOOL upward and wiggle it out of its humble beginnings.",
                                 style: TextStyle(fontFamily: "R", fontSize: 18),
                               ),
                               SizedBox(

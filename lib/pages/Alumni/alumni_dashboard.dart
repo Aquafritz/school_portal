@@ -343,7 +343,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
           final docSnapshot = querySnapshot.docs.first;
           if (mounted) {
             setState(() {
-              userData = docSnapshot.data() as Map<String, dynamic>;
+              userData = docSnapshot.data();
               // Initialize controllers with fetched data
               houseNumberController.text = userData['house_number'] ?? '';
               streetNameController.text = userData['street_name'] ?? '';
@@ -378,7 +378,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
               SnackBar(
                 content: Row(
                   children: [
-                    Image.asset('balungaonhs.png', scale: 40),
+                    Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                     SizedBox(width: 10),
                     Text('Passwords do not match'),
                   ],
@@ -468,7 +468,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
                 SnackBar(
                   content: Row(
                     children: [
-                      Image.asset('balungaonhs.png', scale: 40),
+                      Image.asset('bassets/LOGOFORSALOMAGUE.png', scale: 40),
                       SizedBox(width: 10),
                       Text(hasUserDataChanges && hasPasswordChanges
                           ? "Information and password updated successfully"
@@ -493,7 +493,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
           SnackBar(
               content: Row(
             children: [
-              Image.asset('balungaonhs.png', scale: 40),
+              Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
               SizedBox(width: 10),
               Text("Error updating: $e"),
             ],
@@ -2418,12 +2418,12 @@ class _ScreensExampleState extends State<_ScreensExample> {
                                     child: ElevatedButton(
                                         style: ButtonStyle(
                                           backgroundColor:
-                                              MaterialStateProperty.all<Color>(
+                                              WidgetStateProperty.all<Color>(
                                                   Color(0xFF03b97c)),
                                           elevation:
-                                              MaterialStateProperty.all<double>(
+                                              WidgetStateProperty.all<double>(
                                                   5),
-                                          shape: MaterialStateProperty.all<
+                                          shape: WidgetStateProperty.all<
                                               OutlinedBorder>(
                                             RoundedRectangleBorder(
                                               borderRadius:

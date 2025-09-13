@@ -88,7 +88,7 @@ class _ForgotPassDesktopviewState extends State<ForgotPassDesktopview> {
                         Flexible(
                 flex: 2,
                 child: Image.asset(
-                  'assets/balungaonhs.png',
+                  'assets/LOGOFORSALOMAGUE.png',
                   fit: BoxFit.contain,
                 ),
               ),
@@ -141,10 +141,10 @@ class _ForgotPassDesktopviewState extends State<ForgotPassDesktopview> {
                 height: cardHeight * 0.06,
                           child: ElevatedButton(
                               style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(
+                                backgroundColor: WidgetStateProperty.all<Color>(
                                     Color(0xFF002f24)),
-                                elevation: MaterialStateProperty.all<double>(5),
-                                shape: MaterialStateProperty.all<OutlinedBorder>(
+                                elevation: WidgetStateProperty.all<double>(5),
+                                shape: WidgetStateProperty.all<OutlinedBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),

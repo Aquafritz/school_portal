@@ -186,7 +186,7 @@ shape: RoundedRectangleBorder(  // Added to match SignInMobileView
                   Container(
                     alignment: Alignment.center,
                     child: Image.asset(
-                      'assets/balungaonhs.png',
+                      'assets/LOGOFORSALOMAGUE.png',
                       width: logoSize,
                       height: logoSize,
                       fit: BoxFit.contain,
@@ -284,12 +284,12 @@ shape: RoundedRectangleBorder(  // Added to match SignInMobileView
                     child: ElevatedButton(
                       style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStateProperty.all<Color>(
+                                        WidgetStateProperty.all<Color>(
                                             Color(0xFF002f24)),
                                     elevation:
-                                        MaterialStateProperty.all<double>(5),
+                                        WidgetStateProperty.all<double>(5),
                                     shape:
-                                        MaterialStateProperty.all<OutlinedBorder>(
+                                        WidgetStateProperty.all<OutlinedBorder>(
                                       RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(8),
                                       ),

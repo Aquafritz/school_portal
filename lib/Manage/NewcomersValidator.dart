@@ -354,7 +354,7 @@ class _NewcomersvalidatorState extends State<Newcomersvalidator> {
       SnackBar(
           content: Row(
         children: [
-          Image.asset('balungaonhs.png', scale: 40),
+          Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
           SizedBox(width: 10),
           Text('Unsupported file type'),
         ],

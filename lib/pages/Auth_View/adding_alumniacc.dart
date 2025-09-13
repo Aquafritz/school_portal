@@ -185,7 +185,7 @@ class _AddALumniAccountDialogState extends State<AddALumniAccountDialog> {
             SnackBar(
                 content: Row(
               children: [
-                Image.asset('balungaonhs.png', scale: 40),
+                Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                 SizedBox(width: 10),
                 Text('Instructor account added successfully!'),
               ],
@@ -208,7 +208,7 @@ class _AddALumniAccountDialogState extends State<AddALumniAccountDialog> {
           SnackBar(
               content: Row(
             children: [
-              Image.asset('balungaonhs.png', scale: 40),
+              Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
               SizedBox(width: 10),
               Text('Failed to create instructor account: ${e.toString()}'),
             ],

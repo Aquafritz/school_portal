@@ -445,7 +445,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
           final docSnapshot = querySnapshot.docs.first;
           if (mounted) {
             setState(() {
-              userData = docSnapshot.data() as Map<String, dynamic>;
+              userData = docSnapshot.data();
               // Initialize controllers with fetched data
               houseNumberController.text = userData['house_number'] ?? '';
               streetNameController.text = userData['street_name'] ?? '';
@@ -480,7 +480,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
               SnackBar(
                 content: Row(
                   children: [
-                    Image.asset('balungaonhs.png', scale: 40),
+                    Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                     SizedBox(width: 10),
                     Text('Passwords do not match'),
                   ],
@@ -570,7 +570,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
                 SnackBar(
                   content: Row(
                     children: [
-                      Image.asset('balungaonhs.png', scale: 40),
+                      Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                       SizedBox(width: 10),
                       Text(hasUserDataChanges && hasPasswordChanges
                           ? "Information and password updated successfully"
@@ -595,7 +595,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
           SnackBar(
               content: Row(
             children: [
-              Image.asset('balungaonhs.png', scale: 40),
+              Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
               SizedBox(width: 10),
               Text("Error updating: $e"),
             ],
@@ -640,7 +640,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
           .get();
 
       if (docSnapshot.docs.isNotEmpty) {
-        final data = docSnapshot.docs.first.data() as Map<String, dynamic>;
+        final data = docSnapshot.docs.first.data();
 
         // Get the educational level
         String educLevel = data['educ_level'] ?? '';
@@ -983,7 +983,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
           SnackBar(
               content: Row(
             children: [
-              Image.asset('balungaonhs.png', scale: 40),
+              Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
               SizedBox(width: 10),
               Text('Error saving and loading subjects: $e'),
             ],
@@ -995,7 +995,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Please select a section first.'),
           ],
@@ -1045,7 +1045,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
                 SnackBar(
                     content: Row(
                   children: [
-                    Image.asset('balungaonhs.png', scale: 40),
+                    Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                     SizedBox(width: 10),
                     Text('Section saved successfully!'),
                   ],
@@ -1056,7 +1056,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
                 SnackBar(
                     content: Row(
                   children: [
-                    Image.asset('balungaonhs.png', scale: 40),
+                    Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                     SizedBox(width: 10),
                     Text('Section document not found.'),
                   ],
@@ -1069,7 +1069,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
               SnackBar(
                   content: Row(
                 children: [
-                  Image.asset('balungaonhs.png', scale: 40),
+                  Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                   SizedBox(width: 10),
                   Text('User document not found.'),
                 ],
@@ -1082,7 +1082,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
             SnackBar(
                 content: Row(
               children: [
-                Image.asset('balungaonhs.png', scale: 40),
+                Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                 SizedBox(width: 10),
                 Text(
                     'No user is logged in. Please log in to save the section.'),
@@ -1096,7 +1096,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
           SnackBar(
               content: Row(
             children: [
-              Image.asset('balungaonhs.png', scale: 40),
+              Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
               SizedBox(width: 10),
               Text('Error saving section: $e'),
             ],
@@ -1109,7 +1109,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Please select a section before saving.'),
           ],
@@ -1183,7 +1183,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
             SnackBar(
                 content: Row(
               children: [
-                Image.asset('balungaonhs.png', scale: 40),
+                Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                 SizedBox(width: 10),
                 Text('Subjects loaded successfully for Junior High School!'),
               ],
@@ -1194,7 +1194,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
             SnackBar(
                 content: Row(
               children: [
-                Image.asset('balungaonhs.png', scale: 40),
+                Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                 SizedBox(width: 10),
                 Text('No matching section found for Junior High School.'),
               ],
@@ -1207,7 +1207,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
           SnackBar(
               content: Row(
             children: [
-              Image.asset('balungaonhs.png', scale: 40),
+              Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
               SizedBox(width: 10),
               Text('Error loading subjects: $e'),
             ],
@@ -1219,7 +1219,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
         SnackBar(
           content: Row(
             children: [
-              Image.asset('balungaonhs.png', scale: 40),
+              Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
               SizedBox(width: 10),
               Text(
                   'Please select a section before loading subjects for Junior High School.'),
@@ -1277,7 +1277,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
             SnackBar(
                 content: Row(
               children: [
-                Image.asset('balungaonhs.png', scale: 40),
+                Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                 SizedBox(width: 10),
                 Text('Subjects loaded successfully!'),
               ],
@@ -1288,7 +1288,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
             SnackBar(
                 content: Row(
               children: [
-                Image.asset('balungaonhs.png', scale: 40),
+                Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                 SizedBox(width: 10),
                 Text('No matching section found.'),
               ],
@@ -1301,7 +1301,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
           SnackBar(
               content: Row(
             children: [
-              Image.asset('balungaonhs.png', scale: 40),
+              Image.asset('bassets/LOGOFORSALOMAGUE.png', scale: 40),
               SizedBox(width: 10),
               Text('Error loading subjects: $e'),
             ],
@@ -1313,7 +1313,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Please select a section before loading subjects.'),
           ],
@@ -1356,7 +1356,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
           SnackBar(
               content: Row(
             children: [
-              Image.asset('balungaonhs.png', scale: 40),
+              Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
               SizedBox(width: 10),
               Text('Error: User not found.'),
             ],
@@ -1368,7 +1368,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Error fetching subjects: $e'),
           ],
@@ -1414,7 +1414,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
             SnackBar(
                 content: Row(
               children: [
-                Image.asset('balungaonhs.png', scale: 40),
+                Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                 SizedBox(width: 10),
                 Text('Section and subjects finalized successfully!'),
               ],
@@ -1428,7 +1428,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
             SnackBar(
                 content: Row(
               children: [
-                Image.asset('balungaonhs.png', scale: 40),
+                Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                 SizedBox(width: 10),
                 Text('Error: User not found.'),
               ],
@@ -1440,7 +1440,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
           SnackBar(
               content: Row(
             children: [
-              Image.asset('balungaonhs.png', scale: 40),
+              Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
               SizedBox(width: 10),
               Text('Error finalizing selection: $e'),
             ],
@@ -1452,7 +1452,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Please select a section and load subjects first.'),
           ],
@@ -1521,7 +1521,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
                   SnackBar(
                       content: Row(
                     children: [
-                      Image.asset('balungaonhs.png', scale: 40),
+                      Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                       SizedBox(width: 10),
                       Text('No sections available for your semester.'),
                     ],
@@ -1533,7 +1533,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
                 SnackBar(
                     content: Row(
                   children: [
-                    Image.asset('balungaonhs.png', scale: 40),
+                    Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                     SizedBox(width: 10),
                     Text('Strand abbreviation not found.'),
                   ],
@@ -1568,7 +1568,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
                 SnackBar(
                     content: Row(
                   children: [
-                    Image.asset('balungaonhs.png', scale: 40),
+                    Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                     SizedBox(width: 10),
                     Text('No sections available for your quarter.'),
                   ],
@@ -1581,7 +1581,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
               SnackBar(
                   content: Row(
                 children: [
-                  Image.asset('balungaonhs.png', scale: 40),
+                  Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                   SizedBox(width: 10),
                   Text('Invalid education level.'),
                 ],
@@ -1593,7 +1593,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
             SnackBar(
                 content: Row(
               children: [
-                Image.asset('balungaonhs.png', scale: 40),
+                Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                 SizedBox(width: 10),
                 Text('User document not found.'),
               ],
@@ -1605,7 +1605,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
           SnackBar(
               content: Row(
             children: [
-              Image.asset('balungaonhs.png', scale: 40),
+              Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
               SizedBox(width: 10),
               Text('No user is logged in.'),
             ],
@@ -1618,7 +1618,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
         SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Error fetching sections: $e'),
           ],
@@ -1829,7 +1829,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Image.asset(
-                          'assets/balungaonhs.png',
+                          'assets/LOGOFORSALOMAGUE.png',
                           width: screenWidth / 2.5,
                           height: screenHeight / 2.5,
                         ),
@@ -4202,12 +4202,12 @@ class _ScreensExampleState extends State<_ScreensExample> {
                                     child: ElevatedButton(
                                         style: ButtonStyle(
                                           backgroundColor:
-                                              MaterialStateProperty.all<Color>(
+                                              WidgetStateProperty.all<Color>(
                                                   Color(0xFF03b97c)),
                                           elevation:
-                                              MaterialStateProperty.all<double>(
+                                              WidgetStateProperty.all<double>(
                                                   5),
-                                          shape: MaterialStateProperty.all<
+                                          shape: WidgetStateProperty.all<
                                               OutlinedBorder>(
                                             RoundedRectangleBorder(
                                               borderRadius:

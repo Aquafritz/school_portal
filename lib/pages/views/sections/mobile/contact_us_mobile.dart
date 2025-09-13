@@ -107,7 +107,7 @@ class _ContactUsMobileState extends State<ContactUsMobile> {
                             shape: BoxShape.circle,
                           ),
                           child: Image.asset(
-                            "assets/balungaonhs.png",
+                            "assets/LOGOFORSALOMAGUE.png",
                             fit: BoxFit.cover,
                           ),
                         ),

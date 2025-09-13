@@ -134,7 +134,7 @@ class _FirstSectionMobileState extends State<FirstSectionMobile>
                       textOpacityAnimation: _textOpacityAnimation,
                       textRevealAnimation: _textRevealAnimation,
                       child: Text(
-                        "Balungao National High School",
+                        "Salomague National High School",
                         style: TextStyle(
                             fontFamily: "B",
                             fontSize: screenWidth / 15,
@@ -181,8 +181,8 @@ class _FirstSectionMobileState extends State<FirstSectionMobile>
                         child: ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStatePropertyAll(_textColor5),
-                              shape: MaterialStatePropertyAll(
+                                  WidgetStatePropertyAll(_textColor5),
+                              shape: WidgetStatePropertyAll(
                                   RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(10)))),

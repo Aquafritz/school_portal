@@ -110,14 +110,14 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(50),
                             child: Image.asset(
-                              "assets/balungaonhs.png",
+                              "assets/LOGOFORSALOMAGUE.png",
                               height: screenWidth / 20,
                               width: screenWidth / 20,
                             ),
                           ),
                           SizedBox(width: 10),
                           Text(
-                            "BNHS",
+                            "SNHS",
                             style: TextStyle(
                               color: Color(0xFF002f24),
                               fontFamily: "B",
@@ -187,8 +187,8 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
                       child: TextButton(
                         style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all(Color(0xFF002f24)),
-                          shape: MaterialStateProperty.all(
+                              WidgetStateProperty.all(Color(0xFF002f24)),
+                          shape: WidgetStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -212,8 +212,8 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
                       child: TextButton(
                         style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all(Color(0xFF002f24)),
-                          shape: MaterialStateProperty.all(
+                              WidgetStateProperty.all(Color(0xFF002f24)),
+                          shape: WidgetStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),

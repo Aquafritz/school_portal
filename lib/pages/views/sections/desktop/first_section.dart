@@ -89,7 +89,7 @@ class _FirstSectionState extends State<FirstSection>
           width: screenWidth,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/mainDash.png"),
+              image: AssetImage("assets/maindashpic.jpg"),
               fit: BoxFit.cover,
             ),
           ),
@@ -137,7 +137,7 @@ class _FirstSectionState extends State<FirstSection>
                       textOpacityAnimation: _textOpacityAnimation,
                       textRevealAnimation: _textRevealAnimation,
                       child: Text(
-                        "Balungao National High School",
+                        "Salomague National High School",
                         style: TextStyle(
                             fontFamily: "B",
                             fontSize: screenHeight / 12,
@@ -147,11 +147,11 @@ class _FirstSectionState extends State<FirstSection>
                   FadeTransition(
                     opacity: _descriptionController,
                     child: Text(
-                      "If you can do it here, you can do it anywhere",
+                      "Basta Salomague Wagi!",
                       style: TextStyle(
                           fontFamily: "SB",
                           fontSize: screenHeight / 27,
-                          color: Colors.yellowAccent),
+                          color: Colors.white),
                     ),
                   ),
                   SizedBox(
@@ -178,8 +178,8 @@ class _FirstSectionState extends State<FirstSection>
                         child: ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStatePropertyAll(_textColor5),
-                              shape: MaterialStatePropertyAll(
+                                  WidgetStatePropertyAll(_textColor5),
+                              shape: WidgetStatePropertyAll(
                                   RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(10)))),
@@ -221,7 +221,7 @@ class _FirstSectionState extends State<FirstSection>
                       Text(
                         '" Education is about igniting a passion for learning and nurturing responsibility, integrity, and compassion in every student. "',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.yellowAccent,
                           fontFamily: "SB",
                           fontSize: (screenWidth / 85) + 2,
                         ),
@@ -244,7 +244,7 @@ class _FirstSectionState extends State<FirstSection>
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
                                   child: Image.asset(
-                                    "assets/pholder.png",
+                                    "assets/snhsprincipal.jpg",
                                     fit: BoxFit.fill,
                                   )),
                             ),
@@ -253,7 +253,7 @@ class _FirstSectionState extends State<FirstSection>
                             width: 10,
                           ),
                           Text(
-                            "RACHEL T. PANDE,",
+                            "BERNARDO A. FRIALDE, EdD",
                             style: TextStyle(
                                 fontFamily: "B",
                                 fontSize: (screenWidth / 85) + 2,

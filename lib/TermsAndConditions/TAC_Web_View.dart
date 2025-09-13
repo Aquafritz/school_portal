@@ -80,7 +80,7 @@ class _TACWebViewState extends State<TACWebView> {
                         children: [
                           TextSpan(text: 'Welcome to '),
                           TextSpan(
-                            text: 'Balungao National High School',
+                            text: 'Salomague National High School',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           TextSpan(
@@ -88,13 +88,13 @@ class _TACWebViewState extends State<TACWebView> {
                         
                         When you create an account and enroll through the portal, you give consent for the school to collect and store personal information such as your name, address, contact information, and academic history etc. This information will be used solely for the purpose of managing your enrollment, academic progress, and other related administrative functions. By continuing to use the portal, you acknowledge that we may store and use your data to facilitate the educational services provided by the school.
                         
-                        Your personal data is essential for ensuring that the academic programs are tailored to your needs. This includes using your information for various school-related communications, such as notices about class schedules, assignments, grades, or other important school activities. Prime Brilliant Minds Academy may also use your data to help improve the quality of educational services offered, maintain accurate records, and ensure compliance with national educational standards.
+                        Your personal data is essential for ensuring that the academic programs are tailored to your needs. This includes using your information for various school-related communications, such as notices about class schedules, assignments, grades, or other important school activities. Salomague National High School may also use your data to help improve the quality of educational services offered, maintain accurate records, and ensure compliance with national educational standards.
                         
                         We take the protection of your personal information seriously and employ various security measures to safeguard your data from unauthorized access or misuse. Our school portal uses encryption and other security protocols to maintain the confidentiality of your information. However, while we strive to protect your data, we cannot guarantee absolute security given the nature of the internet and digital storage. It is your responsibility to maintain the confidentiality of your login credentials and notify us immediately if you suspect any unauthorized access to your account.
                         
                         By enrolling, you also agree to provide accurate and truthful information at all times. Misrepresentation of personal details or academic records can result in disciplinary action, including, but not limited to, suspension or expulsion from the portal or school. Furthermore, the use of the portal is for legitimate educational purposes only. Any misuse, including attempts to hack, tamper, or exploit the system, will be met with strict disciplinary action.
                         
-                        As a student, you agree to respect the integrity of the academic community. This means not engaging in activities that disrupt the educational process or harm the school’s reputation. Your behavior within the portal should reflect the standards and values of Prime Brilliant Minds Academy, which include respect, integrity, and responsibility.
+                        As a student, you agree to respect the integrity of the academic community. This means not engaging in activities that disrupt the educational process or harm the school’s reputation. Your behavior within the portal should reflect the standards and values of Salomague National High School, which include respect, integrity, and responsibility.
                         
                         These Terms and Conditions are subject to periodic updates. The school reserves the right to modify the terms as necessary to comply with new laws, regulations, or internal policy changes. Any significant updates will be communicated through the portal, and continued use of the system after such updates signifies your acceptance of the revised terms.
                         
@@ -141,9 +141,9 @@ class _TACWebViewState extends State<TACWebView> {
                     child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all<Color>(Color(0xFF002f24)),
-                        elevation: MaterialStateProperty.all<double>(5),
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                            WidgetStateProperty.all<Color>(Color(0xFF002f24)),
+                        elevation: WidgetStateProperty.all<double>(5),
+                        shape: WidgetStateProperty.all<OutlinedBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),

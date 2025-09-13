@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Balungao NHS Portal',
+      title: 'Salomague National High School',
       home: StreamBuilder<firebase_auth.User?>(
         stream: firebase_auth.FirebaseAuth.instance
             .authStateChanges(), // Update FirebaseAuth reference

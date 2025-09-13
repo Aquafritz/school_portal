@@ -157,7 +157,7 @@ class _ChangePasswordDesktopState extends State<ChangePasswordDesktop> {
                   Flexible(
                     flex: 2,
                     child: Image.asset(
-                      'assets/balungaonhs.png',
+                      'assets/LOGOFORSALOMAGUE.png',
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -268,9 +268,9 @@ class _ChangePasswordDesktopState extends State<ChangePasswordDesktop> {
                     child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all<Color>(Color(0xFF002f24)),
-                        elevation: MaterialStateProperty.all<double>(5),
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                            WidgetStateProperty.all<Color>(Color(0xFF002f24)),
+                        elevation: WidgetStateProperty.all<double>(5),
+                        shape: WidgetStateProperty.all<OutlinedBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),

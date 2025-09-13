@@ -161,10 +161,10 @@ Future<void> sendEnrollmentEmail(String email) async {
       'template_params': {
         'email': email,
         'message':
-            'Congratulations! Your enrollment has been processed. Welcome to the Balungao National High School.\n\n'
+            'Congratulations! Your enrollment has been processed. Welcome to the Salomague National High School.\n\n'
                 'Here is your student account for the student portal:\n'
                 'Username: $email\n'
-                'Password: iloveBNHS_123 (Please change this after logging in for the first time)',
+                'Password: iloveSNHS_123 (Please change this after logging in for the first time)',
       },
     }),
   );

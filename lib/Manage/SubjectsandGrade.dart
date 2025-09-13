@@ -94,7 +94,7 @@ class _SubjectsandGradeState extends State<SubjectsandGrade> {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Row(
           children: [
-            Image.asset('balungaonhs.png', scale: 40),
+            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
             SizedBox(width: 10),
             Text('Grades submitted successfully!'),
           ],
@@ -657,11 +657,11 @@ class _SubjectsandGradeState extends State<SubjectsandGrade> {
                                   child: ElevatedButton(
                                     style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStateProperty.all<Color>(
+                                          WidgetStateProperty.all<Color>(
                                               Colors.blue),
                                       elevation:
-                                          MaterialStateProperty.all<double>(5),
-                                      shape: MaterialStateProperty.all<
+                                          WidgetStateProperty.all<double>(5),
+                                      shape: WidgetStateProperty.all<
                                           OutlinedBorder>(
                                         RoundedRectangleBorder(
                                           borderRadius:
@@ -691,11 +691,11 @@ class _SubjectsandGradeState extends State<SubjectsandGrade> {
                                   child: ElevatedButton(
                                     style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStateProperty.all<Color>(
+                                          WidgetStateProperty.all<Color>(
                                               Colors.green.shade500),
                                       elevation:
-                                          MaterialStateProperty.all<double>(5),
-                                      shape: MaterialStateProperty.all<
+                                          WidgetStateProperty.all<double>(5),
+                                      shape: WidgetStateProperty.all<
                                           OutlinedBorder>(
                                         RoundedRectangleBorder(
                                           borderRadius:

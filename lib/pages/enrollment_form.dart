@@ -260,7 +260,7 @@ class _EnrollmentFormState extends State<EnrollmentForm> {
                       SnackBar(
                         content: Row(
                           children: [
-                            Image.asset('balungaonhs.png', scale: 40),
+                            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                             SizedBox(width: 10),
                             Text('Data Saved Successfully'),
                           ],
@@ -279,7 +279,7 @@ class _EnrollmentFormState extends State<EnrollmentForm> {
           SnackBar(
             content: Row(
               children: [
-                Image.asset('balungaonhs.png', scale: 40),
+                Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
                 SizedBox(width: 10),
                 Text('Failed to Save Data: $error'),
               ],
@@ -334,7 +334,7 @@ class _EnrollmentFormState extends State<EnrollmentForm> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(50),
                           child: Image.asset(
-                            "assets/balungaonhs.png",
+                            "assets/LOGOFORSALOMAGUE.png",
                             height: 60,
                             width: 60,
                           ),
@@ -342,7 +342,7 @@ class _EnrollmentFormState extends State<EnrollmentForm> {
                       ),
                       SizedBox(width: 10),
                       Text(
-                        "BNHS",
+                        "SNHS",
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: "B",

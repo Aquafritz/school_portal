@@ -98,7 +98,7 @@ class _TacMobileViewState extends State<TacMobileView> {
               Welcome to ''',
                       ),
                       TextSpan(
-                        text: 'Balungao National High School',
+                        text: 'Salomague National High School',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
@@ -155,10 +155,10 @@ class _TacMobileViewState extends State<TacMobileView> {
                   height: buttonHeight,
                     child: ElevatedButton(
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
+                          backgroundColor: WidgetStateProperty.all<Color>(
                               Color(0xFF002f24)),
-                          elevation: MaterialStateProperty.all<double>(5),
-                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                          elevation: WidgetStateProperty.all<double>(5),
+                          shape: WidgetStateProperty.all<OutlinedBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),

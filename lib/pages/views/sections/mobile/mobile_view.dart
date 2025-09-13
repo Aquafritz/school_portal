@@ -104,7 +104,7 @@ class _MobileViewState extends State<MobileView> with TickerProviderStateMixin {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(50),
                         child: Image.asset(
-                          "assets/balungaonhs.png",
+                          "assets/LOGOFORSALOMAGUE.png",
                           height: screenWidth / 15,
                           width: screenWidth / 15,
                         ),
@@ -112,7 +112,7 @@ class _MobileViewState extends State<MobileView> with TickerProviderStateMixin {
                     ),
                     SizedBox(width: 10),
                     Text(
-                      "BNHS",
+                      "SNHS",
                       style: TextStyle(
                         color: Color(0xFF002f24),
                         fontFamily: "B",
@@ -147,7 +147,7 @@ class _MobileViewState extends State<MobileView> with TickerProviderStateMixin {
                 children: [
                   ClipOval(
                     child: Image.asset(
-                      "assets/balungaonhs.png",
+                      "assets/LOGOFORSALOMAGUE.png",
                       height: 80,
                       width: 80,
                       fit: BoxFit.cover,

@@ -214,15 +214,15 @@ class _DesktopViewState extends State<DesktopView>
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(50),
                                       child: Image.asset(
-                                        "assets/balungaonhs.png",
+                                        "assets/LOGOFORSALOMAGUE.png",
                                         height: screenWidth / 20,
                                         width: screenWidth / 20,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(width: 10),
+                                  SizedBox(width: 5),
                                   Text(
-                                    "BNHS",
+                                    "SNHS",
                                     style: TextStyle(
                                       color: Colors.yellowAccent,
                                       fontFamily: "B",
@@ -295,9 +295,9 @@ class _DesktopViewState extends State<DesktopView>
                               height: screenWidth / 35,
                               child: TextButton(
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
+                                  backgroundColor: WidgetStateProperty.all(
                                       Color(0xFF002f24)),
-                                  shape: MaterialStateProperty.all(
+                                  shape: WidgetStateProperty.all(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                     ),
@@ -320,9 +320,9 @@ class _DesktopViewState extends State<DesktopView>
                               height: screenWidth / 35,
                               child: TextButton(
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
+                                  backgroundColor: WidgetStateProperty.all(
                                       Color(0xFF002f24)),
-                                  shape: MaterialStateProperty.all(
+                                  shape: WidgetStateProperty.all(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                     ),
