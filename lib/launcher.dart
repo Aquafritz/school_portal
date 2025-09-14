@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:balungao_nhs/pages/dashboard.dart';
-import 'package:balungao_nhs/widgets/scroll_offset.dart';
+import 'package:salomague_nhs/pages/dashboard.dart';
+import 'package:salomague_nhs/widgets/scroll_offset.dart';
 
 class Launcher extends StatefulWidget {
   final bool scrollToFooter;

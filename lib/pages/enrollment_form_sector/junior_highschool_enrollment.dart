@@ -48,20 +48,9 @@ class JuniorHighSchoolEnrollmentState extends State<JuniorHighSchoolEnrollment>
     return {
       'grade_level': _selectedGradeLevel,
       'transferee': _selectedTransferee,
-      'distance_learning_preferences': _distanceLearningPrefs,
 
     };
   }
-  Map<String, bool> _distanceLearningPrefs = {
-  'Blended (Combination)': false,
-  'Educational Television': false,
-  'Homeschooling': false,
-  'Modular (Digital)': false,
-  'Modular (Print)': false,
-  'Online': false,
-  'Radio-Based Television': false,
-};
-
 
   @override
   Widget build(BuildContext context) {
@@ -172,34 +161,7 @@ class JuniorHighSchoolEnrollmentState extends State<JuniorHighSchoolEnrollment>
                 ),
               ),
             ],
-            
-          ), SizedBox(height: 20),
-          Wrap(
-            spacing: spacing,
-            runSpacing: spacing,
-            children: [
-              Text(
-                'If the school will implement other distance learning modalities aside from face-to-face instruction, what would you prefer for your child?',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              ),
-              ..._distanceLearningPrefs.keys.map((option) {
-                return CheckboxListTile(
-                  title: Text(option),
-                  value: _distanceLearningPrefs[option],
-                  onChanged: (bool? newValue) {
-                    setState(() {
-                      _distanceLearningPrefs[option] = newValue!;
-                      _notifyParent();
-                    });
-                  },
-                  controlAffinity: ListTileControlAffinity.leading,
-                  dense: true,
-                  contentPadding: EdgeInsets.zero,
-                );
-              }).toList(),
-            ],
-          )
-
+          ),
         ],
       ),
     );

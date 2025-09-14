@@ -4,22 +4,22 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:balungao_nhs/pages/enrollment_form_sector/junior_highschool_enrollment.dart';
+import 'package:salomague_nhs/pages/enrollment_form_sector/junior_highschool_enrollment.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:balungao_nhs/launcher.dart';
-import 'package:balungao_nhs/pages/Auth_View/SignInDesktopView.dart';
-import 'package:balungao_nhs/pages/dashboard.dart';
-import 'package:balungao_nhs/pages/enrollment_form_sector/home_address.dart';
-import 'package:balungao_nhs/pages/enrollment_form_sector/junior_high_school.dart';
-import 'package:balungao_nhs/pages/enrollment_form_sector/parent_information.dart';
-import 'package:balungao_nhs/pages/enrollment_form_sector/senior_high_school.dart';
-import 'package:balungao_nhs/pages/enrollment_form_sector/student_information.dart';
-import 'package:balungao_nhs/pages/enrollment_form_sector/uploading_files.dart';
+import 'package:salomague_nhs/launcher.dart';
+import 'package:salomague_nhs/pages/Auth_View/SignInDesktopView.dart';
+import 'package:salomague_nhs/pages/dashboard.dart';
+import 'package:salomague_nhs/pages/enrollment_form_sector/home_address.dart';
+import 'package:salomague_nhs/pages/enrollment_form_sector/junior_high_school.dart';
+import 'package:salomague_nhs/pages/enrollment_form_sector/parent_information.dart';
+import 'package:salomague_nhs/pages/enrollment_form_sector/senior_high_school.dart';
+import 'package:salomague_nhs/pages/enrollment_form_sector/student_information.dart';
+import 'package:salomague_nhs/pages/enrollment_form_sector/uploading_files.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EnrollmentForm extends StatefulWidget {
@@ -151,7 +151,7 @@ class _EnrollmentFormState extends State<EnrollmentForm> {
         // Handle profile image upload
         if (_webImageData != null) {
           try {
-            const bucketName = 'salomaguenhs';
+            const bucketName = 'SNHS Bucket';
             final fileName =
                 'student_pictures/${DateTime.now().millisecondsSinceEpoch}.png';
             await supabase.storage.from(bucketName).uploadBinary(
@@ -176,7 +176,7 @@ class _EnrollmentFormState extends State<EnrollmentForm> {
         // Handle other file uploads
         for (var file in _selectedFiles) {
           try {
-            const bucketName = 'salomaguenhs';
+            const bucketName = 'SNHS Bucket';
             final fileName =
                 'uploads/${DateTime.now().millisecondsSinceEpoch}_${file.name}';
             await supabase.storage.from(bucketName).uploadBinary(
@@ -585,11 +585,6 @@ class _EnrollmentFormState extends State<EnrollmentForm> {
 
                       SizedBox(height: 30),
                       if (selectededucLevel == 'Junior High School') ...[
-                        JuniorHighSchool(
-                          key: _juniorHSKey,
-                          onDataChanged: _updateStudentData,
-                        ),
-                        SizedBox(height: 30),
                         JuniorHighSchoolEnrollment(
                             key: _juniorHSinforKey,
                             spacing: 50.0,

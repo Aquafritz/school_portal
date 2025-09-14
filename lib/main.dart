@@ -1,20 +1,20 @@
 // ignore_for_file: unused_import
 
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:balungao_nhs/firebase_options.dart';
-import 'package:balungao_nhs/pages/Alumni/alumni_dashboard.dart';
-import 'package:balungao_nhs/pages/views/sections/desktop/about_us.dart';
-import 'package:balungao_nhs/pages/views/sections/desktop/about_us_content.dart';
-import 'package:balungao_nhs/pages/views/sections/mobile/about_us_content_mobile.dart';
+import 'package:salomague_nhs/firebase_options.dart';
+import 'package:salomague_nhs/pages/Alumni/alumni_dashboard.dart';
+import 'package:salomague_nhs/pages/views/sections/desktop/about_us.dart';
+import 'package:salomague_nhs/pages/views/sections/desktop/about_us_content.dart';
+import 'package:salomague_nhs/pages/views/sections/mobile/about_us_content_mobile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:balungao_nhs/launcher.dart';
-import 'package:balungao_nhs/pages/admin_dashboard.dart';
-import 'package:balungao_nhs/reports/enrollment_report/enrollment_report.dart';
-import 'package:balungao_nhs/student_utils/student_ui.dart';
+import 'package:salomague_nhs/launcher.dart';
+import 'package:salomague_nhs/pages/admin_dashboard.dart';
+import 'package:salomague_nhs/reports/enrollment_report/enrollment_report.dart';
+import 'package:salomague_nhs/student_utils/student_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher_web/url_launcher_web.dart';
 import 'dart:async'; // Required for runZonedGuarded
@@ -27,9 +27,9 @@ Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
 
     await Supabase.initialize(
-      url: 'https://txjuiwfelwllnaaqxvrr.supabase.co',
+      url: 'https://ymeeinddgxtiqiesdkfy.supabase.co',
       anonKey:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4anVpd2ZlbHdsbG5hYXF4dnJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU3NDczODEsImV4cCI6MjA2MTMyMzM4MX0.08fi9SINbXX5NGpuSUuTCrVrolvdP_MdG4xYtYc7SoY',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltZWVpbmRkZ3h0aXFpZXNka2Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3NDkwMjMsImV4cCI6MjA3MzMyNTAyM30.ORWkUKwEcoWqBWAEKtI_IwFmexV-J4CBKMrC1BGSZog',
     );
 
     // Perform async initialization tasks

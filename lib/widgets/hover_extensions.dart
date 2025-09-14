@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
 
-import 'package:balungao_nhs/widgets/translate_on_hover.dart';
+import 'package:salomague_nhs/widgets/translate_on_hover.dart';
 
 extension HoverExtension on Widget {
   static final appContainer = html.window.document.getElementById('app-container');

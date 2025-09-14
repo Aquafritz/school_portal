@@ -1,11 +1,11 @@
 // ignore_for_file: unnecessary_null_comparison, unused_local_variable
 import 'dart:ui';
-import 'package:balungao_nhs/Manage/JHSStudentDetails.dart';
-import 'package:balungao_nhs/Manage/JHSStudentInSection.dart';
-import 'package:balungao_nhs/Manage/JHSStudentReportCard.dart';
-import 'package:balungao_nhs/Manage/SubjectsandGradeJHS.dart';
-import 'package:balungao_nhs/Manage/editAlumni.dart';
-import 'package:balungao_nhs/pages/Auth_View/adding_alumniacc.dart';
+import 'package:salomague_nhs/Manage/JHSStudentDetails.dart';
+import 'package:salomague_nhs/Manage/JHSStudentInSection.dart';
+import 'package:salomague_nhs/Manage/JHSStudentReportCard.dart';
+import 'package:salomague_nhs/Manage/SubjectsandGradeJHS.dart';
+import 'package:salomague_nhs/Manage/editAlumni.dart';
+import 'package:salomague_nhs/pages/Auth_View/adding_alumniacc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,25 +13,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:balungao_nhs/Manage/AddingSections.dart';
-import 'package:balungao_nhs/Manage/AddingSubjects.dart';
-import 'package:balungao_nhs/Manage/EditInstructor.dart';
-import 'package:balungao_nhs/Manage/EditSections.dart';
-import 'package:balungao_nhs/Manage/EditSubject.dart';
-import 'package:balungao_nhs/Manage/NewcomersValidator.dart';
-import 'package:balungao_nhs/Manage/Re-EnrolledValidator.dart';
-import 'package:balungao_nhs/Manage/SHSStudentInSection.dart';
-import 'package:balungao_nhs/Manage/StudentReportCard.dart';
-import 'package:balungao_nhs/Manage/SubjectsandGrade.dart';
-import 'package:balungao_nhs/launcher.dart';
-import 'package:balungao_nhs/pages/Auth_View/Adding_InstructorAcc_Desktview.dart';
-import 'package:balungao_nhs/pages/banner.dart';
-import 'package:balungao_nhs/pages/news_updates.dart';
-import 'package:balungao_nhs/pages/student_details.dart';
-import 'package:balungao_nhs/reports/enrollment_report/enrollment_report.dart';
-import 'package:balungao_nhs/pages/views/chatbot/faqs.dart';
-import 'package:balungao_nhs/student_utils/Student_Utils.dart';
-import 'package:balungao_nhs/Admin Dashboard Sorting/Dashboard Sorting.dart';
+import 'package:salomague_nhs/Manage/AddingSections.dart';
+import 'package:salomague_nhs/Manage/AddingSubjects.dart';
+import 'package:salomague_nhs/Manage/EditInstructor.dart';
+import 'package:salomague_nhs/Manage/EditSections.dart';
+import 'package:salomague_nhs/Manage/EditSubject.dart';
+import 'package:salomague_nhs/Manage/NewcomersValidator.dart';
+import 'package:salomague_nhs/Manage/Re-EnrolledValidator.dart';
+import 'package:salomague_nhs/Manage/SHSStudentInSection.dart';
+import 'package:salomague_nhs/Manage/StudentReportCard.dart';
+import 'package:salomague_nhs/Manage/SubjectsandGrade.dart';
+import 'package:salomague_nhs/launcher.dart';
+import 'package:salomague_nhs/pages/Auth_View/Adding_InstructorAcc_Desktview.dart';
+import 'package:salomague_nhs/pages/banner.dart';
+import 'package:salomague_nhs/pages/news_updates.dart';
+import 'package:salomague_nhs/pages/student_details.dart';
+import 'package:salomague_nhs/reports/enrollment_report/enrollment_report.dart';
+import 'package:salomague_nhs/pages/views/chatbot/faqs.dart';
+import 'package:salomague_nhs/student_utils/Student_Utils.dart';
+import 'package:salomague_nhs/Admin Dashboard Sorting/Dashboard Sorting.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
@@ -65,7 +65,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   String? selectedSectionId;
 
   bool _showAddSubjects = false;
-  bool _showEditSubjects = false;  
+  bool _showEditSubjects = false;
   bool _showAddAlumni = false;
   bool _showEditAlumni = false;
   bool _showAddInstructors = false;
@@ -310,33 +310,35 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }
 
   Stream<List<String>> _getSchoolYears(String selectedLevel) {
-  // Determine the collection based on selectedLevel
-  String collectionName = selectedLevel == 'Junior High School' 
-      ? 'jhs configurations' 
-      : 'shs configurations';
+    // Determine the collection based on selectedLevel
+    String collectionName = selectedLevel == 'Junior High School'
+        ? 'jhs configurations'
+        : 'shs configurations';
 
-  return FirebaseFirestore.instance
-      .collection(collectionName)
-      .snapshots()
-      .map((snapshot) {
-    // Initialize the list with "All"
-    List<String> years = ['All'];
+    return FirebaseFirestore.instance
+        .collection(collectionName)
+        .snapshots()
+        .map((snapshot) {
+      // Initialize the list with "All"
+      List<String> years = ['All'];
 
-    // Add school years from the fetched documents
-    years.addAll(snapshot.docs.map((doc) {
-      final data = doc.data();
-      if (data.containsKey('school_year')) {
-        return data['school_year'] as String;
-      } else {
-        print('Document missing school_year field: $data');
-        return null; // Handle missing field gracefully
-      }
-    }).where((value) => value != null).cast<String>());
+      // Add school years from the fetched documents
+      years.addAll(snapshot.docs
+          .map((doc) {
+            final data = doc.data();
+            if (data.containsKey('school_year')) {
+              return data['school_year'] as String;
+            } else {
+              print('Document missing school_year field: $data');
+              return null; // Handle missing field gracefully
+            }
+          })
+          .where((value) => value != null)
+          .cast<String>());
 
-    return years.toSet().toList(); // Remove duplicates and return
-  });
-}
-
+      return years.toSet().toList(); // Remove duplicates and return
+    });
+  }
 
   //BuildStudentsContent
 
@@ -576,7 +578,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   //BuildAlumni
 
-   void toggleAddAlumni() {
+  void toggleAddAlumni() {
     setState(() {
       _showAddAlumni = !_showAddAlumni;
     });
@@ -1175,17 +1177,17 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   // Method to save data to Firebase
   void _JHSsaveConfiguration() {
-      print('School Year: $_curriculum');
+    print('School Year: $_curriculum');
 
-      if (_curriculum.isEmpty) {
-    // Show an error if the curriculum value is empty
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Please enter a valid school year.'),
-      ),
-    );
-    return;
-  }
+    if (_curriculum.isEmpty) {
+      // Show an error if the curriculum value is empty
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please enter a valid school year.'),
+        ),
+      );
+      return;
+    }
     // Create a new document with a timestamp-based ID
     String docId = DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -2892,8 +2894,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             // Reset filters when changing educational level
                             _trackIconState = 0;
                             _selectedStrand = 'ALL';
-                                      _selectedSchoolYear = 'All';
-
+                            _selectedSchoolYear = 'All';
                           });
                         },
                       ),
@@ -3383,9 +3384,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   Future<List<Map<String, dynamic>>> _fetchStudentData() async {
     final snapshot = await FirebaseFirestore.instance.collection('users').get();
-    return snapshot.docs
-        .map((doc) => doc.data())
-        .toList();
+    return snapshot.docs.map((doc) => doc.data()).toList();
   }
 
   Widget _buildManageStudentReportCardsContent() {
@@ -3456,8 +3455,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             // Reset filters when changing educational level
                             _trackIconState = 0;
                             _selectedStrand = 'ALL';
-                                      _selectedSchoolYear = 'All';
-
+                            _selectedSchoolYear = 'All';
                           });
                         },
                       ),
@@ -3831,14 +3829,23 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     final data = student.data();
                     final query = _searchQuery.toLowerCase();
 
-                  final studentId = (data['student_id'] ?? '').toString().toLowerCase();
-                  final firstName = (data['first_name'] ?? '').toString().toLowerCase();
-                  final lastName = (data['last_name'] ?? '').toString().toLowerCase();
-                  final middleName = (data['middle_name'] ?? '').toString().toLowerCase();
-                  final track = (data['seniorHigh_Track'] ?? '').toString().toLowerCase();
-                  final strand = (data['seniorHigh_Strand'] ?? '').toString().toLowerCase();
-                    final educLevel = (data['educ_level'] ?? '').toString().toLowerCase();
-                        ''; // Define educ_level here
+                    final studentId =
+                        (data['student_id'] ?? '').toString().toLowerCase();
+                    final firstName =
+                        (data['first_name'] ?? '').toString().toLowerCase();
+                    final lastName =
+                        (data['last_name'] ?? '').toString().toLowerCase();
+                    final middleName =
+                        (data['middle_name'] ?? '').toString().toLowerCase();
+                    final track = (data['seniorHigh_Track'] ?? '')
+                        .toString()
+                        .toLowerCase();
+                    final strand = (data['seniorHigh_Strand'] ?? '')
+                        .toString()
+                        .toLowerCase();
+                    final educLevel =
+                        (data['educ_level'] ?? '').toString().toLowerCase();
+                    ''; // Define educ_level here
 
                     final fullName = '$firstName $middleName $lastName';
 
@@ -3857,7 +3864,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             Expanded(child: Text('Student ID')),
                             Expanded(child: Text('Name')),
                             if (students.isNotEmpty &&
-                                (students.first.data()['educ_level'] ?? '') == 'Senior High School') ...[
+                                (students.first.data()['educ_level'] ?? '') ==
+                                    'Senior High School') ...[
                               Expanded(child: Text('Track')),
                               Expanded(child: Text('Strand')),
                             ],
@@ -3873,7 +3881,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           return GestureDetector(
                             onTap: () {
                               // Get the educ_level value
-                              final educLevel = (data['educ_level'] ?? '').toString();
+                              final educLevel =
+                                  (data['educ_level'] ?? '').toString();
 
                               // Check the educ_level and navigate accordingly
                               if (educLevel == 'Junior High School') {
@@ -3904,7 +3913,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                 Expanded(
                                     child: Text(
                                         '${data['first_name'] ?? ''} ${data['middle_name'] ?? ''} ${data['last_name'] ?? ''}')),
-                                if ((data['educ_level'] ?? '' ) ==
+                                if ((data['educ_level'] ?? '') ==
                                     'Senior High School') ...[
                                   Expanded(
                                       child:
@@ -4696,139 +4705,167 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       final pdf = pw.Document();
 
                       pdf.addPage(
-  pw.MultiPage(
-    pageFormat: PdfPageFormat.a4.landscape,
-    build: (pw.Context context) {
-      return [
-        pw.Column(
-          crossAxisAlignment: pw.CrossAxisAlignment.start,
-          children: [
-            pw.Text(
-              'Student Grades \n$instructorSubjectName',
-              style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold),
-            ),
-            pw.SizedBox(height: 20),
-            pw.Table(
-              border: pw.TableBorder.all(),
-              columnWidths: {
-                0: pw.FlexColumnWidth(2),
-                1: pw.FlexColumnWidth(2),
-                2: pw.FlexColumnWidth(2),
-                3: pw.FlexColumnWidth(2),
-                4: pw.FlexColumnWidth(2),
-                5: pw.FlexColumnWidth(3),
-                if (isSeniorHighSchool) 6: pw.FlexColumnWidth(2),
-                7: pw.FlexColumnWidth(1),
-              },
-              children: [
-                pw.TableRow(
-                  decoration: pw.BoxDecoration(color: PdfColors.grey300),
-                  children: [
-                    pw.Padding(
-                      padding: const pw.EdgeInsets.all(4),
-                      child: pw.Text('Student ID',
-                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                    ),
-                    pw.Padding(
-                      padding: const pw.EdgeInsets.all(4),
-                      child: pw.Text('First Name',
-                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                    ),
-                    pw.Padding(
-                      padding: const pw.EdgeInsets.all(4),
-                      child: pw.Text('Last Name',
-                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                    ),
-                    pw.Padding(
-                      padding: const pw.EdgeInsets.all(4),
-                      child: pw.Text('Middle Name',
-                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                    ),
-                    pw.Padding(
-                      padding: const pw.EdgeInsets.all(4),
-                      child: pw.Text('Section',
-                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                    ),
-                    pw.Padding(
-                      padding: const pw.EdgeInsets.all(4),
-                      child: pw.Text('Subject Name',
-                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                    ),
-                    if (isSeniorHighSchool)
-                      pw.Padding(
-                        padding: const pw.EdgeInsets.all(4),
-                        child: pw.Text('Subject Code',
-                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                      ),
-                    pw.Padding(
-                      padding: const pw.EdgeInsets.all(4),
-                      child: pw.Text('Grade',
-                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-        pw.SizedBox(height: 10),
-        pw.Table(
-          border: pw.TableBorder.all(),
-          columnWidths: {
-            0: pw.FlexColumnWidth(2),
-            1: pw.FlexColumnWidth(2),
-            2: pw.FlexColumnWidth(2),
-            3: pw.FlexColumnWidth(2),
-            4: pw.FlexColumnWidth(2),
-            5: pw.FlexColumnWidth(3),
-            if (isSeniorHighSchool) 6: pw.FlexColumnWidth(2),
-            7: pw.FlexColumnWidth(1),
-          },
-          children: studentsToInclude.map((student) {
-            return pw.TableRow(
-              children: [
-                pw.Padding(
-                  padding: const pw.EdgeInsets.all(4),
-                  child: pw.Text(student['student_id'] ?? ''),
-                ),
-                pw.Padding(
-                  padding: const pw.EdgeInsets.all(4),
-                  child: pw.Text(student['first_name'] ?? ''),
-                ),
-                pw.Padding(
-                  padding: const pw.EdgeInsets.all(4),
-                  child: pw.Text(student['last_name'] ?? ''),
-                ),
-                pw.Padding(
-                  padding: const pw.EdgeInsets.all(4),
-                  child: pw.Text(student['middle_name'] ?? ''),
-                ),
-                pw.Padding(
-                  padding: const pw.EdgeInsets.all(4),
-                  child: pw.Text(student['section'] ?? ''),
-                ),
-                pw.Padding(
-                  padding: const pw.EdgeInsets.all(4),
-                  child: pw.Text(student['subject_Name'] ?? ''),
-                ),
-                if (isSeniorHighSchool)
-                  pw.Padding(
-                    padding: const pw.EdgeInsets.all(4),
-                    child: pw.Text(student['subject_Code'] ?? ''),
-                  ),
-                pw.Padding(
-                  padding: const pw.EdgeInsets.all(4),
-                  child: pw.Text(student['Grade'] ?? ''),
-                ),
-              ],
-            );
-          }).toList(),
-        ),
-      ];
-    },
-  ),
-);
-
+                        pw.MultiPage(
+                          pageFormat: PdfPageFormat.a4.landscape,
+                          build: (pw.Context context) {
+                            return [
+                              pw.Column(
+                                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                                children: [
+                                  pw.Text(
+                                    'Student Grades \n$instructorSubjectName',
+                                    style: pw.TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: pw.FontWeight.bold),
+                                  ),
+                                  pw.SizedBox(height: 20),
+                                  pw.Table(
+                                    border: pw.TableBorder.all(),
+                                    columnWidths: {
+                                      0: pw.FlexColumnWidth(2),
+                                      1: pw.FlexColumnWidth(2),
+                                      2: pw.FlexColumnWidth(2),
+                                      3: pw.FlexColumnWidth(2),
+                                      4: pw.FlexColumnWidth(2),
+                                      5: pw.FlexColumnWidth(3),
+                                      if (isSeniorHighSchool)
+                                        6: pw.FlexColumnWidth(2),
+                                      7: pw.FlexColumnWidth(1),
+                                    },
+                                    children: [
+                                      pw.TableRow(
+                                        decoration: pw.BoxDecoration(
+                                            color: PdfColors.grey300),
+                                        children: [
+                                          pw.Padding(
+                                            padding: const pw.EdgeInsets.all(4),
+                                            child: pw.Text('Student ID',
+                                                style: pw.TextStyle(
+                                                    fontWeight:
+                                                        pw.FontWeight.bold)),
+                                          ),
+                                          pw.Padding(
+                                            padding: const pw.EdgeInsets.all(4),
+                                            child: pw.Text('First Name',
+                                                style: pw.TextStyle(
+                                                    fontWeight:
+                                                        pw.FontWeight.bold)),
+                                          ),
+                                          pw.Padding(
+                                            padding: const pw.EdgeInsets.all(4),
+                                            child: pw.Text('Last Name',
+                                                style: pw.TextStyle(
+                                                    fontWeight:
+                                                        pw.FontWeight.bold)),
+                                          ),
+                                          pw.Padding(
+                                            padding: const pw.EdgeInsets.all(4),
+                                            child: pw.Text('Middle Name',
+                                                style: pw.TextStyle(
+                                                    fontWeight:
+                                                        pw.FontWeight.bold)),
+                                          ),
+                                          pw.Padding(
+                                            padding: const pw.EdgeInsets.all(4),
+                                            child: pw.Text('Section',
+                                                style: pw.TextStyle(
+                                                    fontWeight:
+                                                        pw.FontWeight.bold)),
+                                          ),
+                                          pw.Padding(
+                                            padding: const pw.EdgeInsets.all(4),
+                                            child: pw.Text('Subject Name',
+                                                style: pw.TextStyle(
+                                                    fontWeight:
+                                                        pw.FontWeight.bold)),
+                                          ),
+                                          if (isSeniorHighSchool)
+                                            pw.Padding(
+                                              padding:
+                                                  const pw.EdgeInsets.all(4),
+                                              child: pw.Text('Subject Code',
+                                                  style: pw.TextStyle(
+                                                      fontWeight:
+                                                          pw.FontWeight.bold)),
+                                            ),
+                                          pw.Padding(
+                                            padding: const pw.EdgeInsets.all(4),
+                                            child: pw.Text('Grade',
+                                                style: pw.TextStyle(
+                                                    fontWeight:
+                                                        pw.FontWeight.bold)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              pw.SizedBox(height: 10),
+                              pw.Table(
+                                border: pw.TableBorder.all(),
+                                columnWidths: {
+                                  0: pw.FlexColumnWidth(2),
+                                  1: pw.FlexColumnWidth(2),
+                                  2: pw.FlexColumnWidth(2),
+                                  3: pw.FlexColumnWidth(2),
+                                  4: pw.FlexColumnWidth(2),
+                                  5: pw.FlexColumnWidth(3),
+                                  if (isSeniorHighSchool)
+                                    6: pw.FlexColumnWidth(2),
+                                  7: pw.FlexColumnWidth(1),
+                                },
+                                children: studentsToInclude.map((student) {
+                                  return pw.TableRow(
+                                    children: [
+                                      pw.Padding(
+                                        padding: const pw.EdgeInsets.all(4),
+                                        child: pw.Text(
+                                            student['student_id'] ?? ''),
+                                      ),
+                                      pw.Padding(
+                                        padding: const pw.EdgeInsets.all(4),
+                                        child: pw.Text(
+                                            student['first_name'] ?? ''),
+                                      ),
+                                      pw.Padding(
+                                        padding: const pw.EdgeInsets.all(4),
+                                        child:
+                                            pw.Text(student['last_name'] ?? ''),
+                                      ),
+                                      pw.Padding(
+                                        padding: const pw.EdgeInsets.all(4),
+                                        child: pw.Text(
+                                            student['middle_name'] ?? ''),
+                                      ),
+                                      pw.Padding(
+                                        padding: const pw.EdgeInsets.all(4),
+                                        child:
+                                            pw.Text(student['section'] ?? ''),
+                                      ),
+                                      pw.Padding(
+                                        padding: const pw.EdgeInsets.all(4),
+                                        child: pw.Text(
+                                            student['subject_Name'] ?? ''),
+                                      ),
+                                      if (isSeniorHighSchool)
+                                        pw.Padding(
+                                          padding: const pw.EdgeInsets.all(4),
+                                          child: pw.Text(
+                                              student['subject_Code'] ?? ''),
+                                        ),
+                                      pw.Padding(
+                                        padding: const pw.EdgeInsets.all(4),
+                                        child: pw.Text(student['Grade'] ?? ''),
+                                      ),
+                                    ],
+                                  );
+                                }).toList(),
+                              ),
+                            ];
+                          },
+                        ),
+                      );
 
                       final pdfBytes = await pdf.save();
                       await Printing.sharePdf(
@@ -5341,8 +5378,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-      print('Building _buildJuniorManageTeachers');
-  print('Screen width: $screenWidth, Screen height: $screenHeight');
+    print('Building _buildJuniorManageTeachers');
+    print('Screen width: $screenWidth, Screen height: $screenHeight');
 
     return Stack(
       children: [
@@ -5537,28 +5574,44 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text((i + 1).toString()),
                                           ),
-                                           Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(filteredSubjects[i]['subject_name']),
-                  if (filteredSubjects[i]['subject_name'] == 'MAPEH' &&
-                      filteredSubjects[i]['sub_subjects'] != null)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 4),
-                        Text('  ' + 'Subfields:', style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text('     ' + '${filteredSubjects[i]['sub_subjects']['Music'] ?? 'N/A'}'),
-                        Text('     ' + '${filteredSubjects[i]['sub_subjects']['Arts'] ?? 'N/A'}'),
-                        Text('     ' + '${filteredSubjects[i]['sub_subjects']['Physical Education'] ?? 'N/A'}'),
-                        Text('     ' + '${filteredSubjects[i]['sub_subjects']['Health'] ?? 'N/A'}'),
-                      ],
-                    ),
-                ],
-              ),
-            ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(filteredSubjects[i]
+                                                    ['subject_name']),
+                                                if (filteredSubjects[i]
+                                                            ['subject_name'] ==
+                                                        'MAPEH' &&
+                                                    filteredSubjects[i]
+                                                            ['sub_subjects'] !=
+                                                        null)
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      SizedBox(height: 4),
+                                                      Text('  ' + 'Subfields:',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      Text('     ' +
+                                                          '${filteredSubjects[i]['sub_subjects']['Music'] ?? 'N/A'}'),
+                                                      Text('     ' +
+                                                          '${filteredSubjects[i]['sub_subjects']['Arts'] ?? 'N/A'}'),
+                                                      Text('     ' +
+                                                          '${filteredSubjects[i]['sub_subjects']['Physical Education'] ?? 'N/A'}'),
+                                                      Text('     ' +
+                                                          '${filteredSubjects[i]['sub_subjects']['Health'] ?? 'N/A'}'),
+                                                    ],
+                                                  ),
+                                              ],
+                                            ),
+                                          ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
@@ -5696,8 +5749,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
     );
   }
 
-  Widget _buildAlumniContent(){
-     double screenWidth = MediaQuery.of(context).size.width;
+  Widget _buildAlumniContent() {
+    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Stack(
@@ -5832,7 +5885,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             stream: FirebaseFirestore.instance
                                 .collection('users')
                                 .where('accountType', isEqualTo: 'alumni')
-
                                 .snapshots(),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
@@ -5907,12 +5959,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child:
-                                                Text(users[i]['adress']),
+                                            child: Text(users[i]['adress']),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Text(users[i]['yearGraduated']),
+                                            child:
+                                                Text(users[i]['yearGraduated']),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
@@ -5920,9 +5972,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Text(users[i]
-                                                    ['Strand'] ??
-                                                'N/A'),
+                                            child: Text(
+                                                users[i]['Strand'] ?? 'N/A'),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
@@ -6071,393 +6122,360 @@ class _AdminDashboardState extends State<AdminDashboard> {
       ],
     );
   }
-  Widget _buildManageSubjects() {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
-    return 
-        Container(
-          color: Colors.grey[300],
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  'Manage Senior HS Subjects',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
+  Widget _buildManageSubjects() {
+  double screenWidth = MediaQuery.of(context).size.width;
+  double screenHeight = MediaQuery.of(context).size.height;
+
+  return Stack(
+    children: [
+      // Background + Main UI
+      Container(
+        color: Colors.grey[300],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Title
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Manage Senior HS Subjects',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all(Color(0xFF002f24)),
-                      shape: WidgetStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+            ),
+
+            // Add Subject Button
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        WidgetStateProperty.all(Color(0xFF002f24)),
+                    shape: WidgetStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    onPressed: toggleAddSubjects,
-                    child: Text(
-                      'Add New Subject',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                  ),
+                  onPressed: toggleAddSubjects,
+                  child: Text(
+                    'Add New Subject',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
-              // Dropdown for selecting a course
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Row(
-                  children: [
-                    Text(
-                      'Filter by Course:',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(width: 16),
-                    DropdownButton<String>(
-                      value: selectedCourse,
-                      items: [
-                        "All",
-                        "STEM",
-                        "ABM",
-                        "HUMSS",
-                        "ICT",
-                        "CO"
-                      ] // Add all your course options here
-                          .map((course) => DropdownMenuItem<String>(
-                                value: course,
-                                child: Text(course),
-                              ))
-                          .toList(),
-                      onChanged: (course) {
-                        setState(() {
-                          selectedCourse = course!;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Card(
-                  margin: EdgeInsets.all(16),
-                  elevation: 10,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Subjects List',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 16),
+            ),
 
-                        // Fixed header row
-                        Table(
-                          border: TableBorder.all(color: Colors.grey),
-                          columnWidths: const <int, TableColumnWidth>{
-                            0: FixedColumnWidth(50.0),
-                            1: FlexColumnWidth(),
-                            2: FlexColumnWidth(),
-                            3: FlexColumnWidth(),
-                            4: FlexColumnWidth(),
-                            5: FlexColumnWidth(),
-                            6: FixedColumnWidth(100.0),
-                          },
-                          children: [
-                            TableRow(
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                              ),
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text('#',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text('Course',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text('Subject Name',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text('Code',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text('Category',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text('Semester',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text('Actions',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-
-                        // Scrollable data rows
-                        Expanded(
-                          child: StreamBuilder<QuerySnapshot>(
-                            stream: FirebaseFirestore.instance
-                                .collection('subjects')
-                                .where('educ_level',
-                                    isEqualTo:
-                                        'Senior High School') // Add this filter
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Center(
-                                  child: DefaultTextStyle(
-                                    style: TextStyle(
-                                      fontSize: 18.0,
-                                      color: Colors.blue,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    child: AnimatedTextKit(
-                                      animatedTexts: [
-                                        WavyAnimatedText('LOADING...'),
-                                      ],
-                                      isRepeatingAnimation: true,
-                                    ),
-                                  ),
-                                );
-                              }
-
-                              if (!snapshot.hasData ||
-                                  snapshot.data!.docs.isEmpty) {
-                                return Center(
-                                  child: Text(
-                                    'No Subject Added',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontStyle: FontStyle.italic,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                );
-                              }
-
-                              // Sort and filter subjects by selected course
-                              final subjects = snapshot.data!.docs;
-                              subjects.sort((a, b) => a['strandcourse']
-                                  .compareTo(b['strandcourse']));
-
-                              // Apply filtering based on the selected course
-                              final filteredSubjects = selectedCourse == "All"
-                                  ? subjects
-                                  : subjects
-                                      .where((subject) =>
-                                          subject['strandcourse'] ==
-                                          selectedCourse)
-                                      .toList();
-
-                              return SingleChildScrollView(
-                                child: Table(
-                                  border: TableBorder.all(color: Colors.grey),
-                                  columnWidths: const <int, TableColumnWidth>{
-                                    0: FixedColumnWidth(50.0),
-                                    1: FlexColumnWidth(),
-                                    2: FlexColumnWidth(),
-                                    3: FlexColumnWidth(),
-                                    4: FlexColumnWidth(),
-                                    5: FlexColumnWidth(),
-                                    6: FixedColumnWidth(100.0),
-                                  },
-                                  children: [
-                                    for (var i = 0;
-                                        i < filteredSubjects.length;
-                                        i++)
-                                      TableRow(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text((i + 1).toString()),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(filteredSubjects[i]
-                                                ['strandcourse']),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(filteredSubjects[i]
-                                                ['subject_name']),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(filteredSubjects[i]
-                                                ['subject_code']),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(filteredSubjects[i]
-                                                ['category']),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(filteredSubjects[i]
-                                                ['semester']),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
-                                              children: [
-                                                IconButton(
-                                                  icon: Icon(Icons.edit,
-                                                      color: Colors.blue),
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      selectedSubjectId =
-                                                          filteredSubjects[i]
-                                                              .id;
-                                                      _showEditSubjects = true;
-                                                    });
-                                                  },
-                                                ),
-                                                IconButton(
-                                                  icon: Icon(
-                                                      Icons.delete_forever,
-                                                      color: Colors.red),
-                                                  onPressed: () {
-                                                    _showDeleteSubjectConfirmation(
-                                                        context,
-                                                        filteredSubjects[i].id);
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+            // Filter Dropdown
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: Row(
+                children: [
+                  Text(
+                    'Filter by Course:',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                ),
+                  SizedBox(width: 16),
+                  DropdownButton<String>(
+                    value: selectedCourse,
+                    items: [
+                      "All",
+                      "STEM",
+                      "ABM",
+                      "HUMSS",
+                      "ICT",
+                      "CO"
+                    ].map((course) => DropdownMenuItem<String>(
+                          value: course,
+                          child: Text(course),
+                        ))
+                        .toList(),
+                    onChanged: (course) {
+                      setState(() {
+                        selectedCourse = course!;
+                      });
+                    },
+                  ),
+                ],
               ),
-        AnimatedSwitcher(
-          duration: Duration(milliseconds: 550),
-          child: _showAddSubjects
-              ? Stack(children: [
-                  Positioned.fill(
-                    child: GestureDetector(
-                      onTap: closeAddSubjects,
-                      child: Stack(
+            ),
+
+            // Subjects List
+            Expanded(
+              child: Card(
+                margin: EdgeInsets.all(16),
+                elevation: 10,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Subjects List',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 16),
+
+                      // Table Header
+                      Table(
+                        border: TableBorder.all(color: Colors.grey),
+                        columnWidths: const <int, TableColumnWidth>{
+                          0: FixedColumnWidth(50.0),
+                          1: FlexColumnWidth(),
+                          2: FlexColumnWidth(),
+                          3: FlexColumnWidth(),
+                          4: FlexColumnWidth(),
+                          5: FlexColumnWidth(),
+                          6: FixedColumnWidth(100.0),
+                        },
                         children: [
-                          BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-                            child:
-                                Container(color: Colors.black.withOpacity(0.5)),
-                          ),
-                          Center(
-                            child: GestureDetector(
-                              onTap: () {},
-                              child: AnimatedContainer(
-                                duration: Duration(milliseconds: 500),
-                                width: screenWidth / 1.2,
-                                height: screenHeight / 1.2,
-                                curve: Curves.easeInOut,
-                                child: AddSubjectsForm(
-                                  screenWidth: screenWidth,
-                                  screenHeight: screenHeight,
-                                  key: ValueKey('AddSubjects'),
-                                  closeAddSubjects: closeAddSubjects,
-                                ),
-                              ),
+                          TableRow(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
                             ),
+                            children: [
+                              for (final header in [
+                                '#',
+                                'Course',
+                                'Subject Name',
+                                'Code',
+                                'Category',
+                                'Semester',
+                                'Actions'
+                              ])
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    header,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                            ],
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                ])
-              : SizedBox.shrink(),
-        ),
-        AnimatedSwitcher(
-          duration: Duration(milliseconds: 550),
-          child: _showEditSubjects
-              ? Stack(
-                  children: [
-                    Positioned.fill(
-                      child: GestureDetector(
-                        onTap: closeEditSubjects,
-                        child: Stack(
-                          children: [
-                            BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-                              child: Container(
-                                  color: Colors.black.withOpacity(0.5)),
-                            ),
-                            Center(
-                              child: GestureDetector(
-                                onTap: () {},
-                                child: AnimatedContainer(
-                                  duration: Duration(milliseconds: 500),
-                                  width: screenWidth / 1.2,
-                                  height: screenHeight / 1.2,
-                                  curve: Curves.easeInOut,
-                                  child: EditSubjectsForm(
-                                    screenHeight: screenHeight,
-                                    screenWidth: screenWidth,
-                                    subjectId:
-                                        selectedSubjectId, // Pass the selected subject ID
-                                    closeEditSubjects: closeEditSubjects,
+
+                      // ✅ Scrollable Data Rows
+                      Flexible(
+                        child: StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection('subjects')
+                              .where('educ_level',
+                                  isEqualTo: 'Senior High School')
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                child: DefaultTextStyle(
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  child: AnimatedTextKit(
+                                    animatedTexts: [
+                                      WavyAnimatedText('LOADING...'),
+                                    ],
+                                    isRepeatingAnimation: true,
                                   ),
                                 ),
+                              );
+                            }
+
+                            if (!snapshot.hasData ||
+                                snapshot.data!.docs.isEmpty) {
+                              return Center(
+                                child: Text(
+                                  'No Subject Added',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              );
+                            }
+
+                            // Sort and filter subjects
+                            final subjects = snapshot.data!.docs;
+                            subjects.sort((a, b) =>
+                                a['strandcourse'].compareTo(b['strandcourse']));
+
+                            final filteredSubjects = selectedCourse == "All"
+                                ? subjects
+                                : subjects
+                                    .where((subject) =>
+                                        subject['strandcourse'] ==
+                                        selectedCourse)
+                                    .toList();
+
+                            return SingleChildScrollView(
+                              child: Table(
+                                border: TableBorder.all(color: Colors.grey),
+                                columnWidths: const <int, TableColumnWidth>{
+                                  0: FixedColumnWidth(50.0),
+                                  1: FlexColumnWidth(),
+                                  2: FlexColumnWidth(),
+                                  3: FlexColumnWidth(),
+                                  4: FlexColumnWidth(),
+                                  5: FlexColumnWidth(),
+                                  6: FixedColumnWidth(100.0),
+                                },
+                                children: [
+                                  for (var i = 0;
+                                      i < filteredSubjects.length;
+                                      i++)
+                                    TableRow(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text((i + 1).toString()),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(filteredSubjects[i]
+                                              ['strandcourse']),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(filteredSubjects[i]
+                                              ['subject_name']),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(filteredSubjects[i]
+                                              ['subject_code']),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                              filteredSubjects[i]['category']),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                              filteredSubjects[i]['semester']),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              IconButton(
+                                                icon: Icon(Icons.edit,
+                                                    color: Colors.blue),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    selectedSubjectId =
+                                                        filteredSubjects[i].id;
+                                                    _showEditSubjects = true;
+                                                  });
+                                                },
+                                              ),
+                                              IconButton(
+                                                icon: Icon(Icons.delete_forever,
+                                                    color: Colors.red),
+                                                onPressed: () {
+                                                  _showDeleteSubjectConfirmation(
+                                                      context,
+                                                      filteredSubjects[i].id);
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                ],
                               ),
-                            ),
-                          ],
+                            );
+                          },
                         ),
                       ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+
+      // ✅ Add Subjects Modal
+      if (_showAddSubjects)
+        Positioned.fill(
+          child: GestureDetector(
+            onTap: closeAddSubjects,
+            child: Stack(
+              children: [
+                BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                  child: Container(color: Colors.black.withOpacity(0.5)),
+                ),
+                Center(
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 500),
+                      width: screenWidth / 1.2,
+                      height: screenHeight / 1.2,
+                      curve: Curves.easeInOut,
+                      child: AddSubjectsForm(
+                        screenWidth: screenWidth,
+                        screenHeight: screenHeight,
+                        key: ValueKey('AddSubjects'),
+                        closeAddSubjects: closeAddSubjects,
+                      ),
                     ),
-                  ],
-                )
-              : SizedBox.shrink(),
-        )
-      
-            ]),
-        );
-  }
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+      // ✅ Edit Subjects Modal
+      if (_showEditSubjects)
+        Positioned.fill(
+          child: GestureDetector(
+            onTap: closeEditSubjects,
+            child: Stack(
+              children: [
+                BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                  child: Container(color: Colors.black.withOpacity(0.5)),
+                ),
+                Center(
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 500),
+                      width: screenWidth / 1.2,
+                      height: screenHeight / 1.2,
+                      curve: Curves.easeInOut,
+                      child: EditSubjectsForm(
+                        screenHeight: screenHeight,
+                        screenWidth: screenWidth,
+                        subjectId: selectedSubjectId,
+                        closeEditSubjects: closeEditSubjects,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+    ],
+  );
+}
 
   Widget _buildJuniorManageTeachers() {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -7315,7 +7333,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                       SnackBar(
                                           content: Row(
                                         children: [
-                                          Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
+                                          Image.asset(
+                                              'assets/LOGOFORSALOMAGUE.png',
+                                              scale: 40),
                                           SizedBox(width: 10),
                                           Text(
                                               'Please select a jhs configuration to activate'),
@@ -7622,8 +7642,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                             Color(0xFF002f24)),
                                     elevation:
                                         WidgetStateProperty.all<double>(5),
-                                    shape: WidgetStateProperty.all<
-                                        OutlinedBorder>(
+                                    shape:
+                                        WidgetStateProperty.all<OutlinedBorder>(
                                       RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(8),
                                       ),
@@ -7749,7 +7769,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                       SnackBar(
                                           content: Row(
                                         children: [
-                                          Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
+                                          Image.asset(
+                                              'assets/LOGOFORSALOMAGUE.png',
+                                              scale: 40),
                                           SizedBox(width: 10),
                                           Text(
                                               'Please select a shs configuration to activate'),
@@ -7987,8 +8009,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                             Color(0xFF002f24)),
                                     elevation:
                                         WidgetStateProperty.all<double>(5),
-                                    shape: WidgetStateProperty.all<
-                                        OutlinedBorder>(
+                                    shape:
+                                        WidgetStateProperty.all<OutlinedBorder>(
                                       RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(8),
                                       ),
@@ -8297,7 +8319,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                                   color: Colors.green),
                                               onPressed: () {
                                                 _showReEnrolledAcceptConfirmationDialog(
-                                                   context, student.id);
+                                                    context, student.id);
                                               },
                                             ),
                                             IconButton(
@@ -8306,7 +8328,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                                   color: Colors.red),
                                               onPressed: () {
                                                 _showReEnrolledResetDialog(
-                                                   context, student.id);
+                                                    context, student.id);
                                               },
                                             ),
                                           ],

@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:balungao_nhs/widgets/hover_extensions.dart';
-import 'package:balungao_nhs/widgets/text_reveal.dart';
-import 'package:balungao_nhs/TermsAndConditions/TAC_Web_View.dart';
+import 'package:salomague_nhs/widgets/hover_extensions.dart';
+import 'package:salomague_nhs/widgets/text_reveal.dart';
+import 'package:salomague_nhs/TermsAndConditions/TAC_Web_View.dart';
 
 class FirstSectionMobile extends StatefulWidget {
   final Function onGetStartedPressed;

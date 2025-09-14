@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:balungao_nhs/widgets/hover_extensions.dart';
+import 'package:salomague_nhs/widgets/hover_extensions.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class Ribbon extends StatefulWidget {

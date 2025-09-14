@@ -111,10 +111,10 @@ class _AddSubjectsFormState extends State<AddSubjectsForm> {
             'grade_level': _gradeLevel.text,
             'quarter': _quarter.text,
             'sub_subjects': {
-              'Music': _musicController.text,
-              'Arts': _artsController.text,
-              'Physical Education': _peController.text,
-              'Health': _healthController.text,
+              'Music': 'Music',
+              'Arts': 'Arts',
+              'Physical Education': 'Physical Education',
+              'Health': 'Health',
             },
           });
         } else {
@@ -266,46 +266,46 @@ class _AddSubjectsFormState extends State<AddSubjectsForm> {
                           },
                         ),
                         SizedBox(height: 16),
-                        if (_isMapeh) ...[
-                          Text('MAPEH Subfields', style: TextStyle(fontWeight: FontWeight.bold)),
-                          TextFormField(
-                            controller: _musicController,
-                            decoration: InputDecoration(
-                              labelText: 'Music',
-                              border: OutlineInputBorder(),
-                              hintText: 'Enter Music details',
-                            ),
-                          ),
-                          SizedBox(height: 16),
-                          TextFormField(
-                            controller: _artsController,
-                            decoration: InputDecoration(
-                              labelText: 'Arts',
-                              border: OutlineInputBorder(),
-                              hintText: 'Enter Arts details',
-                            ),
-                          ),
-                          SizedBox(height: 16),
-                          TextFormField(
-                            controller: _peController,
-                            decoration: InputDecoration(
-                              labelText: 'Physical Education',
-                              border: OutlineInputBorder(),
-                              hintText: 'Enter Physical Education details',
-                            ),
-                          ),
-                          SizedBox(height: 16),
-                          TextFormField(
-                            controller: _healthController,
-                            decoration: InputDecoration(
-                              labelText: 'Health',
-                              border: OutlineInputBorder(),
-                              hintText: 'Enter Health details',
-                            ),
-                          ),
-                          SizedBox(height: 16),
-                        ],
-                        SizedBox(height: 16),
+                        // if (_isMapeh) ...[
+                        //   Text('MAPEH Subfields', style: TextStyle(fontWeight: FontWeight.bold)),
+                        //   TextFormField(
+                        //     controller: _musicController,
+                        //     decoration: InputDecoration(
+                        //       labelText: 'Music',
+                        //       border: OutlineInputBorder(),
+                        //       hintText: 'Enter Music details',
+                        //     ),
+                        //   ),
+                        //   SizedBox(height: 16),
+                        //   TextFormField(
+                        //     controller: _artsController,
+                        //     decoration: InputDecoration(
+                        //       labelText: 'Arts',
+                        //       border: OutlineInputBorder(),
+                        //       hintText: 'Enter Arts details',
+                        //     ),
+                        //   ),
+                        //   SizedBox(height: 16),
+                        //   TextFormField(
+                        //     controller: _peController,
+                        //     decoration: InputDecoration(
+                        //       labelText: 'Physical Education',
+                        //       border: OutlineInputBorder(),
+                        //       hintText: 'Enter Physical Education details',
+                        //     ),
+                        //   ),
+                        //   SizedBox(height: 16),
+                        //   TextFormField(
+                        //     controller: _healthController,
+                        //     decoration: InputDecoration(
+                        //       labelText: 'Health',
+                        //       border: OutlineInputBorder(),
+                        //       hintText: 'Enter Health details',
+                        //     ),
+                        //   ),
+                        //   SizedBox(height: 16),
+                        // ],
+                        // SizedBox(height: 16),
                         TextFormField(
                           controller: _gradeLevel,
                           decoration: InputDecoration(

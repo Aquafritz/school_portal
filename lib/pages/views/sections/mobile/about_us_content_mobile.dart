@@ -1,11 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:balungao_nhs/pages/Auth_View/SignInMobileView.dart';
-import 'package:balungao_nhs/TermsAndConditions/TAC_Mobile_View.dart';
-import 'package:balungao_nhs/pages/views/sections/mobile/footer_mobile.dart';
-import 'package:balungao_nhs/launcher.dart';
-import 'package:balungao_nhs/widgets/hover_extensions.dart';
+import 'package:salomague_nhs/pages/Auth_View/SignInMobileView.dart';
+import 'package:salomague_nhs/TermsAndConditions/TAC_Mobile_View.dart';
+import 'package:salomague_nhs/pages/views/sections/mobile/footer_mobile.dart';
+import 'package:salomague_nhs/launcher.dart';
+import 'package:salomague_nhs/widgets/hover_extensions.dart';
 
 class AboutUsContentMobile extends StatefulWidget {
   const AboutUsContentMobile({super.key});

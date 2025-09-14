@@ -1,5 +1,5 @@
-import 'package:balungao_nhs/reports/enrollment_report/presentation/resources/app_assets.dart';
-import 'package:balungao_nhs/reports/enrollment_report/urls.dart';
+import 'package:salomague_nhs/reports/enrollment_report/presentation/resources/app_assets.dart';
+import 'package:salomague_nhs/reports/enrollment_report/urls.dart';
 
 enum ChartType { line, bar, pie, scatter, radar }
 

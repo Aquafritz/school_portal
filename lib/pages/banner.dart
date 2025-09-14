@@ -116,13 +116,13 @@ Future<void> uploadImage() async {
     final filePath = '$folderName$fileName';
 
     // Upload the image to the specified folder
-    await supabase.storage.from('salomaguenhs').uploadBinary(
+    await supabase.storage.from('SNHS Bucket').uploadBinary(
           filePath,
           selectedImageBytes!,
         );
 
     // Retrieve the public URL of the uploaded image
-    final downloadUrl = supabase.storage.from('salomaguenhs').getPublicUrl(filePath);
+    final downloadUrl = supabase.storage.from('SNHS Bucket').getPublicUrl(filePath);
 
     // Save the URL and additional information to Firestore
     await _saveBannerToFirestore(downloadUrl, true);
@@ -149,10 +149,10 @@ Future<void> saveChanges() async {
       // Remove old image from Supabase Storage
       if (oldImageUrl != null) {
         final oldFilePath = oldImageUrl.replaceFirst(
-          supabase.storage.from('salomaguenhs').getPublicUrl(''),
+          supabase.storage.from('SNHS Bucket').getPublicUrl(''),
           '',
         );
-        await supabase.storage.from('salomaguenhs').remove([oldFilePath]);
+        await supabase.storage.from('SNHS Bucket').remove([oldFilePath]);
       }
 
       // Upload new image
@@ -160,13 +160,13 @@ Future<void> saveChanges() async {
       const folderName = 'banner/';
       final filePath = '$folderName$fileName';
 
-      await supabase.storage.from('salomaguenhs').uploadBinary(
+      await supabase.storage.from('SNHS Bucket').uploadBinary(
             filePath,
             selectedImageBytes!,
           );
 
       // Retrieve the public URL of the uploaded image
-      newImageUrl = supabase.storage.from('salomaguenhs').getPublicUrl(filePath);
+      newImageUrl = supabase.storage.from('SNHS Bucket').getPublicUrl(filePath);
     }
 
     // Update Firestore with new image URL
@@ -202,11 +202,11 @@ Future<void> saveChanges() async {
   Future<void> deleteBanner(String id, String imageUrl, int index) async {
     try {
       final filePath = imageUrl.replaceFirst(
-        supabase.storage.from('salomaguenhs').getPublicUrl(''),
+        supabase.storage.from('SNHS Bucket').getPublicUrl(''),
         '',
       );
 
-      await supabase.storage.from('salomaguenhs').remove([filePath]);
+      await supabase.storage.from('SNHS Bucket').remove([filePath]);
       await FirebaseFirestore.instance.collection('banners').doc(id).delete();
 
       setState(() {

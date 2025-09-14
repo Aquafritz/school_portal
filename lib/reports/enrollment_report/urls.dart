@@ -1,4 +1,4 @@
-import 'package:balungao_nhs/reports/enrollment_report/util/app_helper.dart';
+import 'package:salomague_nhs/reports/enrollment_report/util/app_helper.dart';
 
 class Urls {
   static const flChartUrl = 'https://flchart.dev';

@@ -3,7 +3,7 @@ import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:balungao_nhs/reports/enrollment_report/presentation/resources/app_colors.dart';
+import 'package:salomague_nhs/reports/enrollment_report/presentation/resources/app_colors.dart';
 
 class BarChartSample7 extends StatefulWidget {
   BarChartSample7({super.key});

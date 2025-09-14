@@ -60,7 +60,11 @@ Future<void> approveStudent(String studentDocId) async {
         .get();
     final studentData = studentDoc.data() as Map<String, dynamic>;
     final email = studentData['email_Address'] as String? ?? '';
-        final educLevel = studentData['educ_level'] as String? ?? 'Unknown'; // Get educ_level
+    final educLevel = studentData['educ_level'] as String? ?? 'Unknown'; // Get educ_level
+    final firstName = studentData['first_name'] as String? ?? '';
+    final middleName = studentData['middle_name'] as String? ?? '';
+    final lastName = studentData['last_name'] as String? ?? '';
+    final fullName = '$firstName $middleName $lastName'.replaceAll(RegExp(' +'), ' ').trim();
 
 
     if (email.isEmpty) {
@@ -125,7 +129,7 @@ Future<void> approveStudent(String studentDocId) async {
       print('Student approved and Firebase Auth user created successfully.');
       
       // Send email using EmailJS
-      await sendEnrollmentEmail(email.trim());
+      await sendEnrollmentEmail(fullName, email.trim());
       
     } finally {
       // Ensure cleanup happens
@@ -142,10 +146,10 @@ Future<void> approveStudent(String studentDocId) async {
   }
 }
 
-Future<void> sendEnrollmentEmail(String email) async {
-  const serviceID = 'service_co92dqo';
-  const templateID = 'template_219e208';
-  const publicKey = '2wzHcnT-yPVfgQhcv';
+Future<void> sendEnrollmentEmail(String name, String email) async {
+  const serviceID = 'service_kfizh1v';
+  const templateID = 'template_zr55plg';
+  const publicKey = '2HiRU5IwmZo2v29UE';
 
   final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
 
@@ -159,12 +163,10 @@ Future<void> sendEnrollmentEmail(String email) async {
       'template_id': templateID,
       'user_id': publicKey,
       'template_params': {
+        'name': name,                   // 👈 now full name
         'email': email,
-        'message':
-            'Congratulations! Your enrollment has been processed. Welcome to the Salomague National High School.\n\n'
-                'Here is your student account for the student portal:\n'
-                'Username: $email\n'
-                'Password: iloveSNHS_123 (Please change this after logging in for the first time)',
+        'password': 'iloveSNHS_123',
+       
       },
     }),
   );

@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:balungao_nhs/pages/models/infos.dart';
-import 'package:balungao_nhs/pages/views/sections/desktop/footer.dart';
-import 'package:balungao_nhs/widgets/hover_extensions.dart';
-import 'package:balungao_nhs/widgets/info_card.dart';
-import 'package:balungao_nhs/pages/views/sections/desktop/mission_vision.dart';
-import 'package:balungao_nhs/widgets/scroll_offset.dart';
-import 'package:balungao_nhs/widgets/text_reveal.dart';
+import 'package:salomague_nhs/pages/models/infos.dart';
+import 'package:salomague_nhs/pages/views/sections/desktop/footer.dart';
+import 'package:salomague_nhs/widgets/hover_extensions.dart';
+import 'package:salomague_nhs/widgets/info_card.dart';
+import 'package:salomague_nhs/pages/views/sections/desktop/mission_vision.dart';
+import 'package:salomague_nhs/widgets/scroll_offset.dart';
+import 'package:salomague_nhs/widgets/text_reveal.dart';
 
 class SecondSection extends StatefulWidget {
   const SecondSection({super.key});
@@ -241,7 +241,7 @@ class _SecondSectionState extends State<SecondSection>
                     "At Salomague National High School, we are committed to providing quality education, fostering holistic development, and empowering students to achieve academic excellence and personal growth in a nurturing and inclusive environment, with a wide array of strands to choose from that cater to every student's unique interests and career aspirations.",
                     style: TextStyle(
                         fontFamily: "R",
-                        fontSize: screenWidth / 70,
+                        fontSize: screenWidth / 80,
                         color: Colors.white),
                   ),
                 );

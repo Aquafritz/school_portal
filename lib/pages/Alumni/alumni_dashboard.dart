@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:balungao_nhs/pages/Alumni/cases/case1.dart';
-import 'package:balungao_nhs/student_utils/cases/case0.dart';
+import 'package:salomague_nhs/pages/Alumni/cases/case1.dart';
+import 'package:salomague_nhs/student_utils/cases/case0.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,8 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:balungao_nhs/launcher.dart';
-import 'package:balungao_nhs/widgets/hover_extensions.dart';
+import 'package:salomague_nhs/launcher.dart';
+import 'package:salomague_nhs/widgets/hover_extensions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sidebarx/sidebarx.dart';
 

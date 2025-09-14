@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:balungao_nhs/widgets/scroll_offset.dart';
-import 'package:balungao_nhs/widgets/text_reveal.dart';
+import 'package:salomague_nhs/widgets/scroll_offset.dart';
+import 'package:salomague_nhs/widgets/text_reveal.dart';
 
 class MissionAndVision extends StatefulWidget {
   const MissionAndVision({super.key});
@@ -155,7 +155,7 @@ class _MissionAndVisionState extends State<MissionAndVision>
                                         textOpacityAnimation:
                                             _SHSOpacityAnimation,
                                         child: Text(
-                                          "BALUNGAO NATIONAL HIGH SCHOOL",
+                                          "SALOMAGUE NATIONAL HIGH SCHOOL",
                                           style: TextStyle(
                                             fontFamily: "R",
                                             fontSize: screenWidth / 50,

@@ -10,8 +10,10 @@
         "Newcomersvalidator",
         "PBMA",
         "pbmasportal",
+        "salomague",
         "selectededuc",
         "Sinfor",
         "Subjectand"
-    ]
+    ],
+    "cmake.sourceDirectory": "D:/Flutter Projects/Frederick Aquino - Flutter/school_portal/linux"
 }

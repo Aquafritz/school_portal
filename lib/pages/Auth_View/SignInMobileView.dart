@@ -1,16 +1,16 @@
 // ignore_for_file: sized_box_for_whitespace, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:balungao_nhs/pages/Alumni/alumni_dashboard.dart';
+import 'package:salomague_nhs/pages/Alumni/alumni_dashboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:balungao_nhs/pages/Auth_View/ForceChangePassDesktopView.dart';
-import 'package:balungao_nhs/pages/Auth_View/ForceChangePassMobileView.dart';
-import 'package:balungao_nhs/pages/Auth_View/Forgot_Pass_Mobileview.dart';
-import 'package:balungao_nhs/pages/Auth_View/Forgot_Pass_desktopview.dart';
-import 'package:balungao_nhs/pages/admin_dashboard.dart';
-import 'package:balungao_nhs/student_utils/Re-EnrolledForm.dart';
-import 'package:balungao_nhs/student_utils/student_ui.dart';
+import 'package:salomague_nhs/pages/Auth_View/ForceChangePassDesktopView.dart';
+import 'package:salomague_nhs/pages/Auth_View/ForceChangePassMobileView.dart';
+import 'package:salomague_nhs/pages/Auth_View/Forgot_Pass_Mobileview.dart';
+import 'package:salomague_nhs/pages/Auth_View/Forgot_Pass_desktopview.dart';
+import 'package:salomague_nhs/pages/admin_dashboard.dart';
+import 'package:salomague_nhs/student_utils/Re-EnrolledForm.dart';
+import 'package:salomague_nhs/student_utils/student_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

@@ -38,8 +38,6 @@ class ParentInformationState extends State<ParentInformation> with AutomaticKeep
   final TextEditingController _guardianFirstName = TextEditingController();
   final TextEditingController _guardianMiddleName = TextEditingController();
   final TextEditingController _guardianContactNumber = TextEditingController();
-
-  String _pwd = '';
   
   void resetForm() {
     _fathersLastName.clear();
@@ -54,7 +52,6 @@ class ParentInformationState extends State<ParentInformation> with AutomaticKeep
     _guardianFirstName.clear();
     _guardianMiddleName.clear();
     _guardianContactNumber.clear();
-    _pwd = '';
   }
 
   @override
@@ -129,39 +126,6 @@ class ParentInformationState extends State<ParentInformation> with AutomaticKeep
     widget.onDataChanged(getFormData());
   }
 
-  // Add this variable to your state:
-String? _isUnderSPED;
-Map<String, bool> a1Selections = {
-  'Attention Deficit Hyperactivity Disorder': false,
-  'Autism Spectrum Disorder': false,
-  'Cerebral Palsy': false,
-  'Emotional-Behavior Disorder': false,
-  'Hearing Impairment': false,
-  'Intellectual Disability': false,
-  'Learning Disability': false,
-  'Multiple Disabilities': false,
-  'Orthopedic/Physical Handicap': false,
-  'Speech/Language Disorder': false,
-  'Special Health Problem/Chronic Disease': false,
-  'Cancer': false,
-  'Non-Cancer': false,
-  'Visual Impairment': false,
-  'Blind': false,
-  'Low Vision': false,
-};
-
-Map<String, bool> a2Selections = {
-  'Difficulty in Applying Knowledge': false,
-  'Difficulty in Communicating': false,
-  'Difficulty in Displaying Interpersonal Behavior (Emotional and Behavioral)': false,
-  'Difficulty in Hearing': false,
-  'Difficulty in Mobility (Walking, Climbing and Grasping)': false,
-  'Difficulty in Performing Adaptive Skills (Self-Care)': false,
-  'Difficulty in Remembering, Concentrating, Paying Attention and Understanding': false,
-  'Difficulty in Seeing': false,
-};
-
-
 Map<String, dynamic> getFormData() {
   return {
     'fathersLastName': _fathersLastName.text,
@@ -176,17 +140,6 @@ Map<String, dynamic> getFormData() {
     'guardianFirstName': _guardianFirstName.text,
     'guardianMiddleName': _guardianMiddleName.text,
     'guardianContactNumber': _guardianContactNumber.text,
-    'pwd': _pwd,
-
-    'isUnderSPED': _isUnderSPED,
-    'a1Selections': a1Selections.entries
-        .where((e) => e.value)
-        .map((e) => e.key)
-        .toList(),
-    'a2Selections': a2Selections.entries
-        .where((e) => e.value)
-        .map((e) => e.key)
-        .toList(),
   };
 }
 
@@ -933,161 +886,6 @@ Padding(
                       setState(() {});
                     }
                     
-                  ),
-                ),
-              ],
-            ),
-          ),
-        Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Wrap(
-              spacing: spacing,
-              runSpacing: spacing,
-              children: [
-                 // SPED Program Dropdown + a1 & a2 Checkboxes
-Column(
-  crossAxisAlignment: CrossAxisAlignment.start,
-  children: [
-    Container(
-      width: fieldWidth,
-      child: DropdownButtonFormField<String>(
-        value: _isUnderSPED,
-        decoration: InputDecoration(
-          label: RichText(
-            text: TextSpan(
-              text: 'Is the Learner under the Special Needs Education Program?',
-              style: TextStyle(
-                color: Color.fromARGB(255, 101, 100, 100),
-                fontSize: 16,
-              ),
-            ),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
-          ),
-        ),
-        items: ['Yes', 'No'].map((value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-        onChanged: (value) {
-          setState(() {
-            _isUnderSPED = value!;
-          });
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please select Yes or No';
-          }
-          return null;
-        },
-      ),
-    ),
-    SizedBox(height: 20),
-
-    if (_isUnderSPED == 'Yes') ...[
-      // Instruction Text
-  Text(
-    'If Yes, check only 1, either from a1 or a2',
-    style: TextStyle(fontStyle: FontStyle.italic, fontSize: 14, color: Colors.black87),
-  ),
-  SizedBox(height: 10),
-      // a1 Title
-      Text('a1. With Diagnosis from Licensed Medical Specialist:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: a1Selections.keys.map((key) {
-          return CheckboxListTile(
-            value: a1Selections[key],
-            onChanged: (bool? newValue) {
-              setState(() {
-                a1Selections[key] = newValue!;
-              });
-            },
-            title: Text(key, style: TextStyle(fontSize: 14)),
-            controlAffinity: ListTileControlAffinity.leading,
-            dense: true,
-            contentPadding: EdgeInsets.zero,
-          );
-        }).toList(),
-      ),
-      SizedBox(height: 20),
-
-      // a2 Title
-      Text('a2. With Manifestations', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: a2Selections.keys.map((key) {
-          return CheckboxListTile(
-            value: a2Selections[key],
-            onChanged: (bool? newValue) {
-              setState(() {
-                a2Selections[key] = newValue!;
-              });
-            },
-            title: Text(key, style: TextStyle(fontSize: 14)),
-            controlAffinity: ListTileControlAffinity.leading,
-            dense: true,
-            contentPadding: EdgeInsets.zero,
-          );
-        }).toList(),
-      ),
-    ],
-  ],
-),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Wrap(
-              spacing: spacing,
-              runSpacing: spacing,
-              children: [
-                Container(
-                  width: fieldWidth,
-                  child: DropdownButtonFormField<String>(
-                    value: _pwd.isEmpty ? null : _pwd,
-                    onChanged: (value) {
-                      setState(() {
-                        _pwd = value!;
-                        _notifyParent();
-                      });
-                    },
-                    items: ['Yes', 'No'].map((group) {
-                      return DropdownMenuItem<String>(
-                        value: group,
-                        child: Text(group),
-                      );
-                    }).toList(),
-                    decoration: InputDecoration(
-                      labelText: 'Does the Learner have a PWD ID?',
-                      labelStyle: TextStyle(color: Color.fromARGB(255, 101, 100, 100)),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
-                      ),
-                    ),
-
                   ),
                 ),
               ],
