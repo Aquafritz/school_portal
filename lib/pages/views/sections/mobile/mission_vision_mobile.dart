@@ -23,7 +23,7 @@ class MissionAndVisionMobile extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      "SENIOR HIGH SCHOOL",
+                      "SALOMAGUE NATIONAL HIGH SCHOOL",
                       style: TextStyle(
                         fontFamily: "R",
                         fontSize: screenWidth / 25,
@@ -43,7 +43,7 @@ class MissionAndVisionMobile extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   image: DecorationImage(
-                                    image: AssetImage("assets/pholder.png"),
+                                    image: AssetImage("assets/snhsprincipal.jpg"),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -55,7 +55,7 @@ class MissionAndVisionMobile extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Rachel T. Pande",
+                                      "Bernardo A. Frialde, EdD",
                                       style: TextStyle(
                                         color: Color.fromARGB(255, 0, 30, 54),
                                         fontFamily: "B",
@@ -101,7 +101,7 @@ class MissionAndVisionMobile extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Candido V. Pollante",
+                                      "Aurora L. Bravo",
                                       style: TextStyle(
                                         color: Color.fromARGB(255, 0, 30, 54),
                                         fontFamily: "B",
@@ -110,7 +110,7 @@ class MissionAndVisionMobile extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      "ASST. School Principal II",
+                                      "Master Teacher 1",
                                       style: TextStyle(
                                         color: Color.fromARGB(255, 0, 30, 54),
                                         fontFamily: "R",
@@ -157,7 +157,17 @@ class MissionAndVisionMobile extends StatelessWidget {
                       ),
                       SizedBox(height: screenWidth / 30),
                       Text(
-                        "The SNHS is envisioned to be a child friendly school through the provision of an excellent educational delivery system and the necessary school facilities towards quality education.",
+                        """We dream of Filipinos
+who passionately love their country
+and whose values and competencies
+enable them to realize their full potential
+and contribute meaningfully to building the nation.
+
+As a learner-centered public institution,
+the Department of Education
+continuously improves itself
+to better serve its stakeholders.
+""",
                         style: TextStyle(
                           color: Color.fromARGB(255, 0, 30, 54),
                           fontFamily: "M",
@@ -189,7 +199,13 @@ class MissionAndVisionMobile extends StatelessWidget {
                       ),
                       SizedBox(height: screenWidth / 30),
                       Text(
-                        "The school aims to ensure effective instructional delivery system through the expertise of highly -competent teaching staff and to provide essential school facilities towards the attainment of quality education for academic excellence.",
+                        """To protect and promote the right of every Filipino to quality, equitable, culture-based, and complete basic education where: 
+
+Students learn in a child-friendly, gender-sensitive, safe, and motivating environment.
+Teachers facilitate learning and constantly nurture every learner.
+Administrators and staff, as stewards of the institution, ensure an enabling and supportive environment for effective learning to happen.
+Family, community and other stakeholders are actively engaged
+and share responsibility for developing life-long learners.""",
                         style: TextStyle(
                           color: Color.fromARGB(255, 0, 30, 54),
                           fontFamily: "M",

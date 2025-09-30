@@ -424,11 +424,11 @@ void initState() {
                               child: ElevatedButton(
                                 style: ButtonStyle(
                                   backgroundColor:
-                                      MaterialStateProperty.all<Color>(
+                                      WidgetStateProperty.all<Color>(
                                           Color(0xFF002f24)),
                                   elevation:
-                                      MaterialStateProperty.all<double>(5),
-                                  shape: MaterialStateProperty.all<
+                                      WidgetStateProperty.all<double>(5),
+                                  shape: WidgetStateProperty.all<
                                       OutlinedBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius:
@@ -516,7 +516,7 @@ Widget _buildDetailRow(IconData icon, String title, String value) {
             crossAxisAlignment: pw.CrossAxisAlignment.center,
             children: [
               pw.Text(
-                'Urbano Delos Angeles IV',
+                'Bernardo A. Frialde',
                 style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),
               ),
               pw.Container(

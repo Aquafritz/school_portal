@@ -271,7 +271,7 @@ class _AboutUsContentMobileState extends State<AboutUsContentMobile>
                               topRight: Radius.circular(20),
                             ),
                             image: DecorationImage(
-                              image: AssetImage("assets/webnhs.jpg"),
+                              image: AssetImage("assets/aboutuspic.jpg"),
                               fit: BoxFit.cover,
                             ),
                           ),

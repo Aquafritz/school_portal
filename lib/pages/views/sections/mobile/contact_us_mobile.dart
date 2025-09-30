@@ -59,7 +59,7 @@ class _ContactUsMobileState extends State<ContactUsMobile> {
   // Map controller and zoom functions
   final MapController _mapController = MapController();
   double _currentZoom = 17.0;
-  LatLng _currentCenter = LatLng(15.895685, 120.674170);
+  LatLng _currentCenter = LatLng(15.9103, 120.2270);
 
   void _zoomIn() {
     setState(() {
@@ -116,7 +116,7 @@ class _ContactUsMobileState extends State<ContactUsMobile> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                _launchURL("https://www.facebook.com/profile.php?id=100092664623289");
+                                _launchURL("https://www.facebook.com/profile.php?id=61553112879458");
                               },
                               child: Icon(
                                 Icons.facebook_outlined,
@@ -167,7 +167,7 @@ class _ContactUsMobileState extends State<ContactUsMobile> {
                             SizedBox(width: 8),
                             GestureDetector(
                               onTap: () {
-                                _LocationURL("https://www.google.com/maps/place/BNHS+(Balungao+National+High+School)/@15.8958116,120.6716341,17z/data=!3m1!4b1!4m6!3m5!1s0x33913b708f5b72cf:0x7f772b23b637c007!8m2!3d15.8958065!4d120.674209!16s%2Fg%2F1tvdg9_v?entry=ttu&g_ep=EgoyMDI1MDExNS4wIKXMDSoASAFQAw%3D%3D");
+                                _LocationURL("https://www.google.com/maps/place/Salomague+National+High+School/@15.9104487,120.2244597,17z/data=!3m1!4b1!4m6!3m5!1s0x339159c1cbe1c057:0x4ccca2b042d04ddb!8m2!3d15.9104436!4d120.2270346!16s%2Fg%2F1hdzjjy4w?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D");
                               },
                               child: Container(
                                 width: screenWidth / 10,

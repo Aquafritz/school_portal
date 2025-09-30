@@ -128,7 +128,7 @@ class _ContactUsState extends State<ContactUs> {
                                 GestureDetector(
                                   onTap: () {
                                     _launchURL(
-                                        "https://www.facebook.com/SalomagueSurNHS");
+                                        "https://www.facebook.com/profile.php?id=61553112879458");
                                   },
                                   child: Stack(children: [
                                     Container(

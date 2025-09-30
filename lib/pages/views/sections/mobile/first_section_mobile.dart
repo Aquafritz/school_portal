@@ -86,7 +86,7 @@ class _FirstSectionMobileState extends State<FirstSectionMobile>
           width: screenWidth,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/mainDash.png"),
+              image: AssetImage("assets/maindashpic.jpg"),
               fit: BoxFit.cover,
             ),
           ),
@@ -148,7 +148,7 @@ class _FirstSectionMobileState extends State<FirstSectionMobile>
                     axis: Axis.horizontal,
                     axisAlignment: -1.0,
                     child: Text(
-                      "If you can do it here, you can do it anywhere.",
+                      "Basta Salomague Wagi!",
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         fontFamily: "M",
@@ -248,7 +248,7 @@ class _FirstSectionMobileState extends State<FirstSectionMobile>
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
                                   child: Image.asset(
-                                    "assets/pholder.png",
+                                    "assets/snhsprincipal.jpg",
                                     fit: BoxFit.fill,
                                   )),
                             ),
@@ -257,7 +257,7 @@ class _FirstSectionMobileState extends State<FirstSectionMobile>
                             width: 10,
                           ),
                           Text(
-                            "RACHEL T. PANDE,",
+                            "BERNARDO A. FRIALDE, EdD",
                             style: TextStyle(
                                 fontFamily: "B",
                                 fontSize:
@@ -269,7 +269,7 @@ class _FirstSectionMobileState extends State<FirstSectionMobile>
                           ),
                           SizedBox(height: 30),
                           Text(
-                            "PRINCIPAL IV",
+                            "(Principal IV)",
                             style: TextStyle(
                                 fontFamily: "M",
                                 fontSize:

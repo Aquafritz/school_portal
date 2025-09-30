@@ -2051,7 +2051,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
                                   Padding(
                                     padding: const EdgeInsets.only(top: 100),
                                     child: Text(
-                                      'Urbano Delos Angeles IV',
+                                      'Bernardo A. Frialde',
                                       style: TextStyle(
                                         fontSize: screenWidth < 600 ? 12 : 18,
                                         fontFamily: "B",

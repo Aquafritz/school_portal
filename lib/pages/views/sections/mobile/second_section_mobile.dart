@@ -57,14 +57,14 @@ class SecondSectionMobile extends StatelessWidget {
               children: [
                 _buildProgramCard(
                   context,
-                  imagePath: "assets/primeshs.jpg",
+                  imagePath: "assets/jhsdashboard.jpg",
                   title: "Junior High School Program",
                   description: "SNHS offers various special programs",
                 ),
                 SizedBox(height: screenWidth/45),
                 _buildProgramCard(
                   context,
-                  imagePath: "assets/primetesda.jpg",
+                  imagePath: "assets/shsdashboard.jpg",
                   title: "Senior High School Program",
                   description: "SNHS offers various track and strands",
                 ),

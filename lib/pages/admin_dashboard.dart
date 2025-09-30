@@ -3354,7 +3354,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   crossAxisAlignment: pw.CrossAxisAlignment.center,
                   children: [
                     pw.Text(
-                      'Urbano Delos Angeles IV',
+                      'Bernardo A. Frialde',
                       style: pw.TextStyle(
                           fontSize: 14, fontWeight: pw.FontWeight.bold),
                     ),
