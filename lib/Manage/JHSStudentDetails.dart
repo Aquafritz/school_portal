@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 class JHSStudentDetails extends StatefulWidget {
   final Map<String, dynamic> studentData;
   final String studentDocId;
-  
-   JHSStudentDetails({required this.studentData, required this.studentDocId});
+
+  JHSStudentDetails({required this.studentData, required this.studentDocId});
 
   @override
   State<JHSStudentDetails> createState() => _JHSStudentDetailsState();
@@ -19,10 +19,20 @@ class _JHSStudentDetailsState extends State<JHSStudentDetails> {
 // Editable fields controllers
   late TextEditingController _ageController;
   late TextEditingController _gradeController;
-  late TextEditingController _fathersNameController;
-  late TextEditingController _mothersNameController;
-  late TextEditingController _guardianNameController;
-  late TextEditingController _guardianRelationshipController;
+  // Father
+  late TextEditingController _fathersFirstNameController;
+  late TextEditingController _fathersMiddleNameController;
+  late TextEditingController _fathersLastNameController;
+
+// Mother
+  late TextEditingController _mothersFirstNameController;
+  late TextEditingController _mothersMiddleNameController;
+  late TextEditingController _mothersLastNameController;
+
+// Guardian
+  late TextEditingController _guardianFirstNameController;
+  late TextEditingController _guardianMiddleNameController;
+  late TextEditingController _guardianLastNameController;
 
   // Controllers for new editable fields
   late TextEditingController _firstNameController;
@@ -43,25 +53,39 @@ class _JHSStudentDetailsState extends State<JHSStudentDetails> {
     _ageController = TextEditingController(text: widget.studentData['age']);
     _gradeController =
         TextEditingController(text: widget.studentData['grade_level']);
-    _fathersNameController =
-        TextEditingController(text: widget.studentData['fathersName']);
-    _mothersNameController =
-        TextEditingController(text: widget.studentData['mothersName']);
-    _guardianNameController =
-        TextEditingController(text: widget.studentData['guardianName']);
-    _guardianRelationshipController =
-        TextEditingController(text: widget.studentData['relationshipGuardian']);
+    // Father
+    _fathersFirstNameController =
+        TextEditingController(text: widget.studentData['fathersFirstName']);
+    _fathersMiddleNameController =
+        TextEditingController(text: widget.studentData['fathersMiddleName']);
+    _fathersLastNameController =
+        TextEditingController(text: widget.studentData['fathersLastName']);
+
+    // Mother
+    _mothersFirstNameController =
+        TextEditingController(text: widget.studentData['mothersFirstName']);
+    _mothersMiddleNameController =
+        TextEditingController(text: widget.studentData['mothersMiddleName']);
+    _mothersLastNameController =
+        TextEditingController(text: widget.studentData['mothersLastName']);
+
+    // Guardian
+    _guardianFirstNameController =
+        TextEditingController(text: widget.studentData['guardianFirstName']);
+    _guardianMiddleNameController =
+        TextEditingController(text: widget.studentData['guardianMiddleName']);
+    _guardianLastNameController =
+        TextEditingController(text: widget.studentData['guardianLastName']);
 
     // Initialize controllers for the new fields
     _firstNameController =
         TextEditingController(text: widget.studentData['first_name']);
     _middleNameController =
         TextEditingController(text: widget.studentData['middle_name']);
-    _lastNameController = 
+    _lastNameController =
         TextEditingController(text: widget.studentData['last_name']);
     _extensionNameController =
         TextEditingController(text: widget.studentData['extension_name']);
-
   }
 
   @override
@@ -69,10 +93,18 @@ class _JHSStudentDetailsState extends State<JHSStudentDetails> {
     // Dispose controllers
     _ageController.dispose();
     _gradeController.dispose();
-    _fathersNameController.dispose();
-    _mothersNameController.dispose();
-    _guardianNameController.dispose();
-    _guardianRelationshipController.dispose();
+    // fathers
+    _fathersFirstNameController.dispose();
+    _fathersMiddleNameController.dispose();
+    _fathersLastNameController.dispose();
+    // mothers
+    _mothersFirstNameController.dispose();
+    _mothersMiddleNameController.dispose();
+    _mothersLastNameController.dispose();
+    // guardian
+    _guardianFirstNameController.dispose();
+    _guardianMiddleNameController.dispose();
+    _guardianLastNameController.dispose();
 
     // Dispose the new controllers
     _firstNameController.dispose();
@@ -94,10 +126,21 @@ class _JHSStudentDetailsState extends State<JHSStudentDetails> {
     await firestore.collection('users').doc(widget.studentDocId).update({
       'age': _ageController.text,
       'grade_level': _gradeController.text,
-      'fathersName': _fathersNameController.text,
-      'mothersName': _mothersNameController.text,
-      'guardianName': _guardianNameController.text,
-      'relationshipGuardian': _guardianRelationshipController.text,
+      // Father
+      'fathersFirstName': _fathersFirstNameController.text,
+      'fathersMiddleName': _fathersMiddleNameController.text,
+      'fathersLastName': _fathersLastNameController.text,
+
+      // Mother
+      'mothersFirstName': _mothersFirstNameController.text,
+      'mothersMiddleName': _mothersMiddleNameController.text,
+      'mothersLastName': _mothersLastNameController.text,
+
+      // Guardian
+      'guardianFirstName': _guardianFirstNameController.text,
+      'guardianMiddleName': _guardianMiddleNameController.text,
+      'guardianLastName': _guardianLastNameController.text,
+
       'first_name': _firstNameController.text,
       'middle_name': _middleNameController.text,
       'last_name': _lastNameController.text,
@@ -108,11 +151,23 @@ class _JHSStudentDetailsState extends State<JHSStudentDetails> {
     setState(() {
       widget.studentData['age'] = _ageController.text;
       widget.studentData['grade_level'] = _gradeController.text;
-      widget.studentData['fathersName'] = _fathersNameController.text;
-      widget.studentData['mothersName'] = _mothersNameController.text;
-      widget.studentData['guardianName'] = _guardianNameController.text;
-      widget.studentData['relationshipGuardian'] =
-          _guardianRelationshipController.text;
+      // fathers
+      widget.studentData['fathersFirstName'] = _fathersFirstNameController.text;
+      widget.studentData['fathersMiddleName'] =
+          _fathersMiddleNameController.text;
+      widget.studentData['fathersLastName'] = _fathersLastNameController.text;
+      // mother
+      widget.studentData['mothersFirstName'] = _mothersFirstNameController.text;
+      widget.studentData['mothersMiddleName'] =
+          _mothersMiddleNameController.text;
+      widget.studentData['mothersLastName'] = _mothersLastNameController.text;
+      // guardian
+      widget.studentData['guardianFirstName'] =
+          _guardianFirstNameController.text;
+      widget.studentData['guardianMiddleName'] =
+          _guardianMiddleNameController.text;
+      widget.studentData['guardianLastName'] = _guardianLastNameController.text;
+
       widget.studentData['first_name'] = _firstNameController.text;
       widget.studentData['middle_name'] = _middleNameController.text;
       widget.studentData['last_name'] = _lastNameController.text;
@@ -231,21 +286,37 @@ class _JHSStudentDetailsState extends State<JHSStudentDetails> {
                               _buildEditableRow(
                                   Icons.grade, 'Grade:', _gradeController,
                                   isNumberField: true),
-                              _buildEditableRow(Icons.person, 'Father’s Name:',
-                                  _fathersNameController,
-                                  isCapitalized: true),
-                              _buildEditableRow(Icons.person, 'Mother’s Name:',
-                                  _mothersNameController,
-                                  isCapitalized: true),
-                              _buildEditableRow(Icons.person,
-                                  'Guardian’s Name:', _guardianNameController,
-                                  isCapitalized: true),
-                              _buildEditableRow(
-                                  Icons.group,
-                                  'Guardian Relationship:',
-                                  _guardianRelationshipController,
-                                  isCapitalized: true),
-                              _buildDetailRow(Icons.phone, 'Guardian Contact Number:',
+                              _buildEditableNameRow(
+  Icons.man,
+  "Father:",
+  _fathersFirstNameController,
+  _fathersMiddleNameController,
+  _fathersLastNameController,
+  isCapitalized: true,
+),
+
+_buildEditableNameRow(
+  Icons.woman,
+  "Mother:",
+  _mothersFirstNameController,
+  _mothersMiddleNameController,
+  _mothersLastNameController,
+  isCapitalized: true,
+),
+
+_buildEditableNameRow(
+  Icons.person,
+  "Guardian:",
+  _guardianFirstNameController,
+  _guardianMiddleNameController,
+  _guardianLastNameController,
+  isCapitalized: true,
+),
+
+
+                              _buildDetailRow(
+                                  Icons.phone,
+                                  'Guardian Contact Number:',
                                   widget.studentData['cellphone_number'] ?? ''),
                               _buildDetailRow(Icons.tag, 'Student Number:',
                                   widget.studentData['student_id'] ?? ''),
@@ -318,11 +389,14 @@ class _JHSStudentDetailsState extends State<JHSStudentDetails> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
         onPressed: _isEditing ? _saveChanges : _toggleEditing,
-        child: Icon(_isEditing ? Icons.save : Icons.edit, color: Colors. white, size: 30,),
+        child: Icon(
+          _isEditing ? Icons.save : Icons.edit,
+          color: Colors.white,
+          size: 30,
+        ),
       ),
     );
   }
-
 
   Widget _buildEditableRow(
       IconData icon, String label, TextEditingController controller,
@@ -401,4 +475,117 @@ class _JHSStudentDetailsState extends State<JHSStudentDetails> {
       ],
     );
   }
+
+  Widget _buildEditableNameRow(
+  IconData icon,
+  String label,
+  TextEditingController firstNameController,
+  TextEditingController middleNameController,
+  TextEditingController lastNameController, {
+  bool isCapitalized = false,
+}) {
+  return Padding(
+    padding: const EdgeInsets.all(4.0),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 24, color: Colors.black),
+        const SizedBox(width: 10),
+        Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(width: 10),
+        Expanded(
+          child: _isEditing
+              ? Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: firstNameController,
+                        decoration: const InputDecoration(
+                          labelText: "First",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                          ),
+                        ),
+                        inputFormatters: [
+                          if (isCapitalized)
+                            TextInputFormatter.withFunction((oldValue, newValue) {
+                              final newText = newValue.text;
+                              if (newText.isEmpty) return newValue;
+                              String resultText =
+                                  newText[0].toUpperCase() + newText.substring(1);
+                              for (int i = 1; i < newText.length; i++) {
+                                if (newText[i - 1] == ' ' && newText[i] != ' ') {
+                                  resultText = resultText.substring(0, i) +
+                                      newText[i].toUpperCase() +
+                                      newText.substring(i + 1);
+                                }
+                              }
+                              return newValue.copyWith(text: resultText);
+                            }),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: TextFormField(
+                        controller: middleNameController,
+                        decoration: const InputDecoration(
+                          labelText: "Middle",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: TextFormField(
+                        controller: lastNameController,
+                        decoration: const InputDecoration(
+                          labelText: "Last",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Text(
+                  "${firstNameController.text} ${middleNameController.text} ${lastNameController.text}".trim(),
+                  style: const TextStyle(fontSize: 16),
+                ),
+        ),
+      ],
+    ),
+  );
+}
+
 }

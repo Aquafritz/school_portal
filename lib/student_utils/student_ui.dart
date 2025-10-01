@@ -22,6 +22,7 @@ import 'package:pdf/pdf.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 
 class StudentUI extends StatefulWidget {
   const StudentUI({super.key});
@@ -1724,70 +1725,83 @@ class _ScreensExampleState extends State<_ScreensExample> {
     }
   }
 
-  Future<void> replaceProfilePicture() async {
-    try {
-      final currentUser = FirebaseAuth.instance.currentUser;
+ Future<void> replaceProfilePicture() async {
+  try {
+    final currentUser = FirebaseAuth.instance.currentUser;
 
-      if (currentUser == null) {
-        print("No user is currently signed in.");
-        return;
-      }
-
-      final userQuerySnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .where('uid', isEqualTo: currentUser.uid)
-          .limit(1)
-          .get();
-
-      if (userQuerySnapshot.docs.isEmpty) {
-        print("User document not found for UID: ${currentUser.uid}");
-        return;
-      }
-
-      final userDoc = userQuerySnapshot.docs.first;
-      final userDocRef = userDoc.reference;
-
-      String? oldImageUrl = userDoc.data()['image_url'];
-      print("Old Image URL: $oldImageUrl");
-
-      if (oldImageUrl != null && oldImageUrl.isNotEmpty) {
-        try {
-          final oldImageRef = FirebaseStorage.instance.refFromURL(oldImageUrl);
-          await oldImageRef.delete();
-          print("Old profile picture deleted successfully.");
-        } catch (e) {
-          print("Failed to delete old profile picture: $e");
-        }
-      }
-
-      final storageRef = FirebaseStorage.instance
-          .ref()
-          .child('student_pictures')
-          .child('${DateTime.now().toIso8601String()}.png');
-
-      if (_imageBytes != null) {
-        await storageRef.putData(_imageBytes!);
-      } else if (_imageFile != null) {
-        await storageRef.putFile(_imageFile!);
-      } else {
-        print("No image selected.");
-        return;
-      }
-
-      final newImageUrl = await storageRef.getDownloadURL();
-      print("New Image URL: $newImageUrl");
-
-      await userDocRef.update({'image_url': newImageUrl});
-      print("Profile picture updated successfully.");
-
-      // Update the imageNotifier with the new URL to trigger a rebuild in ExampleSidebarX
-      if (mounted) {
-        widget.imageNotifier.value = newImageUrl;
-      }
-    } catch (e) {
-      print("Failed to replace profile picture: $e");
+    if (currentUser == null) {
+      print("No user is currently signed in.");
+      return;
     }
+
+    final userQuerySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('uid', isEqualTo: currentUser.uid)
+        .limit(1)
+        .get();
+
+    if (userQuerySnapshot.docs.isEmpty) {
+      print("User document not found for UID: ${currentUser.uid}");
+      return;
+    }
+
+    final userDoc = userQuerySnapshot.docs.first;
+    final userDocRef = userDoc.reference;
+
+    String? oldImageUrl = userDoc.data()['image_url'];
+    print("Old Image URL: $oldImageUrl");
+
+    final supabase = supa.Supabase.instance.client;
+
+    // ✅ Upload new image (always use uploadBinary)
+    final fileName = '${DateTime.now().millisecondsSinceEpoch}.png';
+    Uint8List? uploadBytes;
+
+    if (_imageBytes != null) {
+      uploadBytes = _imageBytes;
+    } else if (_imageFile != null) {
+      uploadBytes = await _imageFile!.readAsBytes(); // convert File -> bytes
+    } else {
+      print("No image selected.");
+      return;
+    }
+
+    await supabase.storage
+        .from('SNHS Bucket')
+        .uploadBinary('student_pictures/$fileName', uploadBytes!);
+
+    // ✅ Get new public URL
+    final newImageUrl = supabase.storage
+        .from('SNHS Bucket')
+        .getPublicUrl('student_pictures/$fileName');
+    print("New Image URL: $newImageUrl");
+
+    // ✅ Update Firestore document
+    await userDocRef.update({'image_url': newImageUrl});
+    print("Profile picture updated successfully.");
+
+    // ✅ Update notifier for UI
+    if (mounted) {
+      widget.imageNotifier.value = newImageUrl;
+    }
+
+    // ✅ Delete old image only after success
+    if (oldImageUrl != null && oldImageUrl.isNotEmpty) {
+      try {
+        final oldFileName = oldImageUrl.split('/').last;
+        await supabase.storage
+            .from('SNHS Bucket')
+            .remove(['student_pictures/$oldFileName']);
+        print("Old profile picture deleted successfully.");
+      } catch (e) {
+        print("Failed to delete old profile picture: $e");
+      }
+    }
+  } catch (e) {
+    print("Failed to replace profile picture: $e");
   }
+}
+
 
   Future<void> logout() async {
     try {
@@ -3469,7 +3483,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
                                         width: fieldWidth,
                                         child: TextFormField(
                                           initialValue:
-                                              "${userData['fathersName'] ?? 'N/A'}",
+                                              "${userData['fathersFirstName'] ?? 'N/A'} ${userData['fathersMiddleName'] ?? 'N/A'} ${userData['fathersLastName'] ?? 'N/A'}",
                                           enabled: false,
                                           style: TextStyle(
                                             color: Colors.grey[700],
@@ -3507,7 +3521,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
                                         width: fieldWidth,
                                         child: TextFormField(
                                           initialValue:
-                                              "${userData['mothersName'] ?? 'N/A'}",
+                                              "${userData['mothersFirstName'] ?? 'N/A'} ${userData['mothersMiddleName'] ?? 'N/A'} ${userData['mothersLastName'] ?? 'N/A'}",
                                           enabled: false,
                                           style: TextStyle(
                                             color: Colors.grey[700],
@@ -3551,45 +3565,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
                                         width: fieldWidth,
                                         child: TextFormField(
                                           initialValue:
-                                              "${userData['guardianName'] ?? 'N/A'}",
-                                          enabled: false,
-                                          style: TextStyle(
-                                            color: Colors.grey[700],
-                                            fontFamily: "R",
-                                            fontSize: 13,
-                                          ),
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                EdgeInsets.only(left: 10),
-                                            disabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: BorderSide(
-                                                  color: Colors.white),
-                                            ),
-                                            filled: true,
-                                            fillColor: Colors.grey[300],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        "Relationship",
-                                        style: TextStyle(
-                                          fontFamily: "M",
-                                          fontSize: 15,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      SizedBox(height: 13),
-                                      Container(
-                                        width: fieldWidth,
-                                        child: TextFormField(
-                                          initialValue:
-                                              "${userData['relationshipGuardian'] ?? 'N/A'}",
+                                              "${userData['guardianFirstName'] ?? 'N/A'} ${userData['guardianMiddleName'] ?? 'N/A'} ${userData['guardianLastName'] ?? 'N/A'}",
                                           enabled: false,
                                           style: TextStyle(
                                             color: Colors.grey[700],
@@ -3617,7 +3593,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
                                       // if (cellphoneNumController.text.isNotEmpty)
                                       RichText(
                                           text: TextSpan(
-                                              text: "Phone Number",
+                                              text: "Guardian's Phone Number",
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 15,
