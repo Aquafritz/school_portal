@@ -74,9 +74,10 @@ class JuniorHighSchoolEnrollmentState extends State<JuniorHighSchoolEnrollment>
           ),
           SizedBox(height: 8),
           Text(
-            'Grade Level of your choice below',
-            style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
-          ),
+  'Please select your grade level below',
+  style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+),
+
           SizedBox(height: 16),
           Wrap(
             spacing: spacing,

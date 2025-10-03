@@ -142,21 +142,35 @@ class _NewcomersvalidatorState extends State<Newcomersvalidator> {
                               ],
                               _buildDetailRow(Icons.groups, 'Indigenous Group',
                                   widget.studentData['indigenous_group'] ?? ''),
-                              _buildDetailRow(Icons.person, 'Father’s Name',
-                                  widget.studentData['fathersName'] ?? ''),
-                              _buildDetailRow(Icons.person, 'Mother’s Name',
-                                  widget.studentData['mothersName'] ?? ''),
-                              _buildDetailRow(Icons.person, 'Guardian’s Name',
-                                  widget.studentData['guardianName'] ?? ''),
                               _buildDetailRow(
-                                  Icons.group,
-                                  'Guardian Relationship',
-                                  widget.studentData['relationshipGuardian'] ??
-                                      ''),
+                                Icons.person,
+                                "Father's Name",
+                                "${widget.studentData['fathersFirstName'] ?? ''} "
+                                        "${widget.studentData['fathersMiddleName'] ?? ''} "
+                                        "${widget.studentData['fathersLastName'] ?? ''}"
+                                    .trim(),
+                              ),
+                              _buildDetailRow(
+                                Icons.person,
+                                'Mother’s Name',
+                                "${widget.studentData['mothersFirstName'] ?? ''} "
+                                        "${widget.studentData['mothersMiddleName'] ?? ''} "
+                                        "${widget.studentData['mothersLastName'] ?? ''}"
+                                    .trim(),
+                              ),
+                              _buildDetailRow(
+                                Icons.person,
+                                'Guardian’s Name',
+                                "${widget.studentData['guardianFirstName'] ?? ''} "
+                                        "${widget.studentData['guardianMiddleName'] ?? ''} "
+                                        "${widget.studentData['guardianLastName'] ?? ''}"
+                                    .trim(),
+                              ),
                               _buildDetailRow(
                                   Icons.phone,
                                   'Guardian Contact Number',
-                                  widget.studentData['cellphone_number'] ?? ''),
+                                  widget.studentData['guardianContactNumber'] ??
+                                      ''),
                               if (educLevel == 'Senior High School') ...[
                                 _buildDetailRow(
                                     Icons.school,
@@ -310,7 +324,10 @@ class _NewcomersvalidatorState extends State<Newcomersvalidator> {
     print("File URL: $url");
     print("File Extension: $extension");
 
-    if (extension == '.jpg' || extension == '.jpeg' || extension == '.png') {
+    if (extension == '.jpg' ||
+        extension == '.jpeg' ||
+        extension == '.png' ||
+        extension == '.webp') {
       print("Opening image file...");
       showDialog(
         context: context,

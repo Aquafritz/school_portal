@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:salomague_nhs/pages/views/sections/desktop/notice.dart';
 import 'package:salomague_nhs/pages/views/sections/desktop/desktop_view.dart';
 import 'package:salomague_nhs/pages/views/sections/mobile/mobile_view.dart';
+import 'package:salomague_nhs/pages/views/sections/mobile/notice_content_mobile.dart';
 
 class Dashboard extends StatefulWidget {
   final bool scrollToFooter;

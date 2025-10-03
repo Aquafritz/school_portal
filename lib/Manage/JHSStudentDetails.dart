@@ -34,6 +34,8 @@ class _JHSStudentDetailsState extends State<JHSStudentDetails> {
   late TextEditingController _guardianMiddleNameController;
   late TextEditingController _guardianLastNameController;
 
+  late TextEditingController _guardianContactNumberController;
+
   // Controllers for new editable fields
   late TextEditingController _firstNameController;
   late TextEditingController _middleNameController;
@@ -77,6 +79,9 @@ class _JHSStudentDetailsState extends State<JHSStudentDetails> {
     _guardianLastNameController =
         TextEditingController(text: widget.studentData['guardianLastName']);
 
+    _guardianContactNumberController = TextEditingController(
+        text: widget.studentData['guardianContactNumber']);
+
     // Initialize controllers for the new fields
     _firstNameController =
         TextEditingController(text: widget.studentData['first_name']);
@@ -105,6 +110,7 @@ class _JHSStudentDetailsState extends State<JHSStudentDetails> {
     _guardianFirstNameController.dispose();
     _guardianMiddleNameController.dispose();
     _guardianLastNameController.dispose();
+    _guardianContactNumberController.dispose();
 
     // Dispose the new controllers
     _firstNameController.dispose();
@@ -140,6 +146,7 @@ class _JHSStudentDetailsState extends State<JHSStudentDetails> {
       'guardianFirstName': _guardianFirstNameController.text,
       'guardianMiddleName': _guardianMiddleNameController.text,
       'guardianLastName': _guardianLastNameController.text,
+      'guardianContactNumber': _guardianContactNumberController.text,
 
       'first_name': _firstNameController.text,
       'middle_name': _middleNameController.text,
@@ -167,6 +174,8 @@ class _JHSStudentDetailsState extends State<JHSStudentDetails> {
       widget.studentData['guardianMiddleName'] =
           _guardianMiddleNameController.text;
       widget.studentData['guardianLastName'] = _guardianLastNameController.text;
+      widget.studentData['guardianContactNumber'] =
+          _guardianContactNumberController.text;
 
       widget.studentData['first_name'] = _firstNameController.text;
       widget.studentData['middle_name'] = _middleNameController.text;
@@ -287,37 +296,34 @@ class _JHSStudentDetailsState extends State<JHSStudentDetails> {
                                   Icons.grade, 'Grade:', _gradeController,
                                   isNumberField: true),
                               _buildEditableNameRow(
-  Icons.man,
-  "Father:",
-  _fathersFirstNameController,
-  _fathersMiddleNameController,
-  _fathersLastNameController,
-  isCapitalized: true,
-),
-
-_buildEditableNameRow(
-  Icons.woman,
-  "Mother:",
-  _mothersFirstNameController,
-  _mothersMiddleNameController,
-  _mothersLastNameController,
-  isCapitalized: true,
-),
-
-_buildEditableNameRow(
-  Icons.person,
-  "Guardian:",
-  _guardianFirstNameController,
-  _guardianMiddleNameController,
-  _guardianLastNameController,
-  isCapitalized: true,
-),
-
-
-                              _buildDetailRow(
+                                Icons.man,
+                                "Father:",
+                                _fathersFirstNameController,
+                                _fathersMiddleNameController,
+                                _fathersLastNameController,
+                                isCapitalized: true,
+                              ),
+                              _buildEditableNameRow(
+                                Icons.woman,
+                                "Mother:",
+                                _mothersFirstNameController,
+                                _mothersMiddleNameController,
+                                _mothersLastNameController,
+                                isCapitalized: true,
+                              ),
+                              _buildEditableNameRow(
+                                Icons.person,
+                                "Guardian:",
+                                _guardianFirstNameController,
+                                _guardianMiddleNameController,
+                                _guardianLastNameController,
+                                isCapitalized: true,
+                              ),
+                              _buildEditableRow(
                                   Icons.phone,
                                   'Guardian Contact Number:',
-                                  widget.studentData['cellphone_number'] ?? ''),
+                                  _guardianContactNumberController,
+                                  isNumberField: false),
                               _buildDetailRow(Icons.tag, 'Student Number:',
                                   widget.studentData['student_id'] ?? ''),
                               _buildDetailRow(Icons.email, 'Email Address:',
@@ -477,115 +483,135 @@ _buildEditableNameRow(
   }
 
   Widget _buildEditableNameRow(
-  IconData icon,
-  String label,
-  TextEditingController firstNameController,
-  TextEditingController middleNameController,
-  TextEditingController lastNameController, {
-  bool isCapitalized = false,
-}) {
-  return Padding(
-    padding: const EdgeInsets.all(4.0),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 24, color: Colors.black),
-        const SizedBox(width: 10),
-        Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
-        const SizedBox(width: 10),
-        Expanded(
-          child: _isEditing
-              ? Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: firstNameController,
-                        decoration: const InputDecoration(
-                          labelText: "First",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
+    IconData icon,
+    String label,
+    TextEditingController firstNameController,
+    TextEditingController middleNameController,
+    TextEditingController lastNameController, {
+    bool isCapitalized = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, size: 24, color: Colors.black),
+          const SizedBox(width: 10),
+          Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+          const SizedBox(width: 10),
+          Expanded(
+            child: _isEditing
+                ? Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: firstNameController,
+                          decoration: const InputDecoration(
+                            labelText: "First",
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1.0),
+                            ),
                           ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
-                          ),
-                        ),
-                        inputFormatters: [
-                          if (isCapitalized)
-                            TextInputFormatter.withFunction((oldValue, newValue) {
-                              final newText = newValue.text;
-                              if (newText.isEmpty) return newValue;
-                              String resultText =
-                                  newText[0].toUpperCase() + newText.substring(1);
-                              for (int i = 1; i < newText.length; i++) {
-                                if (newText[i - 1] == ' ' && newText[i] != ' ') {
-                                  resultText = resultText.substring(0, i) +
-                                      newText[i].toUpperCase() +
-                                      newText.substring(i + 1);
+                          inputFormatters: [
+                            if (isCapitalized)
+                              TextInputFormatter.withFunction(
+                                  (oldValue, newValue) {
+                                final newText = newValue.text;
+                                if (newText.isEmpty) return newValue;
+                                String resultText = newText[0].toUpperCase() +
+                                    newText.substring(1);
+                                for (int i = 1; i < newText.length; i++) {
+                                  if (newText[i - 1] == ' ' &&
+                                      newText[i] != ' ') {
+                                    resultText = resultText.substring(0, i) +
+                                        newText[i].toUpperCase() +
+                                        newText.substring(i + 1);
+                                  }
                                 }
-                              }
-                              return newValue.copyWith(text: resultText);
-                            }),
-                        ],
+                                return newValue.copyWith(text: resultText);
+                              }),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: TextFormField(
-                        controller: middleNameController,
-                        decoration: const InputDecoration(
-                          labelText: "Middle",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: TextFormField(
+                          controller: middleNameController,
+                          decoration: const InputDecoration(
+                            labelText: "Middle",
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1.0),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: TextFormField(
-                        controller: lastNameController,
-                        decoration: const InputDecoration(
-                          labelText: "Last",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                            borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: TextFormField(
+                          controller: lastNameController,
+                          decoration: const InputDecoration(
+                            labelText: "Last",
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1.0),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                )
-              : Text(
-                  "${firstNameController.text} ${middleNameController.text} ${lastNameController.text}".trim(),
-                  style: const TextStyle(fontSize: 16),
-                ),
-        ),
-      ],
-    ),
-  );
-}
-
+                    ],
+                  )
+                : Text(
+                    "${firstNameController.text} ${middleNameController.text} ${lastNameController.text}"
+                        .trim(),
+                    style: const TextStyle(fontSize: 16),
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
 }

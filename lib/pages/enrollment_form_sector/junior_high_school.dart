@@ -10,7 +10,8 @@ class JuniorHighSchool extends StatefulWidget {
   State<JuniorHighSchool> createState() => JuniorHighSchoolState();
 }
 
-class JuniorHighSchoolState extends State<JuniorHighSchool> with AutomaticKeepAliveClientMixin {
+class JuniorHighSchoolState extends State<JuniorHighSchool>
+    with AutomaticKeepAliveClientMixin {
   final FocusNode _juniorHSFocusNode = FocusNode();
   final FocusNode _schoolAddFocusNode = FocusNode();
 
@@ -103,27 +104,29 @@ class JuniorHighSchoolState extends State<JuniorHighSchool> with AutomaticKeepAl
               focusNode: _juniorHSFocusNode,
               textCapitalization: TextCapitalization.words,
               decoration: InputDecoration(
-                      labelText: null,
-                      label: RichText(text: TextSpan(
-                        text: 'JHS Name (do not abbreviate)',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 101, 100, 100),
-                          fontSize: 16,
-                        ),
-                        children: [
-                          if (_juniorHSFocusNode.hasFocus || _juniorHS.text.isNotEmpty)
-                          TextSpan(
-                            text: '(optional)',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 101, 100, 100),                            ),
-                            ),
-                        ],
-                      ),
+                labelText: null,
+                label: RichText(
+                  text: TextSpan(
+                    text: 'JHS Name (do not abbreviate)',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 101, 100, 100),
+                      fontSize: 16,
                     ),
+                    children: [
+                      if (_juniorHSFocusNode.hasFocus ||
+                          _juniorHS.text.isNotEmpty)
+                        TextSpan(
+                          text: '(optional)',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 101, 100, 100),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
-
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
@@ -139,16 +142,15 @@ class JuniorHighSchoolState extends State<JuniorHighSchool> with AutomaticKeepAl
               },
               inputFormatters: [
                 TextInputFormatter.withFunction((oldValue, newValue) {
-                  String newText = newValue.text
-                      .split(' ')
-                      .map((word) {
-                        if (word.isNotEmpty) {
-                          return word[0].toUpperCase() + word.substring(1).toLowerCase();
-                        }
-                        return '';
-                      })
-                      .join(' ');
-                  return newValue.copyWith(text: newText, selection: newValue.selection);
+                  String newText = newValue.text.split(' ').map((word) {
+                    if (word.isNotEmpty) {
+                      return word[0].toUpperCase() +
+                          word.substring(1).toLowerCase();
+                    }
+                    return '';
+                  }).join(' ');
+                  return newValue.copyWith(
+                      text: newText, selection: newValue.selection);
                 }),
               ],
             ),
@@ -161,27 +163,29 @@ class JuniorHighSchoolState extends State<JuniorHighSchool> with AutomaticKeepAl
               focusNode: _schoolAddFocusNode,
               textCapitalization: TextCapitalization.words,
               decoration: InputDecoration(
-                       labelText: null,
-                      label: RichText(text: TextSpan(
-                        text: 'School Address',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 101, 100, 100),
-                          fontSize: 16,
-                        ),
-                        children: [
-                          if (_schoolAddFocusNode.hasFocus || _schoolAdd.text.isNotEmpty)
-                          TextSpan(
-                            text: '(optional)',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 101, 100, 100),                            ),
-                            ),
-                        ],
-                      ),
+                labelText: null,
+                label: RichText(
+                  text: TextSpan(
+                    text: 'School Address',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 101, 100, 100),
+                      fontSize: 16,
                     ),
+                    children: [
+                      if (_schoolAddFocusNode.hasFocus ||
+                          _schoolAdd.text.isNotEmpty)
+                        TextSpan(
+                          text: '(optional)',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 101, 100, 100),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   borderSide: BorderSide(color: Color(0xFF03b97c), width: 1.0),
-
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
@@ -197,16 +201,15 @@ class JuniorHighSchoolState extends State<JuniorHighSchool> with AutomaticKeepAl
               },
               inputFormatters: [
                 TextInputFormatter.withFunction((oldValue, newValue) {
-                  String newText = newValue.text
-                      .split(' ')
-                      .map((word) {
-                        if (word.isNotEmpty) {
-                          return word[0].toUpperCase() + word.substring(1).toLowerCase();
-                        }
-                        return '';
-                      })
-                      .join(' ');
-                  return newValue.copyWith(text: newText, selection: newValue.selection);
+                  String newText = newValue.text.split(' ').map((word) {
+                    if (word.isNotEmpty) {
+                      return word[0].toUpperCase() +
+                          word.substring(1).toLowerCase();
+                    }
+                    return '';
+                  }).join(' ');
+                  return newValue.copyWith(
+                      text: newText, selection: newValue.selection);
                 }),
               ],
             ),

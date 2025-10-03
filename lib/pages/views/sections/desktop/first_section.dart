@@ -132,7 +132,7 @@ class _FirstSectionState extends State<FirstSection>
                     height: MediaQuery.of(context).size.height / 30,
                   ),
                   TextReveal(
-                      maxHeight: 90,
+                      maxHeight: 150,
                       textController: _textController,
                       textOpacityAnimation: _textOpacityAnimation,
                       textRevealAnimation: _textRevealAnimation,
@@ -140,7 +140,7 @@ class _FirstSectionState extends State<FirstSection>
                         "Salomague National High School",
                         style: TextStyle(
                             fontFamily: "B",
-                            fontSize: screenHeight / 12,
+                            fontSize: screenHeight / 15,
                             color: Colors.yellowAccent),
                       )),
                   

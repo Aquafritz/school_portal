@@ -219,8 +219,8 @@ class _ChangePasswordDesktopState extends State<ChangePasswordDesktop> {
                           margin: EdgeInsets.only(right: 10.0),
                           child: Icon(
                             _obscureTextNew
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                               ? Icons.visibility_off   // hidden → show crossed-out eye
+      : Icons.visibility,      // visible → show open eye
                             size: 30,
                           ),
                         ),
@@ -253,8 +253,8 @@ class _ChangePasswordDesktopState extends State<ChangePasswordDesktop> {
                           margin: EdgeInsets.only(right: 10.0),
                           child: Icon(
                             _obscureTextConfirm
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                               ? Icons.visibility_off   // hidden → show crossed-out eye
+      : Icons.visibility,      // visible → show open eye
                             size: 30,
                           ),
                         ),

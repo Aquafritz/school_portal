@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -204,6 +205,20 @@ class _AddInstructorDialogState extends State<AddInstructorDialog> {
     if (_formKey.currentState?.validate() ?? false) {
       final subjectName = _subjectNameController.text;
       final subjectCode = _subjectCodeController.text;
+          final password = _passwordController.text; // <-- MOVE THIS UP
+
+       // Regex for strong password
+    RegExp passwordRegex = RegExp(
+      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~_-]).{8,}$',
+    );
+
+    if (!passwordRegex.hasMatch(password)) {
+      _showDialog(
+        'Weak Password',
+        'Password must contain at least 8 characters, including uppercase letters, lowercase letters, numbers, and symbols.',
+      );
+      return; // ❌ stop here, don’t continue with account creation
+    }
 
       // Only check for valid subject name and code pairing if the selected education level is Senior High School
       if (_selectedEducationLevel == 'Senior High School') {
@@ -718,7 +733,18 @@ class _AddInstructorDialogState extends State<AddInstructorDialog> {
           ),
           keyboardType: keyboardType,
           obscureText: !_isPasswordVisible, // Toggle visibility based on state
-          validator: (value) => value?.isEmpty ?? true ? errorMessage : null,
+          validator: (value) {
+        if (value == null || value.isEmpty) {
+          return errorMessage;
+        }
+        final passwordRegex =
+            RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~_-]).{8,}$',
+);
+        if (!passwordRegex.hasMatch(value)) {
+          return 'Weak Password, Password must contain at least 8 characters, including uppercase letters, \nlowercase letters, numbers, and symbols.';
+        }
+        return null;
+          }
         ),
       );
     }
@@ -736,6 +762,29 @@ class _AddInstructorDialogState extends State<AddInstructorDialog> {
         ),
         SizedBox(height: 8),
       ],
+    );
+  }
+
+  void _showDialog(String title, String message) {
+    showCupertinoDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              child: Text(
+                'OK',
+                style: TextStyle(color: Colors.blueAccent),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

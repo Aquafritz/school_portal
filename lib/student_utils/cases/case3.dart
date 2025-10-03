@@ -80,18 +80,20 @@ class _StudentInformationViewState extends State<StudentInformationView> {
                   alignment: Alignment.center,
                   children: [
                     CircleAvatar(
-  radius: 85,
-  backgroundImage: widget.imageBytes != null
-      ? MemoryImage(widget.imageBytes!) as ImageProvider<Object>
-      : widget.imageFile != null
-          ? FileImage(widget.imageFile!) as ImageProvider<Object>
-          : widget.imageUrl != null
-              ? NetworkImage(widget.imageUrl!) as ImageProvider<Object>
-              : const NetworkImage(
-                  'https://cdn4.iconfinder.com/data/icons/linecon/512/photo-512.png',
-                ) as ImageProvider<Object>,
-),
-
+                      radius: 85,
+                      backgroundImage: widget.imageBytes != null
+                          ? MemoryImage(widget.imageBytes!)
+                              as ImageProvider<Object>
+                          : widget.imageFile != null
+                              ? FileImage(widget.imageFile!)
+                                  as ImageProvider<Object>
+                              : widget.imageUrl != null
+                                  ? NetworkImage(widget.imageUrl!)
+                                      as ImageProvider<Object>
+                                  : const NetworkImage(
+                                      'https://cdn4.iconfinder.com/data/icons/linecon/512/photo-512.png',
+                                    ) as ImageProvider<Object>,
+                    ),
                     if (_isHovered)
                       Container(
                         width: 170,
@@ -130,17 +132,20 @@ class _StudentInformationViewState extends State<StudentInformationView> {
       children: [
         Text(
           widget.userData['first_name'] ?? 'N/A',
-          style: const TextStyle(color: Colors.white, fontFamily: "B", fontSize: 30),
+          style: const TextStyle(
+              color: Colors.white, fontFamily: "B", fontSize: 30),
         ),
         const SizedBox(width: 10),
         Text(
           widget.userData['middle_name'] ?? 'N/A',
-          style: const TextStyle(color: Colors.white, fontFamily: "B", fontSize: 30),
+          style: const TextStyle(
+              color: Colors.white, fontFamily: "B", fontSize: 30),
         ),
         const SizedBox(width: 10),
         Text(
           widget.userData['last_name'] ?? 'N/A',
-          style: const TextStyle(color: Colors.white, fontFamily: "B", fontSize: 30),
+          style: const TextStyle(
+              color: Colors.white, fontFamily: "B", fontSize: 30),
         ),
       ],
     );
@@ -171,7 +176,8 @@ class _StudentInformationViewState extends State<StudentInformationView> {
           children: const [
             Text(
               "Edit Profile",
-              style: TextStyle(color: Colors.black, fontFamily: "B", fontSize: 15),
+              style:
+                  TextStyle(color: Colors.black, fontFamily: "B", fontSize: 15),
             ),
             SizedBox(width: 5),
             Icon(Icons.edit, size: 20, color: Colors.black),
@@ -203,7 +209,8 @@ class _StudentInformationViewState extends State<StudentInformationView> {
               ),
             ),
             SizedBox(width: 5),
-            Icon(Icons.logout_rounded, size: 20, color: Color.fromARGB(255, 1, 93, 168)),
+            Icon(Icons.logout_rounded,
+                size: 20, color: Color.fromARGB(255, 1, 93, 168)),
           ],
         ),
       ),
@@ -227,7 +234,8 @@ class _StudentInformationViewState extends State<StudentInformationView> {
       children: [
         Text(
           label,
-          style: const TextStyle(fontFamily: "M", fontSize: 15, color: Colors.white),
+          style: const TextStyle(
+              fontFamily: "M", fontSize: 15, color: Colors.white),
         ),
         const SizedBox(height: 13),
         SizedBox(
@@ -235,7 +243,8 @@ class _StudentInformationViewState extends State<StudentInformationView> {
           child: TextFormField(
             initialValue: value ?? 'N/A',
             enabled: false,
-            style: TextStyle(color: Colors.grey[700], fontFamily: "R", fontSize: 13),
+            style: TextStyle(
+                color: Colors.grey[700], fontFamily: "R", fontSize: 13),
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 10),
               disabledBorder: OutlineInputBorder(

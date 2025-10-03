@@ -179,8 +179,8 @@ class _SignInDesktopState extends State<SignInDesktop> {
                           margin: EdgeInsets.only(right: 10.0),
                           child: Icon(
                             _obscureText
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                                ? Icons.visibility_off   // hidden → show crossed-out eye
+      : Icons.visibility,      // visible → show open eye
                             size: 30,
                           ),
                         ),

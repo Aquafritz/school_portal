@@ -20,6 +20,8 @@ import 'package:salomague_nhs/pages/enrollment_form_sector/parent_information.da
 import 'package:salomague_nhs/pages/enrollment_form_sector/senior_high_school.dart';
 import 'package:salomague_nhs/pages/enrollment_form_sector/student_information.dart';
 import 'package:salomague_nhs/pages/enrollment_form_sector/uploading_files.dart';
+import 'package:salomague_nhs/pages/views/sections/desktop/notice.dart';
+import 'package:salomague_nhs/pages/views/sections/mobile/notice_content_mobile.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EnrollmentForm extends StatefulWidget {
@@ -163,7 +165,6 @@ class _EnrollmentFormState extends State<EnrollmentForm> {
                   ),
                 );
             imageUrl = supabase.storage.from(bucketName).getPublicUrl(fileName);
-            print('Successfully uploaded image: $imageUrl');
           } catch (e, stackTrace) {
             print('Upload error: $e');
             print('Stack trace: $stackTrace');
@@ -190,7 +191,6 @@ class _EnrollmentFormState extends State<EnrollmentForm> {
                 supabase.storage.from(bucketName).getPublicUrl(fileName);
 
             fileUrls.add(fileUrl);
-            print('Successfully uploaded file: $fileUrl');
           } catch (e, stackTrace) {
             print('File upload error: $e');
             print('Stack trace: $stackTrace');
@@ -238,42 +238,27 @@ class _EnrollmentFormState extends State<EnrollmentForm> {
 
         // Save to Firestore
         await FirebaseFirestore.instance.collection('users').add(combinedData);
-        // Show success dialog
-        showCupertinoDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return CupertinoAlertDialog(
-              title: Text("Important Notice"),
-              content: Text(
-                "To validate your enrollment, please submit the following documents to the school within 15 days:\n\n"
-                "- Birth Certificate\n"
-                "- 2x2 Picture\n"
-                "- Form 137 from previous school\n\n"
-                "Failure to submit these documents within the specified timeframe will result in the rejection of your enrollment request.",
-              ),
-              actions: <Widget>[
-                CupertinoDialogAction(
-                  child: Text("OK"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Row(
-                          children: [
-                            Image.asset('assets/LOGOFORSALOMAGUE.png', scale: 40),
-                            SizedBox(width: 10),
-                            Text('Data Saved Successfully'),
-                          ],
-                        ),
-                      ),
-                    );
-                    _resetForm();
-                  },
-                ),
-              ],
-            );
-          },
-        );
+
+// Check screen width
+        double screenWidth = MediaQuery.of(context).size.width;
+
+        if (screenWidth < 600) {
+          // 💻 Tablet & Laptop → Navigate to Notice()
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => NoticeContentMobile(),
+            ),
+          );
+        } else {
+          // 💻 Tablet & Laptop → Navigate to Notice()
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Notice(),
+            ),
+          );
+        }
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -459,21 +444,24 @@ class _EnrollmentFormState extends State<EnrollmentForm> {
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
                                     borderSide: BorderSide(
-                                      color: Color(0xFF03b97c), // Set the border color to blue
+                                      color: Color(
+                                          0xFF03b97c), // Set the border color to blue
                                       width: 1.0, // Thickness of the border
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
                                     borderSide: BorderSide(
-                                      color: Color(0xFF03b97c), // Blue color when the field is not focused
+                                      color: Color(
+                                          0xFF03b97c), // Blue color when the field is not focused
                                       width: 1.0,
                                     ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
                                     borderSide: BorderSide(
-                                      color: Color(0xFF03b97c), // A slightly brighter blue when focused
+                                      color: Color(
+                                          0xFF03b97c), // A slightly brighter blue when focused
                                       width: 1.0,
                                     ),
                                   ),

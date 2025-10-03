@@ -194,20 +194,7 @@ class _MissionAndVisionState extends State<MissionAndVision>
                                                     ),
                                                   ),
                                                 ),
-                                                Positioned(
-                                                  right: screenWidth / 20,
-                                                  left: screenWidth / 20,
-                                                  child: Container(
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            40,
-                                                    color: Color.fromARGB(
-                                                            255, 255, 230, 0)
-                                                        .withOpacity(0.6),
-                                                  ),
-                                                ),
+                                                
                                               ],
                                             ),
                                           ),
@@ -240,20 +227,7 @@ class _MissionAndVisionState extends State<MissionAndVision>
                                                     ),
                                                   ),
                                                 ),
-                                                Positioned(
-                                                  right: screenWidth / 20,
-                                                  left: screenWidth / 20,
-                                                  child: Container(
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            40,
-                                                    color: Color.fromARGB(
-                                                            255, 255, 230, 0)
-                                                        .withOpacity(0.6),
-                                                  ),
-                                                ),
+                                               
                                               ],
                                             ),
                                           ),

@@ -193,8 +193,8 @@ class _SignInMobileState extends State<SignInMobile> {
                                   _togglePasswordVisibility(false),
                               child: Icon(
                                 _obscureText
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
+                                    ? Icons.visibility_off   // hidden → show crossed-out eye
+      : Icons.visibility,      // visible → show open eye
                                 size: 30,
                               ),
                             ),

@@ -1167,10 +1167,10 @@ class _ScreensExampleState extends State<_ScreensExample> {
                   doc['grade_level']; // Get the grade_level field
 
               // Check if the grade_level in the subject matches the section (7, 8, 9, 10)
-              return subjectGradeLevel ==
-                  sectionName.substring(0,
-                      1)|| 
-           (sectionName.startsWith('10') && subjectGradeLevel == '10'); // Check first character of section_name ("7", "8", "9", etc.)
+              return subjectGradeLevel == sectionName.substring(0, 1) ||
+                  (sectionName.startsWith('10') &&
+                      subjectGradeLevel ==
+                          '10'); // Check first character of section_name ("7", "8", "9", etc.)
             }).map((doc) {
               // For Junior High School, only fetch and display 'subject_name'
               return {
@@ -1725,83 +1725,82 @@ class _ScreensExampleState extends State<_ScreensExample> {
     }
   }
 
- Future<void> replaceProfilePicture() async {
-  try {
-    final currentUser = FirebaseAuth.instance.currentUser;
+  Future<void> replaceProfilePicture() async {
+    try {
+      final currentUser = FirebaseAuth.instance.currentUser;
 
-    if (currentUser == null) {
-      print("No user is currently signed in.");
-      return;
-    }
-
-    final userQuerySnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .where('uid', isEqualTo: currentUser.uid)
-        .limit(1)
-        .get();
-
-    if (userQuerySnapshot.docs.isEmpty) {
-      print("User document not found for UID: ${currentUser.uid}");
-      return;
-    }
-
-    final userDoc = userQuerySnapshot.docs.first;
-    final userDocRef = userDoc.reference;
-
-    String? oldImageUrl = userDoc.data()['image_url'];
-    print("Old Image URL: $oldImageUrl");
-
-    final supabase = supa.Supabase.instance.client;
-
-    // ✅ Upload new image (always use uploadBinary)
-    final fileName = '${DateTime.now().millisecondsSinceEpoch}.png';
-    Uint8List? uploadBytes;
-
-    if (_imageBytes != null) {
-      uploadBytes = _imageBytes;
-    } else if (_imageFile != null) {
-      uploadBytes = await _imageFile!.readAsBytes(); // convert File -> bytes
-    } else {
-      print("No image selected.");
-      return;
-    }
-
-    await supabase.storage
-        .from('SNHS Bucket')
-        .uploadBinary('student_pictures/$fileName', uploadBytes!);
-
-    // ✅ Get new public URL
-    final newImageUrl = supabase.storage
-        .from('SNHS Bucket')
-        .getPublicUrl('student_pictures/$fileName');
-    print("New Image URL: $newImageUrl");
-
-    // ✅ Update Firestore document
-    await userDocRef.update({'image_url': newImageUrl});
-    print("Profile picture updated successfully.");
-
-    // ✅ Update notifier for UI
-    if (mounted) {
-      widget.imageNotifier.value = newImageUrl;
-    }
-
-    // ✅ Delete old image only after success
-    if (oldImageUrl != null && oldImageUrl.isNotEmpty) {
-      try {
-        final oldFileName = oldImageUrl.split('/').last;
-        await supabase.storage
-            .from('SNHS Bucket')
-            .remove(['student_pictures/$oldFileName']);
-        print("Old profile picture deleted successfully.");
-      } catch (e) {
-        print("Failed to delete old profile picture: $e");
+      if (currentUser == null) {
+        print("No user is currently signed in.");
+        return;
       }
-    }
-  } catch (e) {
-    print("Failed to replace profile picture: $e");
-  }
-}
 
+      final userQuerySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('uid', isEqualTo: currentUser.uid)
+          .limit(1)
+          .get();
+
+      if (userQuerySnapshot.docs.isEmpty) {
+        print("User document not found for UID: ${currentUser.uid}");
+        return;
+      }
+
+      final userDoc = userQuerySnapshot.docs.first;
+      final userDocRef = userDoc.reference;
+
+      String? oldImageUrl = userDoc.data()['image_url'];
+      print("Old Image URL: $oldImageUrl");
+
+      final supabase = supa.Supabase.instance.client;
+
+      // ✅ Upload new image (always use uploadBinary)
+      final fileName = '${DateTime.now().millisecondsSinceEpoch}.png';
+      Uint8List? uploadBytes;
+
+      if (_imageBytes != null) {
+        uploadBytes = _imageBytes;
+      } else if (_imageFile != null) {
+        uploadBytes = await _imageFile!.readAsBytes(); // convert File -> bytes
+      } else {
+        print("No image selected.");
+        return;
+      }
+
+      await supabase.storage
+          .from('SNHS Bucket')
+          .uploadBinary('student_pictures/$fileName', uploadBytes!);
+
+      // ✅ Get new public URL
+      final newImageUrl = supabase.storage
+          .from('SNHS Bucket')
+          .getPublicUrl('student_pictures/$fileName');
+      print("New Image URL: $newImageUrl");
+
+      // ✅ Update Firestore document
+      await userDocRef.update({'image_url': newImageUrl});
+      print("Profile picture updated successfully.");
+
+      // ✅ Update notifier for UI
+      if (mounted) {
+        widget.imageNotifier.value = newImageUrl;
+      }
+
+      // ✅ Delete old image only after success
+      if (oldImageUrl != null && oldImageUrl.isNotEmpty) {
+        try {
+          final oldFileName = oldImageUrl.split('/').last;
+          await supabase.storage
+              .from('SNHS Bucket')
+              .remove(['student_pictures/$oldFileName']);
+          print("Old profile picture deleted successfully.");
+        } catch (e) {
+          print("Failed to delete old profile picture: $e");
+        }
+      }
+    } catch (e) {
+      print("Failed to replace profile picture: $e");
+    }
+  }
 
   Future<void> logout() async {
     try {
@@ -3668,329 +3667,336 @@ class _ScreensExampleState extends State<_ScreensExample> {
                                 height: 20,
                               ),
                               if (_educLevel == 'Senior High School') ...[
-                              Text(
-                                "Senior High School(SHS)",
-                                style: TextStyle(
-                                    color: Color(0xFF03b97c),
-                                    fontSize: 25,
-                                    fontFamily: "SB"),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Wrap(
-                                spacing: spacing,
-                                runSpacing: spacing,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Text(
-                                        "Grade Level",
-                                        style: TextStyle(
-                                          fontFamily: "M",
-                                          fontSize: 15,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      SizedBox(height: 13),
-                                      Container(
-                                        width: fieldWidth,
-                                        child: TextFormField(
-                                          initialValue:
-                                              "${userData['grade_level'] ?? 'N/A'}",
-                                          enabled: false,
+                                Text(
+                                  "Senior High School(SHS)",
+                                  style: TextStyle(
+                                      color: Color(0xFF03b97c),
+                                      fontSize: 25,
+                                      fontFamily: "SB"),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Wrap(
+                                  spacing: spacing,
+                                  runSpacing: spacing,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Text(
+                                          "Grade Level",
                                           style: TextStyle(
-                                            color: Colors.grey[700],
-                                            fontFamily: "R",
-                                            fontSize: 13,
+                                            fontFamily: "M",
+                                            fontSize: 15,
+                                            color: Colors.white,
                                           ),
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                EdgeInsets.only(left: 10),
-                                            disabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: BorderSide(
-                                                  color: Colors.white),
+                                        ),
+                                        SizedBox(height: 13),
+                                        Container(
+                                          width: fieldWidth,
+                                          child: TextFormField(
+                                            initialValue:
+                                                "${userData['grade_level'] ?? 'N/A'}",
+                                            enabled: false,
+                                            style: TextStyle(
+                                              color: Colors.grey[700],
+                                              fontFamily: "R",
+                                              fontSize: 13,
                                             ),
-                                            filled: true,
-                                            fillColor: Colors.grey[300],
+                                            decoration: InputDecoration(
+                                              contentPadding:
+                                                  EdgeInsets.only(left: 10),
+                                              disabledBorder:
+                                                  OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                borderSide: BorderSide(
+                                                    color: Colors.white),
+                                              ),
+                                              filled: true,
+                                              fillColor: Colors.grey[300],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        "Transferee",
-                                        style: TextStyle(
-                                          fontFamily: "M",
-                                          fontSize: 15,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      SizedBox(height: 13),
-                                      Container(
-                                        width: fieldWidth,
-                                        child: TextFormField(
-                                          initialValue:
-                                              "${userData['transferee'] ?? 'N/A'}",
-                                          enabled: false,
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          "Transferee",
                                           style: TextStyle(
-                                            color: Colors.grey[700],
-                                            fontFamily: "R",
-                                            fontSize: 13,
+                                            fontFamily: "M",
+                                            fontSize: 15,
+                                            color: Colors.white,
                                           ),
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                EdgeInsets.only(left: 10),
-                                            disabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: BorderSide(
-                                                  color: Colors.white),
+                                        ),
+                                        SizedBox(height: 13),
+                                        Container(
+                                          width: fieldWidth,
+                                          child: TextFormField(
+                                            initialValue:
+                                                "${userData['transferee'] ?? 'N/A'}",
+                                            enabled: false,
+                                            style: TextStyle(
+                                              color: Colors.grey[700],
+                                              fontFamily: "R",
+                                              fontSize: 13,
                                             ),
-                                            filled: true,
-                                            fillColor: Colors.grey[300],
+                                            decoration: InputDecoration(
+                                              contentPadding:
+                                                  EdgeInsets.only(left: 10),
+                                              disabledBorder:
+                                                  OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                borderSide: BorderSide(
+                                                    color: Colors.white),
+                                              ),
+                                              filled: true,
+                                              fillColor: Colors.grey[300],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        "Track",
-                                        style: TextStyle(
-                                          fontFamily: "M",
-                                          fontSize: 15,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      SizedBox(height: 13),
-                                      Container(
-                                        width: fieldWidth,
-                                        child: TextFormField(
-                                          initialValue:
-                                              "${userData['seniorHigh_Track'] ?? 'N/A'}",
-                                          enabled: false,
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          "Track",
                                           style: TextStyle(
-                                            color: Colors.grey[700],
-                                            fontFamily: "R",
-                                            fontSize: 13,
+                                            fontFamily: "M",
+                                            fontSize: 15,
+                                            color: Colors.white,
                                           ),
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                EdgeInsets.only(left: 10),
-                                            disabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: BorderSide(
-                                                  color: Colors.white),
+                                        ),
+                                        SizedBox(height: 13),
+                                        Container(
+                                          width: fieldWidth,
+                                          child: TextFormField(
+                                            initialValue:
+                                                "${userData['seniorHigh_Track'] ?? 'N/A'}",
+                                            enabled: false,
+                                            style: TextStyle(
+                                              color: Colors.grey[700],
+                                              fontFamily: "R",
+                                              fontSize: 13,
                                             ),
-                                            filled: true,
-                                            fillColor: Colors.grey[300],
+                                            decoration: InputDecoration(
+                                              contentPadding:
+                                                  EdgeInsets.only(left: 10),
+                                              disabledBorder:
+                                                  OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                borderSide: BorderSide(
+                                                    color: Colors.white),
+                                              ),
+                                              filled: true,
+                                              fillColor: Colors.grey[300],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        "Strand",
-                                        style: TextStyle(
-                                          fontFamily: "M",
-                                          fontSize: 15,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      SizedBox(height: 13),
-                                      Container(
-                                        width: fieldWidth,
-                                        child: TextFormField(
-                                          initialValue:
-                                              "${userData['seniorHigh_Strand'] ?? 'N/A'}",
-                                          enabled: false,
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          "Strand",
                                           style: TextStyle(
-                                            color: Colors.grey[700],
-                                            fontFamily: "R",
-                                            fontSize:
-                                                (userData['seniorHigh_Strand']
-                                                                ?.length ??
-                                                            0) >
-                                                        45
-                                                    ? textFontSize2
-                                                    : textFontSize1,
+                                            fontFamily: "M",
+                                            fontSize: 15,
+                                            color: Colors.white,
                                           ),
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                EdgeInsets.only(left: 10),
-                                            disabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: BorderSide(
-                                                  color: Colors.white),
+                                        ),
+                                        SizedBox(height: 13),
+                                        Container(
+                                          width: fieldWidth,
+                                          child: TextFormField(
+                                            initialValue:
+                                                "${userData['seniorHigh_Strand'] ?? 'N/A'}",
+                                            enabled: false,
+                                            style: TextStyle(
+                                              color: Colors.grey[700],
+                                              fontFamily: "R",
+                                              fontSize:
+                                                  (userData['seniorHigh_Strand']
+                                                                  ?.length ??
+                                                              0) >
+                                                          45
+                                                      ? textFontSize2
+                                                      : textFontSize1,
                                             ),
-                                            filled: true,
-                                            fillColor: Colors.grey[300],
+                                            decoration: InputDecoration(
+                                              contentPadding:
+                                                  EdgeInsets.only(left: 10),
+                                              disabledBorder:
+                                                  OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                borderSide: BorderSide(
+                                                    color: Colors.white),
+                                              ),
+                                              filled: true,
+                                              fillColor: Colors.grey[300],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        "Semester",
-                                        style: TextStyle(
-                                          fontFamily: "M",
-                                          fontSize: 15,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      SizedBox(height: 13),
-                                      Container(
-                                        width: fieldWidth,
-                                        child: TextFormField(
-                                          initialValue:
-                                              "${userData['semester'] ?? 'N/A'}",
-                                          enabled: false,
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          "Semester",
                                           style: TextStyle(
-                                            color: Colors.grey[700],
-                                            fontFamily: "R",
-                                            fontSize: 13,
+                                            fontFamily: "M",
+                                            fontSize: 15,
+                                            color: Colors.white,
                                           ),
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                EdgeInsets.only(left: 10),
-                                            disabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: BorderSide(
-                                                  color: Colors.white),
+                                        ),
+                                        SizedBox(height: 13),
+                                        Container(
+                                          width: fieldWidth,
+                                          child: TextFormField(
+                                            initialValue:
+                                                "${userData['semester'] ?? 'N/A'}",
+                                            enabled: false,
+                                            style: TextStyle(
+                                              color: Colors.grey[700],
+                                              fontFamily: "R",
+                                              fontSize: 13,
                                             ),
-                                            filled: true,
-                                            fillColor: Colors.grey[300],
+                                            decoration: InputDecoration(
+                                              contentPadding:
+                                                  EdgeInsets.only(left: 10),
+                                              disabledBorder:
+                                                  OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                borderSide: BorderSide(
+                                                    color: Colors.white),
+                                              ),
+                                              filled: true,
+                                              fillColor: Colors.grey[300],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Text(
-                                "Junior High School(JHS)",
-                                style: TextStyle(
-                                    color: Color(0xFF03b97c),
-                                    fontSize: 25,
-                                    fontFamily: "SB"),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Wrap(
-                                spacing: spacing,
-                                runSpacing: spacing,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Text(
-                                        "JHS Name",
-                                        style: TextStyle(
-                                          fontFamily: "M",
-                                          fontSize: 15,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      SizedBox(height: 13),
-                                      Container(
-                                        width: fieldWidth,
-                                        child: TextFormField(
-                                          initialValue:
-                                              "${userData['juniorHS'] ?? 'N/A'}",
-                                          enabled: false,
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  "Junior High School(JHS)",
+                                  style: TextStyle(
+                                      color: Color(0xFF03b97c),
+                                      fontSize: 25,
+                                      fontFamily: "SB"),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Wrap(
+                                  spacing: spacing,
+                                  runSpacing: spacing,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Text(
+                                          "JHS Name",
                                           style: TextStyle(
-                                            color: Colors.grey[700],
-                                            fontFamily: "R",
-                                            fontSize:
-                                                (userData['juniorHS']?.length ??
-                                                            0) >
-                                                        45
-                                                    ? textFontSize2
-                                                    : textFontSize1,
+                                            fontFamily: "M",
+                                            fontSize: 15,
+                                            color: Colors.white,
                                           ),
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                EdgeInsets.only(left: 10),
-                                            disabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: BorderSide(
-                                                  color: Colors.white),
+                                        ),
+                                        SizedBox(height: 13),
+                                        Container(
+                                          width: fieldWidth,
+                                          child: TextFormField(
+                                            initialValue:
+                                                "${userData['juniorHS'] ?? 'N/A'}",
+                                            enabled: false,
+                                            style: TextStyle(
+                                              color: Colors.grey[700],
+                                              fontFamily: "R",
+                                              fontSize: (userData['juniorHS']
+                                                              ?.length ??
+                                                          0) >
+                                                      45
+                                                  ? textFontSize2
+                                                  : textFontSize1,
                                             ),
-                                            filled: true,
-                                            fillColor: Colors.grey[300],
+                                            decoration: InputDecoration(
+                                              contentPadding:
+                                                  EdgeInsets.only(left: 10),
+                                              disabledBorder:
+                                                  OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                borderSide: BorderSide(
+                                                    color: Colors.white),
+                                              ),
+                                              filled: true,
+                                              fillColor: Colors.grey[300],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        "School Address",
-                                        style: TextStyle(
-                                          fontFamily: "M",
-                                          fontSize: 15,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      SizedBox(height: 13),
-                                      Container(
-                                        width: fieldWidth,
-                                        child: TextFormField(
-                                          initialValue:
-                                              "${userData['schoolAdd'] ?? 'N/A'}",
-                                          enabled: false,
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          "School Address",
                                           style: TextStyle(
-                                            color: Colors.grey[700],
-                                            fontFamily: "R",
-                                            fontSize: (userData['schoolAdd']
-                                                            ?.length ??
-                                                        0) >
-                                                    45
-                                                ? textFontSize2
-                                                : textFontSize1,
-                                          ),
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                EdgeInsets.only(left: 10),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: BorderSide(
-                                                  color: Colors.white),
-                                            ),
-                                            disabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: BorderSide(
-                                                  color: Colors.white),
-                                            ),
-                                            filled: true,
-                                            fillColor: Colors.grey[300],
+                                            fontFamily: "M",
+                                            fontSize: 15,
+                                            color: Colors.white,
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                        SizedBox(height: 13),
+                                        Container(
+                                          width: fieldWidth,
+                                          child: TextFormField(
+                                            initialValue:
+                                                "${userData['schoolAdd'] ?? 'N/A'}",
+                                            enabled: false,
+                                            style: TextStyle(
+                                              color: Colors.grey[700],
+                                              fontFamily: "R",
+                                              fontSize: (userData['schoolAdd']
+                                                              ?.length ??
+                                                          0) >
+                                                      45
+                                                  ? textFontSize2
+                                                  : textFontSize1,
+                                            ),
+                                            decoration: InputDecoration(
+                                              contentPadding:
+                                                  EdgeInsets.only(left: 10),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                borderSide: BorderSide(
+                                                    color: Colors.white),
+                                              ),
+                                              disabledBorder:
+                                                  OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                borderSide: BorderSide(
+                                                    color: Colors.white),
+                                              ),
+                                              filled: true,
+                                              fillColor: Colors.grey[300],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ],
                               SizedBox(
                                 height: 20,

@@ -77,10 +77,10 @@ class _ChangePasswordMobileState extends State<ChangePasswordMobile> {
         }
 
         final document = querySnapshot.docs.first;
-      final documentId = document.id;
-      final firstName = document['first_name'] as String;
-      final middleName = document['middle_name'] as String;
-      final lastName = document['last_name'] as String;
+        final documentId = document.id;
+        final firstName = document['first_name'] as String;
+        final middleName = document['middle_name'] as String;
+        final lastName = document['last_name'] as String;
 
         await FirebaseFirestore.instance
             .collection('users')
@@ -94,16 +94,16 @@ class _ChangePasswordMobileState extends State<ChangePasswordMobile> {
         });
 
         Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => StudentUI(),
-        ),
-      );
+          context,
+          MaterialPageRoute(
+            builder: (context) => StudentUI(),
+          ),
+        );
+      }
+    } catch (error) {
+      _showDialog('Error', 'Failed to change password: ${error.toString()}');
     }
-  } catch (error) {
-    _showDialog('Error', 'Failed to change password: ${error.toString()}');
   }
-}
 
   void _showDialog(String title, String message) {
     showCupertinoDialog(
@@ -133,46 +133,47 @@ class _ChangePasswordMobileState extends State<ChangePasswordMobile> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-   // Exactly match SignInMobileView calculations
-  double cardWidth = screenWidth < 600 
-      ? screenWidth * 0.95  // Mobile
-      : screenWidth < 900   
-          ? screenWidth * 0.8  // Tablet
-          : screenWidth * 0.6; // Desktop
-  
-  double cardHeight = screenHeight < 800 
-      ? screenHeight * 0.85  // Shorter screens
-      : screenHeight * 0.75; // Taller screens
+    // Exactly match SignInMobileView calculations
+    double cardWidth = screenWidth < 600
+        ? screenWidth * 0.95 // Mobile
+        : screenWidth < 900
+            ? screenWidth * 0.8 // Tablet
+            : screenWidth * 0.6; // Desktop
 
-  // Other calculations remain the same
-  double logoSize = screenWidth < 600 
-      ? screenWidth * 0.25
-      : screenWidth < 900   
-          ? screenWidth * 0.15
-          : screenWidth * 0.12;
-  
-  logoSize = logoSize.clamp(50.0, 120.0);
-  
-  double inputFieldHeight = (screenHeight * 0.06).clamp(45.0, 60.0);
-  double inputFieldWidth = cardWidth * 0.9;
+    double cardHeight = screenHeight < 800
+        ? screenHeight * 0.85 // Shorter screens
+        : screenHeight * 0.75; // Taller screens
 
-  double titleFontSize = (screenWidth * 0.035).clamp(16.0, 24.0);
-  double subtitleFontSize = (screenWidth * 0.025).clamp(14.0, 18.0);
-  double buttonFontSize = (screenWidth * 0.025).clamp(14.0, 18.0);
+    // Other calculations remain the same
+    double logoSize = screenWidth < 600
+        ? screenWidth * 0.25
+        : screenWidth < 900
+            ? screenWidth * 0.15
+            : screenWidth * 0.12;
+
+    logoSize = logoSize.clamp(50.0, 120.0);
+
+    double inputFieldHeight = (screenHeight * 0.06).clamp(45.0, 60.0);
+    double inputFieldWidth = cardWidth * 0.9;
+
+    double titleFontSize = (screenWidth * 0.035).clamp(16.0, 24.0);
+    double subtitleFontSize = (screenWidth * 0.025).clamp(14.0, 18.0);
+    double buttonFontSize = (screenWidth * 0.025).clamp(14.0, 18.0);
 
     return Center(
-      child:  AnimatedSwitcher(
-        duration: Duration(milliseconds: 550),
-        child: Container(
-      width: cardWidth,
-      height: cardHeight,
-      constraints: BoxConstraints(
-        maxWidth: 800,
-        maxHeight: 900,
-      ),
-        child:  Card(
-                    elevation: 5,  // Added to match SignInMobileView
-shape: RoundedRectangleBorder(  // Added to match SignInMobileView
+        child: AnimatedSwitcher(
+      duration: Duration(milliseconds: 550),
+      child: Container(
+        width: cardWidth,
+        height: cardHeight,
+        constraints: BoxConstraints(
+          maxWidth: 800,
+          maxHeight: 900,
+        ),
+        child: Card(
+          elevation: 5, // Added to match SignInMobileView
+          shape: RoundedRectangleBorder(
+            // Added to match SignInMobileView
             borderRadius: BorderRadius.circular(8),
           ),
           child: SingleChildScrollView(
@@ -209,7 +210,7 @@ shape: RoundedRectangleBorder(  // Added to match SignInMobileView
                       style: TextStyle(fontSize: subtitleFontSize),
                     ),
                   ),
-                 SizedBox(height: screenHeight * 0.02),
+                  SizedBox(height: screenHeight * 0.02),
                   Container(
                     height: inputFieldHeight,
                     width: inputFieldWidth,
@@ -235,15 +236,16 @@ shape: RoundedRectangleBorder(  // Added to match SignInMobileView
                           margin: EdgeInsets.only(right: 10.0),
                           child: Icon(
                             _obscureTextNew
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                                ? Icons
+                                    .visibility_off // hidden → show crossed-out eye
+                                : Icons.visibility, // visible → show open eye
                             size: 30,
                           ),
                         ),
                       ),
                     ),
                   ),
-                                  SizedBox(height: screenHeight * 0.02),
+                  SizedBox(height: screenHeight * 0.02),
                   Container(
                     height: inputFieldHeight,
                     width: inputFieldWidth,
@@ -269,38 +271,38 @@ shape: RoundedRectangleBorder(  // Added to match SignInMobileView
                           margin: EdgeInsets.only(right: 10.0),
                           child: Icon(
                             _obscureTextConfirm
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                                ? Icons
+                                    .visibility_off // hidden → show crossed-out eye
+                                : Icons.visibility, // visible → show open eye
                             size: 30,
                           ),
                         ),
                       ),
                     ),
                   ),
-                    SizedBox(height: screenHeight * 0.02),
+                  SizedBox(height: screenHeight * 0.02),
                   Container(
                     height: inputFieldHeight,
                     width: inputFieldWidth,
                     child: ElevatedButton(
                       style: ButtonStyle(
-                                    backgroundColor:
-                                        WidgetStateProperty.all<Color>(
-                                            Color(0xFF002f24)),
-                                    elevation:
-                                        WidgetStateProperty.all<double>(5),
-                                    shape:
-                                        WidgetStateProperty.all<OutlinedBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                    ),
-                                  ),
+                        backgroundColor:
+                            WidgetStateProperty.all<Color>(Color(0xFF002f24)),
+                        elevation: WidgetStateProperty.all<double>(5),
+                        shape: WidgetStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
                       onPressed: _changePassword,
-                      child: Text('Change Password',
-                                  style: TextStyle(
-                          fontSize: buttonFontSize,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),),
+                      child: Text(
+                        'Change Password',
+                        style: TextStyle(
+                            fontSize: buttonFontSize,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
                     ),
                   ),
                   if (_passwordMismatch)
@@ -317,7 +319,6 @@ shape: RoundedRectangleBorder(  // Added to match SignInMobileView
           ),
         ),
       ),
-    )
-    );
+    ));
   }
 }
