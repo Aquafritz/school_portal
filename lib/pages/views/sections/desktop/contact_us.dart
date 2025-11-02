@@ -81,7 +81,7 @@ class _ContactUsState extends State<ContactUs> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Container(
-        height: screenWidth/3.28,
+        height: screenWidth / 3.28,
         color: Color(0xFF03b97c),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 80),
@@ -110,16 +110,16 @@ class _ContactUsState extends State<ContactUs> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              width: screenWidth/35,
-                              height: screenWidth/35,
+                              width: screenWidth / 35,
+                              height: screenWidth / 35,
                               decoration: BoxDecoration(
                                 border: Border.all(color: Colors.white),
                                 shape: BoxShape.circle,
                               ),
                               child: Image.asset(
                                 "assets/LOGOFORSALOMAGUE.png",
-                                width: screenWidth/35,
-                              height: screenWidth/35,
+                                width: screenWidth / 35,
+                                height: screenWidth / 35,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -132,8 +132,8 @@ class _ContactUsState extends State<ContactUs> {
                                   },
                                   child: Stack(children: [
                                     Container(
-                                        width: screenWidth/35,
-                              height: screenWidth/35,
+                                        width: screenWidth / 35,
+                                        height: screenWidth / 35,
                                         decoration: BoxDecoration(
                                           border: Border.all(
                                               color: Colors.white, width: 5),
@@ -142,50 +142,9 @@ class _ContactUsState extends State<ContactUs> {
                                     Icon(
                                       Icons.facebook_outlined,
                                       color: Colors.white,
-                                      size: screenWidth/35,
+                                      size: screenWidth / 35,
                                     ),
                                   ]).showCursorOnHover.moveUpOnHover,
-                                ),
-                                SizedBox(width: 6),
-                                GestureDetector(
-                                  onTap: () {
-                                    _launchEmail(
-                                        "mailto:300281@deped.gov.ph?subject=Concerns&body=My concern is about?");
-                                  },
-                                  child: Container(
-                                    width: screenWidth/35,
-                              height: screenWidth/35,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.white),
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(
-                                      Icons.alternate_email,
-                                      color: Color(0xFF03b97c),
-                                      size: screenWidth/40,
-                                    ),
-                                  ).moveUpOnHover.showCursorOnHover,
-                                ),
-                                SizedBox(width: 6),
-                                GestureDetector(
-                                  onTap: () {
-                                    _makePhoneCall("5832327");
-                                  },
-                                  child: Container(
-                                    width: screenWidth/35,
-                              height: screenWidth/35,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.white),
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(
-                                      Icons.call,
-                                      color: Color(0xFF03b97c),
-                                      size: screenWidth/45,
-                                    ),
-                                  ).moveUpOnHover.showCursorOnHover,
                                 ),
                                 SizedBox(width: 6),
                                 GestureDetector(
@@ -194,8 +153,8 @@ class _ContactUsState extends State<ContactUs> {
                                         "https://www.google.com/maps/place/Salomague+National+High+School/@15.9104487,120.2244597,17z/data=!3m1!4b1!4m6!3m5!1s0x339159c1cbe1c057:0x4ccca2b042d04ddb!8m2!3d15.9104436!4d120.2270346!16s%2Fg%2F1hdzjjy4w?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D");
                                   },
                                   child: Container(
-                                    width: screenWidth/35,
-                              height: screenWidth/35,
+                                    width: screenWidth / 35,
+                                    height: screenWidth / 35,
                                     decoration: BoxDecoration(
                                       border: Border.all(color: Colors.white),
                                       color: Colors.white,
@@ -204,11 +163,10 @@ class _ContactUsState extends State<ContactUs> {
                                     child: Icon(
                                       Icons.location_on_outlined,
                                       color: Color(0xFF03b97c),
-                                      size: screenWidth/40,
+                                      size: screenWidth / 40,
                                     ),
                                   ).moveUpOnHover.showCursorOnHover,
                                 ),
-                                
                               ],
                             ),
                           ],
@@ -220,7 +178,7 @@ class _ContactUsState extends State<ContactUs> {
                         child: Text(
                           "Dedicated to shaping the minds of tomorrow by providing high-quality education, a supportive community, and opportunities for every student to thrive.",
                           style: TextStyle(
-                            fontSize: screenWidth/75,
+                            fontSize: screenWidth / 75,
                             fontFamily: "R",
                             color: Colors.white,
                           ),
@@ -228,39 +186,22 @@ class _ContactUsState extends State<ContactUs> {
                       ),
                       // Contact details
                       Container(
-                        
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.contact_phone,
-                                  size: screenWidth/55,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(width: screenWidth/80),
-                                Text(
-                                  "5832327",
-                                  style: TextStyle(
-                                      fontSize: screenWidth/90,
-                                      fontFamily: "M",
-                                      color: Colors.white),
-                                ),
-                              ],
-                            ),
+                            Row(),
                             Row(
                               children: [
                                 Icon(
                                   Icons.email,
-                                  size: screenWidth/55,
+                                  size: screenWidth / 55,
                                   color: Colors.white,
                                 ),
-                                SizedBox(width: screenWidth/80),
+                                SizedBox(width: screenWidth / 80),
                                 Text(
-                                  "300281@deped.gov.ph",
+                                  "300248@deped.gov.ph",
                                   style: TextStyle(
-                                      fontSize: screenWidth/90,
+                                      fontSize: screenWidth / 90,
                                       fontFamily: "M",
                                       color: Colors.white),
                                 ),
@@ -273,67 +214,69 @@ class _ContactUsState extends State<ContactUs> {
                   ),
                 ),
               ),
-              // Map section with zoom buttons  
+              // Map section with zoom buttons
               Expanded(
-  child: Container(
-    margin: EdgeInsets.symmetric(vertical: 40),
-    color: Colors.green,
-    child: Stack(
-      children: [
-        FlutterMap(
-          mapController: _mapController,
-          options: MapOptions(
-            initialCenter: LatLng(15.9103, 120.2270), // Salomague Sur NHS
-            initialZoom: _currentZoom,
-            maxZoom: 18,
-            minZoom: 1,
-          ),
-          children: [
-            TileLayer(
-              tileProvider: CancellableNetworkTileProvider(),
-              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-              userAgentPackageName: 'com.example.pbma_portal',
-            ),
-            MarkerLayer(
-              markers: [
-                Marker(
-                  point: LatLng(15.9103, 120.2270), // Marker at the school
-                  width: screenWidth / 25,
-                  height: screenWidth / 25,
-                  child: Icon(
-                    Icons.location_on,
-                    color: Colors.red,
-                    size: screenWidth / 30,
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 40),
+                  color: Colors.green,
+                  child: Stack(
+                    children: [
+                      FlutterMap(
+                        mapController: _mapController,
+                        options: MapOptions(
+                          initialCenter:
+                              LatLng(15.9103, 120.2270), // Salomague Sur NHS
+                          initialZoom: _currentZoom,
+                          maxZoom: 18,
+                          minZoom: 1,
+                        ),
+                        children: [
+                          TileLayer(
+                            tileProvider: CancellableNetworkTileProvider(),
+                            urlTemplate:
+                                'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            userAgentPackageName: 'com.example.pbma_portal',
+                          ),
+                          MarkerLayer(
+                            markers: [
+                              Marker(
+                                point: LatLng(
+                                    15.9103, 120.2270), // Marker at the school
+                                width: screenWidth / 25,
+                                height: screenWidth / 25,
+                                child: Icon(
+                                  Icons.location_on,
+                                  color: Colors.red,
+                                  size: screenWidth / 30,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Positioned(
+                        bottom: 10,
+                        right: 10,
+                        child: Column(
+                          children: [
+                            FloatingActionButton(
+                              onPressed: _zoomIn,
+                              child: Icon(Icons.zoom_in),
+                              mini: true,
+                            ),
+                            SizedBox(height: 10),
+                            FloatingActionButton(
+                              onPressed: _zoomOut,
+                              child: Icon(Icons.zoom_out),
+                              mini: true,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
-        Positioned(
-          bottom: 10,
-          right: 10,
-          child: Column(
-            children: [
-              FloatingActionButton(
-                onPressed: _zoomIn,
-                child: Icon(Icons.zoom_in),
-                mini: true,
               ),
-              SizedBox(height: 10),
-              FloatingActionButton(
-                onPressed: _zoomOut,
-                child: Icon(Icons.zoom_out),
-                mini: true,
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  ),
-),
-
             ],
           ),
         ));

@@ -330,7 +330,7 @@ Thus, the aforementioned achievements and accomplishments of the past and presen
                                   ),
                                 ),
                                 Text(
-                                  "— Jasmin Gabriel-Galban (Batch 200-2004)",
+                                  "— Jasmin Gabriel-Galban (Batch 2000-2004)",
                                   style: TextStyle(
                                     fontFamily: "B",
                                     fontSize: 15,
@@ -340,7 +340,7 @@ Thus, the aforementioned achievements and accomplishments of the past and presen
                               ],
                             ),
                           ),
-                      
+
                           // Card 2
                           Container(
                             width: 350,
@@ -378,7 +378,7 @@ Thus, the aforementioned achievements and accomplishments of the past and presen
                               ],
                             ),
                           ),
-                      
+
                           // Card 3
                           Container(
                             width: 350,
@@ -422,7 +422,6 @@ Marvin Antigua dela Cruz Batch 2001 na muling magsasabing...
                         ],
                       ),
                     )
-
                   ],
                 ),
               ),

@@ -1,9 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:salomague_nhs/widgets/scroll_offset.dart';
-import 'package:salomague_nhs/widgets/text_reveal.dart';
 
 class MissionAndVision extends StatefulWidget {
   const MissionAndVision({super.key});
@@ -14,401 +9,214 @@ class MissionAndVision extends StatefulWidget {
 
 class _MissionAndVisionState extends State<MissionAndVision>
     with TickerProviderStateMixin {
-  late Animation<double> _SHSAnimation;
-  late Animation<double> _SHSOpacityAnimation;
-  late AnimationController _SHS;
-  late Animation<double> _ContainerBlueAnimation;
-  late Animation<double> _ContainerBlueOpacityAnimation;
-  late AnimationController _ContainerBlue;
-  late Animation<double> _PrincipalAnimation;
-  late Animation<double> _PrincipalOpacityAnimation;
-  late AnimationController _Principal;
+  late AnimationController _mainAnimation;
+  late Animation<double> _fadeIn;
+  late Animation<double> _slideUp;
 
   @override
   void initState() {
-    _Principal = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 3000),
-      reverseDuration: Duration(milliseconds: 1000),
-    );
-    _PrincipalAnimation = Tween<double>(begin: 100, end: 0).animate(
-        CurvedAnimation(
-            parent: _Principal,
-            curve: Interval(0.0, 0.3, curve: Curves.fastEaseInToSlowEaseOut)));
-    _PrincipalOpacityAnimation = Tween<double>(begin: 0, end: 1).animate(
-        CurvedAnimation(
-            parent: _Principal,
-            curve: Interval(0.0, 0.3, curve: Curves.easeOut)));
-    _ContainerBlue = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 3000),
-      reverseDuration: Duration(milliseconds: 1000),
-    );
-    _ContainerBlueAnimation = Tween<double>(begin: 100, end: 0).animate(
-        CurvedAnimation(
-            parent: _ContainerBlue,
-            curve: Interval(0.0, 0.3, curve: Curves.fastEaseInToSlowEaseOut)));
-    _ContainerBlueOpacityAnimation = Tween<double>(begin: 0, end: 1).animate(
-        CurvedAnimation(
-            parent: _ContainerBlue,
-            curve: Interval(0.0, 0.3, curve: Curves.easeOut)));
-    _SHS = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 5000),
-      reverseDuration: Duration(milliseconds: 1000),
-    );
-    _SHSAnimation = Tween<double>(begin: 100, end: 0).animate(CurvedAnimation(
-        parent: _SHS,
-        curve: Interval(0.0, 0.3, curve: Curves.fastEaseInToSlowEaseOut)));
-    _SHSOpacityAnimation = Tween<double>(begin: 0, end: 1).animate(
-        CurvedAnimation(
-            parent: _SHS, curve: Interval(0.0, 0.3, curve: Curves.easeOut)));
-    // TODO: implement initState
     super.initState();
+    _mainAnimation = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    );
+    _fadeIn = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _mainAnimation, curve: Curves.easeIn),
+    );
+    _slideUp = Tween<double>(begin: 40, end: 0).animate(
+      CurvedAnimation(parent: _mainAnimation, curve: Curves.easeOut),
+    );
+
+    _mainAnimation.forward();
   }
 
   @override
   void dispose() {
-    _SHS.dispose();
-    _ContainerBlue.dispose();
-    _Principal.dispose();
-    // TODO: implement dispose
+    _mainAnimation.dispose();
     super.dispose();
+  }
+
+  Widget buildProfileItem(double screenWidth) {
+    return Column(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.asset(
+            "assets/snhsprincipal.jpg",
+            height: screenWidth / 8,
+            width: screenWidth / 8,
+            fit: BoxFit.cover,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          "Bernardo A. Frialde, EdD",
+          style: TextStyle(
+            color: const Color.fromARGB(255, 0, 30, 54),
+            fontFamily: "B",
+            fontSize: screenWidth / 68,
+          ),
+        ),
+        Text(
+          "Principal IV",
+          style: TextStyle(
+            color: const Color.fromARGB(255, 0, 30, 54),
+            fontFamily: "R",
+            fontSize: screenWidth / 95,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return SingleChildScrollView(
-      child: SizedBox(
-        height: screenWidth / 2.27,
-        child: Row(
-          children: [
-            Container(
-              margin: const EdgeInsets.all(20),
-              height: screenWidth / 2,
-              width: screenWidth / 1.985,
-              decoration: BoxDecoration(
-                border: Border(
-                  right: BorderSide(
-                    color: Color.fromARGB(255, 216, 194, 0),
-                    width: 4,
-                  ),
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  BlocBuilder<DisplayOffset, ScrollOffset>(
-                    buildWhen: (previous, current) {
-                      if ((current.scrollOffsetValue >= 2000 ||
-                              current.scrollOffsetValue < 2500) ||
-                          _ContainerBlue.isAnimating) {
-                        return true;
-                      } else {
-                        return false;
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state.scrollOffsetValue >= 2000) {
-                        _ContainerBlue.forward();
-                      } else {
-                        _ContainerBlue.reverse();
-                      }
-                      return AnimatedBuilder(
-                        animation: _ContainerBlueAnimation,
-                        builder: (BuildContext context, Widget? child) {
-                          return FadeTransition(
-                            opacity: _ContainerBlueOpacityAnimation,
-                            child: Container(
-                              margin:
-                                  const EdgeInsets.only(bottom: 20, right: 40),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: const Color(0xFF002f24),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Column(
-                                  children: [
-                                    BlocBuilder<DisplayOffset, ScrollOffset>(
-                                        buildWhen: (previous, current) {
-                                      if ((current.scrollOffsetValue >= 2000 ||
-                                              current.scrollOffsetValue <
-                                                  2500) ||
-                                          _SHS.isAnimating) {
-                                        return true;
-                                      } else {
-                                        return false;
-                                      }
-                                    }, builder: (context, state) {
-                                      if (state.scrollOffsetValue >= 2000) {
-                                        _SHS.forward();
-                                      } else {
-                                        _SHS.reverse();
-                                      }
-                                      return TextReveal(
-                                        maxHeight: 70,
-                                        textController: _SHS,
-                                        textRevealAnimation: _SHSAnimation,
-                                        textOpacityAnimation:
-                                            _SHSOpacityAnimation,
-                                        child: Text(
-                                          "SALOMAGUE NATIONAL HIGH SCHOOL",
-                                          style: TextStyle(
-                                            fontFamily: "R",
-                                            fontSize: screenWidth / 50,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                                    const SizedBox(height: 10),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            height: screenWidth / 4.3,
-                                            width: screenWidth / 4.53,
-                                            child: Stack(
-                                              children: [
-                                                Positioned(
-                                                  top: 20,
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                    child: Container(
-                                                      height: screenWidth / 4.6,
-                                                      width: screenWidth / 4.6,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        image: DecorationImage(
-                                                          image: AssetImage(
-                                                            "assets/snhsprincipal.jpg",
-                                                          ),
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 20),
-                                        Expanded(
-                                          child: Container(
-                                            height: screenWidth / 4.3,
-                                            width: screenWidth / 4.53,
-                                            child: Stack(
-                                              children: [
-                                                Positioned(
-                                                  top: 20,
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                    child: Container(
-                                                      height: screenWidth / 4.6,
-                                                      width: screenWidth / 4.6,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        image: DecorationImage(
-                                                          image: AssetImage(
-                                                            "assets/pholder.png",
-                                                          ),
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                               
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 10),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  BlocBuilder<DisplayOffset, ScrollOffset>(
-                      buildWhen: (previous, current) {
-                    if ((current.scrollOffsetValue >= 2350 ||
-                            current.scrollOffsetValue < 2500) ||
-                        _Principal.isAnimating) {
-                      return true;
-                    } else {
-                      return false;
-                    }
-                  }, builder: (context, state) {
-                    if (state.scrollOffsetValue >= 2350) {
-                      _Principal.forward();
-                    } else {
-                      _Principal.reverse();
-                    }
-                    return AnimatedBuilder(
-                        animation: _PrincipalAnimation,
-                        builder: (BuildContext context, Widget? child) {
-                          return FadeTransition(
-                              opacity: _PrincipalOpacityAnimation,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: screenWidth / 4.4,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "Bernardo A. Frialde, EdD",
-                                          style: TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 0, 30, 54),
-                                            fontFamily: "B",
-                                            fontSize: screenWidth / 68,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Principal IV",
-                                          style: TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 0, 30, 54),
-                                            fontFamily: "R",
-                                            fontSize: screenWidth / 95,
-                                            fontStyle: FontStyle.italic,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width: screenWidth / 80),
-                                  Container(
-                                    width: screenWidth / 4.4,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "Aurora L. Bravo",
-                                          style: TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 0, 30, 54),
-                                            fontFamily: "B",
-                                            fontSize: screenWidth / 68,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Master Teacher 1",
-                                          style: TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 0, 30, 54),
-                                            fontFamily: "R",
-                                            fontSize: screenWidth / 95,
-                                            fontStyle: FontStyle.italic,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ));
-                        });
-                  })
-                ],
-              ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return FadeTransition(
+      opacity: _fadeIn,
+      child: Transform.translate(
+        offset: Offset(0, _slideUp.value),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // --- Top section: 5 images with labels ---
+                Column(
                   children: [
-                    Column(
-                      children: [
-                        Center(
-                          child: Icon(
-                            Icons.remove_red_eye_outlined,
-                            color: Color.fromARGB(255, 216, 194, 0),
-                            size: screenWidth / 25,
+                    // 1 image on top
+                    Center(
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.asset(
+                              "assets/snhsprincipal.jpg",
+                              height: screenWidth / 6,
+                              width: screenWidth / 6,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                        Text(
-                          "SNHS VISION",
-                          style: TextStyle(
-                            color: Color(0xFF002f24),
-                            fontFamily: "B",
-                            fontSize: screenWidth / 55,
+                          const SizedBox(height: 8),
+                          Text(
+                            "Bernardo A. Frialde, EdD",
+                            style: TextStyle(
+                              color: const Color.fromARGB(255, 0, 30, 54),
+                              fontFamily: "B",
+                              fontSize: screenWidth / 68,
+                            ),
                           ),
+                          Text(
+                            "Principal IV",
+                            style: TextStyle(
+                              color: const Color.fromARGB(255, 0, 30, 54),
+                              fontFamily: "R",
+                              fontSize: screenWidth / 95,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    // 4 images below with same labels
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        4,
+                        (index) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: buildProfileItem(screenWidth),
                         ),
-                        Text(
-                        """We dream of Filipinos
-who passionately love their country
-and whose values and competencies
-enable them to realize their full potential
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 40),
+
+                // --- DepEd Vision ---
+                Column(
+                  children: [
+                    const Icon(
+                      Icons.remove_red_eye_outlined,
+                      color: Color(0xFFD8C200),
+                      size: 48,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      "DepEd VISION",
+                      style: TextStyle(
+                        color: const Color(0xFF002F24),
+                        fontFamily: "B",
+                        fontSize: screenWidth / 40,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      """We dream of Filipinos who passionately love their country
+and whose values and competencies enable them to realize their full potential
 and contribute meaningfully to building the nation.
 
 As a learner-centered public institution,
-the Department of Education
-continuously improves itself
-to better serve its stakeholders.
-""",
-                          style: TextStyle(
-                            color: Color(0xFF002f24),
-                            fontFamily: "M",
-                            fontSize: screenWidth / 70,
-                          ),
-                        ),
-                        
-                      ],
+the Department of Education continuously improves itself
+to better serve its stakeholders.""",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF002F24),
+                        fontFamily: "M",
+                        fontSize: 16,
+                        height: 1.5,
+                      ),
                     ),
-                    Column(
-                      children: [
-                        Center(
-                          child: Icon(
-                            Icons.school,
-                            color: Color.fromARGB(255, 216, 194, 0),
-                            size: screenWidth / 25,
-                          ),
-                        ),
-                        Text(
-                          "SNHS MISION",
-                          style: TextStyle(
-                            color: Color(0xFF002f24),
-                            fontFamily: "B",
-                            fontSize: screenWidth / 55,
-                          ),
-                        ),
-                        Text(
-  """To protect and promote the right of every Filipino to quality, equitable, culture-based, and complete basic education where: 
+                  ],
+                ),
+
+                const SizedBox(height: 40),
+
+                // --- DepEd Mission ---
+                Column(
+                  children: [
+                    const Icon(
+                      Icons.school,
+                      color: Color(0xFFD8C200),
+                      size: 48,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      "DepEd MISSION",
+                      style: TextStyle(
+                        color: const Color(0xFF002F24),
+                        fontFamily: "B",
+                        fontSize: screenWidth / 40,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      """To protect and promote the right of every Filipino to quality, equitable, culture-based, and complete basic education where: 
 
 Students learn in a child-friendly, gender-sensitive, safe, and motivating environment.
 Teachers facilitate learning and constantly nurture every learner.
-Administrators and staff, as stewards of the institution, ensure an enabling and supportive environment for effective learning to happen.
-Family, community and other stakeholders are actively engaged
-and share responsibility for developing life-long learners.""",
-  style: TextStyle(
-    color: Color(0xFF002f24),
-    fontFamily: "M",
-    fontSize: screenWidth / 68,
-  ),
-  textAlign: TextAlign.justify,
-),
-
-                      ],
-                    )
+Administrators and staff ensure an enabling and supportive environment for effective learning.
+Families, communities, and stakeholders are actively engaged and share responsibility for developing lifelong learners.""",
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        color: Color(0xFF002F24),
+                        fontFamily: "M",
+                        fontSize: 16,
+                        height: 1.5,
+                      ),
+                    ),
                   ],
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

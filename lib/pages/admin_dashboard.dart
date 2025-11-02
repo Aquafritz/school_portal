@@ -27,6 +27,7 @@ import 'package:salomague_nhs/launcher.dart';
 import 'package:salomague_nhs/pages/Auth_View/Adding_InstructorAcc_Desktview.dart';
 import 'package:salomague_nhs/pages/banner.dart';
 import 'package:salomague_nhs/pages/news_updates.dart';
+import 'package:salomague_nhs/pages/reports.dart';
 import 'package:salomague_nhs/pages/student_details.dart';
 import 'package:salomague_nhs/reports/enrollment_report/enrollment_report.dart';
 import 'package:salomague_nhs/pages/views/chatbot/faqs.dart';
@@ -2296,7 +2297,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   Widget _buildBodyContent() {
     switch (_selectedDrawerItem) {
-      case 'Dashboard':
+      case 'Home':
         return _buildDashboardContent();
       case 'Students':
         return _buildStudentsContent();
@@ -2351,6 +2352,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
       case 'FAQS':
         return FAQAdminPage();
       case 'Reports':
+        return Reports();
+      case 'Dashboard':
         return _buildAnalytics();
       default:
         return Center(child: Text('Body Content Here'));
@@ -2639,7 +2642,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       // Fixed header row
                       Row(
                         children: [
-                          Expanded(child: Text('Student ID')),
+                          Expanded(child: Text('LRN')),
                           Expanded(child: Text('First Name')),
                           Expanded(child: Text('Last Name')),
                           Expanded(child: Text('Middle Name')),
@@ -2771,8 +2774,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                   student.data() as Map<String, dynamic>;
                               return Row(
                                 children: [
-                                  Expanded(
-                                      child: Text(data['student_id'] ?? '')),
+                                  Expanded(child: Text(data['lrn'] ?? '')),
                                   Expanded(
                                       child: Text(data['first_name'] ?? '')),
                                   Expanded(
@@ -2914,7 +2916,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             '${data['first_name'] ?? ''} ${data['middle_name'] ?? ''} ${data['last_name'] ?? ''}'
                                 .trim();
                         return {
-                          'student_id': data['student_id'] ?? '',
+                          'lrn': data['lrn'] ?? '',
                           'full_name': fullName,
                           'seniorHigh_Track': data['seniorHigh_Track'] ?? '',
                           'seniorHigh_Strand': data['seniorHigh_Strand'] ?? '',
@@ -2991,7 +2993,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     final data = student.data() as Map<String, dynamic>;
                     final query = _searchQuery.toLowerCase();
 
-                    final studentId = data['student_id']?.toLowerCase() ?? '';
+                    final studentId = data['lrn']?.toLowerCase() ?? '';
                     final firstName = data['first_name']?.toLowerCase() ?? '';
                     final lastName = data['last_name']?.toLowerCase() ?? '';
                     final middleName = data['middle_name']?.toLowerCase() ?? '';
@@ -3017,7 +3019,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       Row(
                         children: [
                           SizedBox(width: 32), // Checkbox column alignment
-                          Expanded(child: Text('Student ID')),
+                          Expanded(child: Text('LRN')),
                           Expanded(child: Text('First Name')),
                           Expanded(child: Text('Last Name')),
                           Expanded(child: Text('Middle Name')),
@@ -3147,7 +3149,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             children: students.map((student) {
                               final data =
                                   student.data() as Map<String, dynamic>;
-                              String studentId = data['student_id'] ?? '';
+                              String studentId = data['lrn'] ?? '';
                               return GestureDetector(
                                 onTap: () {
                                   final studentDocId =
@@ -3191,9 +3193,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                           });
                                         },
                                       ),
-                                      Expanded(
-                                          child:
-                                              Text(data['student_id'] ?? '')),
+                                      Expanded(child: Text(data['lrn'] ?? '')),
                                       Expanded(
                                           child:
                                               Text(data['first_name'] ?? '')),
@@ -3518,7 +3518,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     final data = student.data() as Map<String, dynamic>;
                     final query = _searchQuery.toLowerCase();
 
-                    final studentId = data['student_id']?.toLowerCase() ?? '';
+                    final studentId = data['lrn']?.toLowerCase() ?? '';
                     final firstName = data['first_name']?.toLowerCase() ?? '';
                     final lastName = data['last_name']?.toLowerCase() ?? '';
                     final middleName = data['middle_name']?.toLowerCase() ?? '';
@@ -3543,7 +3543,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       // Fixed header row
                       Row(
                         children: [
-                          Expanded(child: Text('Student ID')),
+                          Expanded(child: Text('LRN')),
                           Expanded(child: Text('First Name')),
                           Expanded(child: Text('Last Name')),
                           Expanded(child: Text('Middle Name')),
@@ -3673,7 +3673,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             children: students.map((student) {
                               final data =
                                   student.data() as Map<String, dynamic>;
-                              String studentId = data['student_id'] ?? '';
+                              String studentId = data['lrn'] ?? '';
                               return GestureDetector(
                                 onTap: () {
                                   final studentDocId =
@@ -3709,9 +3709,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                   cursor: SystemMouseCursors.click,
                                   child: Row(
                                     children: [
-                                      Expanded(
-                                          child:
-                                              Text(data['student_id'] ?? '')),
+                                      Expanded(child: Text(data['lrn'] ?? '')),
                                       Expanded(
                                           child:
                                               Text(data['first_name'] ?? '')),
@@ -3762,40 +3760,43 @@ class _AdminDashboardState extends State<AdminDashboard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Title
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              'Subject Adviser',
+              'Students List',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ),
+
+          // Search bar
           Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Students List',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  width: 300,
-                  child: TextField(
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                      hintText: 'Search Student',
-                      prefixIcon: Icon(Iconsax.search_normal_1_copy),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                    ),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Container(
+              width: 300,
+              child: TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  hintText: 'Search Student',
+                  prefixIcon: Icon(Iconsax.search_normal_1_copy),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
+                  filled: true,
+                  fillColor: Colors.white,
                 ),
-              ],
+                onChanged: (value) {
+                  setState(() {
+                    _searchQuery = value;
+                  });
+                },
+              ),
             ),
           ),
+
+          SizedBox(height: 16),
+
+          // Excel-style list
           Expanded(
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 16.0),
@@ -3809,18 +3810,16 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                      child: DefaultTextStyle(
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          color: Color(0xFF03b97c),
-                          fontWeight: FontWeight.bold,
-                        ),
-                        child: AnimatedTextKit(
-                          animatedTexts: [
-                            WavyAnimatedText('LOADING...'),
-                          ],
-                          isRepeatingAnimation: true,
-                        ),
+                      child:
+                          CircularProgressIndicator(color: Color(0xFF03b97c)),
+                    );
+                  }
+
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'No students found',
+                        style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                       ),
                     );
                   }
@@ -3828,106 +3827,82 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   final students = snapshot.data!.docs.where((student) {
                     final data = student.data();
                     final query = _searchQuery.toLowerCase();
-
-                    final studentId =
-                        (data['student_id'] ?? '').toString().toLowerCase();
-                    final firstName =
-                        (data['first_name'] ?? '').toString().toLowerCase();
-                    final lastName =
-                        (data['last_name'] ?? '').toString().toLowerCase();
-                    final middleName =
-                        (data['middle_name'] ?? '').toString().toLowerCase();
-                    final track = (data['seniorHigh_Track'] ?? '')
-                        .toString()
-                        .toLowerCase();
-                    final strand = (data['seniorHigh_Strand'] ?? '')
-                        .toString()
-                        .toLowerCase();
-                    final educLevel =
-                        (data['educ_level'] ?? '').toString().toLowerCase();
-                    ''; // Define educ_level here
-
-                    final fullName = '$firstName $middleName $lastName';
-
-                    return studentId.contains(query) ||
-                        fullName.contains(query) ||
-                        track.contains(query) ||
-                        strand.contains(query);
+                    final fullName =
+                        '${data['first_name'] ?? ''} ${data['middle_name'] ?? ''} ${data['last_name'] ?? ''}'
+                            .toLowerCase();
+                    return fullName.contains(query);
                   }).toList();
 
                   return SingleChildScrollView(
-                    child: Column(
+                    scrollDirection: Axis.vertical,
+                    child: Table(
+                      border: TableBorder.all(color: Colors.grey[400]!),
+                      columnWidths: const {
+                        0: FlexColumnWidth(),
+                      },
                       children: [
-                        Row(
+                        // Header Row
+                        TableRow(
+                          decoration: BoxDecoration(color: Colors.grey[200]),
                           children: [
-                            // Checkbox(value: false, onChanged: (bool? value) {}),
-                            Expanded(child: Text('Student ID')),
-                            Expanded(child: Text('Name')),
-                            if (students.isNotEmpty &&
-                                (students.first.data()['educ_level'] ?? '') ==
-                                    'Senior High School') ...[
-                              Expanded(child: Text('Track')),
-                              Expanded(child: Text('Strand')),
-                            ],
-                            Expanded(
-                              child: Text('Grade Level'),
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Text(
+                                'Full Name',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
                             ),
-                            // Expanded(child: Text('Average')),
                           ],
                         ),
-                        Divider(),
-                        ...students.map((student) {
-                          final data = student.data();
-                          return GestureDetector(
-                            onTap: () {
-                              // Get the educ_level value
-                              final educLevel =
-                                  (data['educ_level'] ?? '').toString();
 
-                              // Check the educ_level and navigate accordingly
-                              if (educLevel == 'Junior High School') {
-                                // Navigate to a different page if educ_level is "Junior High School"
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        JHSSubjectandGrade(studentData: data),
-                                  ),
-                                );
-                              } else if (educLevel == 'Senior High School') {
-                                // Navigate to SubjectsandGrade page if educ_level is "Senior High School"
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        SubjectsandGrade(studentData: data),
-                                  ),
-                                );
-                              }
-                            },
-                            child: Row(
-                              children: [
-                                // Checkbox(
-                                //     value: false, onChanged: (bool? value) {}),
-                                Expanded(child: Text(data['student_id'] ?? '')),
-                                Expanded(
-                                    child: Text(
-                                        '${data['first_name'] ?? ''} ${data['middle_name'] ?? ''} ${data['last_name'] ?? ''}')),
-                                if ((data['educ_level'] ?? '') ==
-                                    'Senior High School') ...[
-                                  Expanded(
-                                      child:
-                                          Text(data['seniorHigh_Track'] ?? '')),
-                                  Expanded(
-                                      child: Text(
-                                          data['seniorHigh_Strand'] ?? '')),
-                                ],
-                                Expanded(
-                                    child: Text(data['grade_level'] ?? '')),
-                              ],
+                        // Data Rows
+                        for (var student in students)
+                          TableRow(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
                             ),
-                          );
-                        }).toList(),
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  final data = student.data();
+                                  final educLevel =
+                                      (data['educ_level'] ?? '').toString();
+
+                                  if (educLevel == 'Junior High School') {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            JHSSubjectandGrade(
+                                                studentData: data),
+                                      ),
+                                    );
+                                  } else if (educLevel ==
+                                      'Senior High School') {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            SubjectsandGrade(studentData: data),
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Text(
+                                    '${student.data()['first_name'] ?? ''} '
+                                    '${student.data()['middle_name'] ?? ''} '
+                                    '${student.data()['last_name'] ?? ''}',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                       ],
                     ),
                   );
@@ -9569,7 +9544,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               ),
             ),
             if (_accountType == 'ADMIN') ...[
-              _buildDrawerItem('Dashboard', Iconsax.dash_dash, 'Dashboard'),
+              _buildDrawerItem('Home', Iconsax.main_component, 'Home'),
               _buildDrawerItem('Students', Iconsax.user, 'Students'),
               _buildDrawerItem('Manage Student Report Cards', Iconsax.task,
                   'Manage Student Report Cards'),
@@ -9725,6 +9700,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   'News and Updates'),
               _buildDrawerItem('FAQS', Iconsax.message_2_copy, 'FAQS'),
               _buildDrawerItem('Reports', Iconsax.data_copy, 'Reports'),
+              _buildDrawerItem('Dashboard', Iconsax.dash_dash, 'Dashboard'),
             ], // In your drawer ListView, replace the Subject Teacher drawer item with this:
 
             if (_accountType == 'INSTRUCTOR') ...[

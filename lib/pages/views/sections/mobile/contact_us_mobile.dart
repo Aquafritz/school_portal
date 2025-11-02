@@ -91,7 +91,8 @@ class _ContactUsMobileState extends State<ContactUsMobile> {
               Container(
                 margin: EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: Colors.yellow, width: 2)),
+                  border: Border(
+                      bottom: BorderSide(color: Colors.yellow, width: 2)),
                 ),
                 child: Column(
                   children: [
@@ -116,7 +117,8 @@ class _ContactUsMobileState extends State<ContactUsMobile> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                _launchURL("https://www.facebook.com/profile.php?id=61553112879458");
+                                _launchURL(
+                                    "https://www.facebook.com/profile.php?id=61553112879458");
                               },
                               child: Icon(
                                 Icons.facebook_outlined,
@@ -127,47 +129,8 @@ class _ContactUsMobileState extends State<ContactUsMobile> {
                             SizedBox(width: 8),
                             GestureDetector(
                               onTap: () {
-                                _launchEmail("mailto:300281@deped.gov.ph?subject=Concerns&body=My concern is about?");
-                              },
-                              child: Container(
-                                width: screenWidth / 10,
-                                height: screenWidth / 10,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.white),
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.alternate_email,
-                                  color: Color(0xFF03b97c),
-                                  size: screenWidth / 14,
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            GestureDetector(
-                              onTap: () {
-                                _makePhoneCall("5832327");
-                              },
-                              child: Container(
-                                width: screenWidth / 10,
-                                height: screenWidth / 10,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.white),
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.call,
-                                  color: Color(0xFF03b97c),
-                                  size: screenWidth / 14,
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            GestureDetector(
-                              onTap: () {
-                                _LocationURL("https://www.google.com/maps/place/Salomague+National+High+School/@15.9104487,120.2244597,17z/data=!3m1!4b1!4m6!3m5!1s0x339159c1cbe1c057:0x4ccca2b042d04ddb!8m2!3d15.9104436!4d120.2270346!16s%2Fg%2F1hdzjjy4w?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D");
+                                _LocationURL(
+                                    "https://www.google.com/maps/place/Salomague+National+High+School/@15.9104487,120.2244597,17z/data=!3m1!4b1!4m6!3m5!1s0x339159c1cbe1c057:0x4ccca2b042d04ddb!8m2!3d15.9104436!4d120.2270346!16s%2Fg%2F1hdzjjy4w?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D");
                               },
                               child: Container(
                                 width: screenWidth / 10,
@@ -214,33 +177,13 @@ class _ContactUsMobileState extends State<ContactUsMobile> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          Icons.contact_phone,
-                          size: screenWidth / 35,
-                          color: Colors.white,
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          "5832327",
-                          style: TextStyle(
-                            fontSize: screenWidth / 30,
-                            fontFamily: "M",
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
                           Icons.email,
                           size: screenWidth / 35,
                           color: Colors.white,
                         ),
                         SizedBox(width: 8),
                         Text(
-                          "300281@deped.gov.ph",
+                          "300248@deped.gov.ph",
                           style: TextStyle(
                             fontSize: screenWidth / 30,
                             fontFamily: "M",
@@ -254,8 +197,8 @@ class _ContactUsMobileState extends State<ContactUsMobile> {
               ),
               // Map section
               Container(
-                width: MediaQuery.of(context).size.width/1.2,
-                height: MediaQuery.of(context).size.width/2,
+                width: MediaQuery.of(context).size.width / 1.2,
+                height: MediaQuery.of(context).size.width / 2,
                 margin: EdgeInsets.symmetric(vertical: 20),
                 color: Colors.green,
                 child: Stack(
@@ -270,7 +213,8 @@ class _ContactUsMobileState extends State<ContactUsMobile> {
                       ),
                       children: [
                         TileLayer(
-                          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                          urlTemplate:
+                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                           userAgentPackageName: 'com.example.pbma_portal',
                         ),
                         MarkerLayer(
