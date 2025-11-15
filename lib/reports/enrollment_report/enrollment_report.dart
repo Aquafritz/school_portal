@@ -202,14 +202,37 @@ class _EnrollmentReportState extends State<EnrollmentReport> {
                 ],
               ),
               SizedBox(height: screenWidth/50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  DistributionAge(),
-                  DistributionGender(),
-                  TEBS(),
-                ],
-              ),
+             Column(
+  crossAxisAlignment: CrossAxisAlignment.center,
+  children: [
+    // 🔹 Top row — overall + other cards
+    Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        DistributionAge(),
+        const DistributionGender(), // Overall Distribution
+        TEBS(),
+      ],
+    ),
+    const SizedBox(height: 40),
+
+    // 🔹 Add six more charts (Grades 7–12)
+    Wrap(
+      spacing: 20,
+      runSpacing: 20,
+      alignment: WrapAlignment.center,
+      children: const [
+        DistributionGender(gradeLevel: '7'),
+        DistributionGender(gradeLevel: '8'),
+        DistributionGender(gradeLevel: '9'),
+        DistributionGender(gradeLevel: '10'),
+        DistributionGender(gradeLevel: '11'),
+        DistributionGender(gradeLevel: '12'),
+      ],
+    ),
+  ],
+),
+
             ],
           ),
         ),

@@ -1,10 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'dart:math' as math;
+
+class GenderDistributionDashboard extends StatelessWidget {
+  const GenderDistributionDashboard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<String?> gradeLevels = [null, '7', '8', '9', '10', '11', '12'];
+
+    return Scaffold(
+      backgroundColor: const Color(0xFF001b13),
+      appBar: AppBar(
+        title: const Text("Gender Distribution by Grade Level"),
+        backgroundColor: const Color(0xFF002f24),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Wrap(
+          spacing: 16,
+          runSpacing: 16,
+          alignment: WrapAlignment.center,
+          children: gradeLevels
+              .map((level) => DistributionGender(gradeLevel: level))
+              .toList(),
+        ),
+      ),
+    );
+  }
+}
 
 class DistributionGender extends StatefulWidget {
-  const DistributionGender({super.key});
+  final String? gradeLevel; // null = all grades
+
+  const DistributionGender({super.key, this.gradeLevel});
 
   @override
   State<DistributionGender> createState() => _DistributionGenderState();
@@ -14,7 +43,7 @@ class _DistributionGenderState extends State<DistributionGender> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Map<String, int>>(
-      stream: getGenderDistribution(),
+      stream: getGenderDistribution(widget.gradeLevel),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -26,53 +55,78 @@ class _DistributionGenderState extends State<DistributionGender> {
         final genderData = snapshot.data!;
         final maleCount = genderData['Male'] ?? 0;
         final femaleCount = genderData['Female'] ?? 0;
+        final total = maleCount + femaleCount;
 
         final dataList = [
-          _BarData(Colors.blue, maleCount.toDouble()), // Male
-          _BarData(Colors.pink, femaleCount.toDouble()), // Female
+          _BarData(Colors.blue, maleCount.toDouble()),
+          _BarData(Colors.pink, femaleCount.toDouble()),
         ];
 
         return Container(
-          width: MediaQuery.of(context).size.width/3.3,
-          padding: EdgeInsets.all(MediaQuery.of(context).size.width/75),
+          width: MediaQuery.of(context).size.width / 3.3,
+          padding: EdgeInsets.all(MediaQuery.of(context).size.width / 75),
           decoration: BoxDecoration(
             color: const Color(0xFF002f24),
-            borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width/80),
+            borderRadius:
+                BorderRadius.circular(MediaQuery.of(context).size.width / 80),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
                 child: Text(
-                  "Distribution of Gender",
-                  style: TextStyle(fontFamily: "SB", color: Colors.white, fontSize: MediaQuery.of(context).size.width/60),
+                  widget.gradeLevel == null
+                      ? "Overall Gender Distribution"
+                      : "Grade ${widget.gradeLevel} Gender Distribution",
+                  style: TextStyle(
+                    fontFamily: "SB",
+                    color: Colors.white,
+                    fontSize: MediaQuery.of(context).size.width / 60,
+                  ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.width/60),
+              SizedBox(height: MediaQuery.of(context).size.width / 60),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Row(
-                    children:  [
-                      Icon(Icons.face_retouching_natural, color: Colors.blue),
-                      SizedBox(width: MediaQuery.of(context).size.width/300),
-                      Text("Male", style: TextStyle(color: Colors.blue, fontFamily: "M")),
+                    children: [
+                      const Icon(Icons.face, color: Colors.blue),
+                      SizedBox(width: MediaQuery.of(context).size.width / 300),
+                      Text(
+                        "Male: $maleCount",
+                        style: const TextStyle(color: Colors.blue),
+                      ),
                     ],
                   ),
                   Row(
                     children: [
-                      Icon(Icons.face_retouching_natural, color: Colors.pink),
-                      SizedBox(width: MediaQuery.of(context).size.width/300),
-                      Text("Female", style: TextStyle(color: Colors.pink, fontFamily: "M")),
+                      const Icon(Icons.face, color: Colors.pink),
+                      SizedBox(width: MediaQuery.of(context).size.width / 300),
+                      Text(
+                        "Female: $femaleCount",
+                        style: const TextStyle(color: Colors.pink),
+                      ),
                     ],
                   ),
                 ],
               ),
-              SizedBox(height: MediaQuery.of(context).size.width/60),
+              SizedBox(height: MediaQuery.of(context).size.width / 60),
+              Center(
+                child: Text(
+                  "Total: $total",
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontFamily: "SB",
+                    fontSize: MediaQuery.of(context).size.width / 70,
+                  ),
+                ),
+              ),
+              SizedBox(height: MediaQuery.of(context).size.width / 60),
               Center(
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width/4.8,
-                  height: MediaQuery.of(context).size.width/4.8,
+                  width: MediaQuery.of(context).size.width / 4.8,
+                  height: MediaQuery.of(context).size.width / 4.8,
                   child: BarChart(
                     BarChartData(
                       borderData: FlBorderData(
@@ -88,11 +142,11 @@ class _DistributionGenderState extends State<DistributionGender> {
                         leftTitles: AxisTitles(
                           sideTitles: SideTitles(
                             showTitles: true,
-                            reservedSize: MediaQuery.of(context).size.width/50,
+                            reservedSize:
+                                MediaQuery.of(context).size.width / 50,
                             getTitlesWidget: (value, meta) {
                               return Text(
                                 value.toInt().toString(),
-                                textAlign: TextAlign.left,
                                 style: const TextStyle(color: Colors.grey),
                               );
                             },
@@ -101,7 +155,6 @@ class _DistributionGenderState extends State<DistributionGender> {
                         bottomTitles: AxisTitles(
                           sideTitles: SideTitles(
                             showTitles: true,
-                            reservedSize: MediaQuery.of(context).size.width/45,
                             getTitlesWidget: (value, meta) {
                               final index = value.toInt();
                               return SideTitleWidget(
@@ -134,13 +187,13 @@ class _DistributionGenderState extends State<DistributionGender> {
                             BarChartRodData(
                               toY: data.value,
                               color: data.color,
-                              width: MediaQuery.of(context).size.width/30,
+                              width:
+                                  MediaQuery.of(context).size.width / 30,
                               borderRadius: BorderRadius.circular(0),
                             ),
                           ],
                         );
                       }).toList(),
-                           // Adjust based on expected maximum count
                     ),
                   ),
                 ),
@@ -152,32 +205,36 @@ class _DistributionGenderState extends State<DistributionGender> {
     );
   }
 
-  /// Stream function to get gender distribution
-  Stream<Map<String, int>> getGenderDistribution() {
-    return FirebaseFirestore.instance
+  /// ✅ Firestore Stream — supports All or per-grade filtering
+  Stream<Map<String, int>> getGenderDistribution(String? gradeLevel) {
+    Query usersQuery = FirebaseFirestore.instance
         .collection('users')
         .where('accountType', isEqualTo: 'student')
         .where('enrollment_status', whereIn: ['approved', 're-enrolled'])
-        .where('Status', isEqualTo: 'active')
-        .snapshots()
-        .map((snapshot) {
-          final maleCount = snapshot.docs
-              .where((doc) => doc['gender'] == 'Male')
-              .length;
-          final femaleCount = snapshot.docs
-              .where((doc) => doc['gender'] == 'Female')
-              .length;
-          return {'Male': maleCount, 'Female': femaleCount};
-        });
+        .where('Status', isEqualTo: 'active');
+
+    if (gradeLevel != null) {
+      usersQuery = usersQuery.where('grade_level', isEqualTo: gradeLevel);
+    }
+
+    return usersQuery.snapshots().map((snapshot) {
+      final maleCount =
+          snapshot.docs.where((doc) => doc['gender'] == 'Male').length;
+      final femaleCount =
+          snapshot.docs.where((doc) => doc['gender'] == 'Female').length;
+      return {'Male': maleCount, 'Female': femaleCount};
+    });
   }
 }
 
+/// Simple class for the bar chart data
 class _BarData {
   const _BarData(this.color, this.value);
   final Color color;
   final double value;
 }
 
+/// Animated face icons for chart labels
 class _IconWidget extends ImplicitlyAnimatedWidget {
   const _IconWidget({
     required this.color,
@@ -199,7 +256,7 @@ class _IconWidgetState extends AnimatedWidgetBaseState<_IconWidget> {
     return Icon(
       Icons.face,
       color: widget.color,
-      size: MediaQuery.of(context).size.width/53,
+      size: MediaQuery.of(context).size.width / 53,
     );
   }
 

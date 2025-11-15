@@ -1,6 +1,7 @@
 import 'dart:js_interop';
 import 'dart:math';
 import 'dart:ui';
+import 'package:salomague_nhs/Alumni/document_request_form.dart';
 import 'package:salomague_nhs/launcher.dart';
 import 'package:salomague_nhs/pages/views/sections/desktop/about_us.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -331,6 +332,33 @@ class _DesktopViewState extends State<DesktopView>
                                 onPressed: toggleTAC,
                                 child: Text(
                                   "Enroll Now",
+                                  style: TextStyle(
+                                    fontFamily: "B",
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ).moveUpOnHover,
+                              SizedBox(width: 25),
+                            SizedBox(
+                              width: screenWidth / 8,
+                              height: screenWidth / 35,
+                              child: TextButton(
+                                style: ButtonStyle(
+                                  backgroundColor: WidgetStateProperty.all(
+                                      Color(0xFF002f24)),
+                                  shape: WidgetStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                ),
+                                onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => DocumentRequestForm()));
+                                },
+                                child: Text(
+                                  "Document Request",
                                   style: TextStyle(
                                     fontFamily: "B",
                                     fontSize: 14,
