@@ -21,7 +21,8 @@ class _DocumentRequestFormState extends State<DocumentRequestForm> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _middleNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _extensionNameController = TextEditingController();
+  final TextEditingController _extensionNameController =
+      TextEditingController();
 
   // ===== Basic Info =====
   final FocusNode _ageFocusNode = FocusNode();
@@ -41,8 +42,10 @@ class _DocumentRequestFormState extends State<DocumentRequestForm> {
   final FocusNode _sectionFocusNode = FocusNode();
 
   final TextEditingController _studentIdController = TextEditingController();
-  final TextEditingController _yearGraduatedController = TextEditingController();
-  final TextEditingController _courseProgramController = TextEditingController();
+  final TextEditingController _yearGraduatedController =
+      TextEditingController();
+  final TextEditingController _courseProgramController =
+      TextEditingController();
   final TextEditingController _sectionController = TextEditingController();
 
   // ===== Request Info =====
@@ -108,14 +111,35 @@ class _DocumentRequestFormState extends State<DocumentRequestForm> {
         'submitted_at': Timestamp.now(),
       });
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Your request has been submitted successfully!'),
-          backgroundColor: Colors.green,
-        ),
-      );
-
+      // Clear form after successful submit
       _resetForm();
+
+      if (!mounted) return;
+
+      // Show dialog with instructions
+      await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Request Submitted'),
+            content: const Text(
+              'Thank you for submitting your request.\n\n'
+              'Please allow 3 to 7 working days for processing. '
+              'You will receive an email once your document is ready for pickup. '
+              'If you do not see the email in your inbox, kindly check your Spam or Junk folder as well.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // close dialog
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -159,8 +183,11 @@ class _DocumentRequestFormState extends State<DocumentRequestForm> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double fieldWidth =
-        screenWidth >= 1200 ? 300 : screenWidth >= 800 ? 250 : screenWidth * 0.8;
+    double fieldWidth = screenWidth >= 1200
+        ? 300
+        : screenWidth >= 800
+            ? 250
+            : screenWidth * 0.8;
     double spacing = screenWidth >= 800 ? 16.0 : 8.0;
 
     return Scaffold(
@@ -176,7 +203,8 @@ class _DocumentRequestFormState extends State<DocumentRequestForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('Alumni Document Request',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                    style:
+                        TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 20),
                 _buildNameFields(fieldWidth, spacing),
                 const SizedBox(height: 20),
@@ -215,10 +243,16 @@ class _DocumentRequestFormState extends State<DocumentRequestForm> {
         spacing: spacing,
         runSpacing: spacing,
         children: [
-          _buildField(_lastNameController, _lastNameFocusNode, "Last Name", width, true),
-          _buildField(_firstNameController, _firstNameFocusNode, "First Name", width, true),
-          _buildField(_middleNameController, _middleNameFocusNode, "Middle Name", width, false, optional: true),
-          _buildField(_extensionNameController, _extensionNameFocusNode, "Extension Name", width, false, optional: true),
+          _buildField(_lastNameController, _lastNameFocusNode, "Last Name",
+              width, true),
+          _buildField(_firstNameController, _firstNameFocusNode, "First Name",
+              width, true),
+          _buildField(_middleNameController, _middleNameFocusNode,
+              "Middle Name", width, false,
+              optional: true),
+          _buildField(_extensionNameController, _extensionNameFocusNode,
+              "Extension Name", width, false,
+              optional: true),
         ],
       );
 
@@ -226,10 +260,17 @@ class _DocumentRequestFormState extends State<DocumentRequestForm> {
         spacing: spacing,
         runSpacing: spacing,
         children: [
-          _buildField(_ageController, _ageFocusNode, "Age", width, true, inputType: TextInputType.number),
-          _buildField(_emailController, _emailFocusNode, "Email Address", width, true, inputType: TextInputType.emailAddress),
-          _buildField(_contactController, _contactFocusNode, "Contact Number", width, true, inputType: TextInputType.phone),
-          _buildField(_dobController, _dobFocusNode, "Date of Birth (YYYY-MM-DD)", width, false, optional: true),
+          _buildField(_ageController, _ageFocusNode, "Age", width, true,
+              inputType: TextInputType.number),
+          _buildField(
+              _emailController, _emailFocusNode, "Email Address", width, true,
+              inputType: TextInputType.emailAddress),
+          _buildField(_contactController, _contactFocusNode, "Contact Number",
+              width, true,
+              inputType: TextInputType.phone),
+          _buildField(_dobController, _dobFocusNode,
+              "Date of Birth (YYYY-MM-DD)", width, false,
+              optional: true),
         ],
       );
 
@@ -237,10 +278,16 @@ class _DocumentRequestFormState extends State<DocumentRequestForm> {
         spacing: spacing,
         runSpacing: spacing,
         children: [
-          _buildField(_studentIdController, _studentIdFocusNode, "LRN Number (if known)", width, false, optional: true),
-          _buildField(_yearGraduatedController, _yearGradFocusNode, "Year Graduated / Last Attended", width, true),
-          _buildField(_courseProgramController, _courseFocusNode, "Course / Program / Track", width, true),
-          _buildField(_sectionController, _sectionFocusNode, "Section / Adviser (if known)", width, false, optional: true),
+          _buildField(_studentIdController, _studentIdFocusNode,
+              "LRN Number (if known)", width, false,
+              optional: true),
+          _buildField(_yearGraduatedController, _yearGradFocusNode,
+              "Year Graduated / Last Attended", width, true),
+          _buildField(_courseProgramController, _courseFocusNode,
+              "Course / Program / Track", width, true),
+          _buildField(_sectionController, _sectionFocusNode,
+              "Section / Adviser (if known)", width, false,
+              optional: true),
         ],
       );
 
@@ -267,8 +314,11 @@ class _DocumentRequestFormState extends State<DocumentRequestForm> {
               onChanged: (value) => setState(() => _selectedDocument = value),
             ),
           ),
-          _buildField(_purposeController, _purposeFocusNode, "Purpose of Request", width, true),
-          _buildField(_notesController, _notesFocusNode, "Additional Notes / Remarks", width * 2, false, optional: true, maxLines: 3),
+          _buildField(_purposeController, _purposeFocusNode,
+              "Purpose of Request", width, true),
+          _buildField(_notesController, _notesFocusNode,
+              "Additional Notes / Remarks", width * 2, false,
+              optional: true, maxLines: 3),
         ],
       );
 
@@ -276,13 +326,20 @@ class _DocumentRequestFormState extends State<DocumentRequestForm> {
         spacing: spacing,
         runSpacing: spacing,
         children: [
-          _buildField(_houseNumber, _houseNumberFocusNode, "House / No", width, false, optional: true),
-          _buildField(_streetName, _streetNameFocusNode, "Street Name", width, true),
-          _buildField(_subdivisionBarangay, _subdivisionFocusNode, "Subdivision / Barangay", width, true),
-          _buildField(_cityMunicipality, _cityFocusNode, "City / Municipality", width, true),
+          _buildField(
+              _houseNumber, _houseNumberFocusNode, "House / No", width, false,
+              optional: true),
+          _buildField(
+              _streetName, _streetNameFocusNode, "Street Name", width, true),
+          _buildField(_subdivisionBarangay, _subdivisionFocusNode,
+              "Subdivision / Barangay", width, true),
+          _buildField(_cityMunicipality, _cityFocusNode, "City / Municipality",
+              width, true),
           _buildField(_province, _provinceFocusNode, "Province", width, true),
           _buildField(_country, _countryFocusNode, "Country", width, true),
-          _buildField(_zipCodeController, _zipCodeFocusNode, "Zip Code", width, true, inputType: TextInputType.number),
+          _buildField(
+              _zipCodeController, _zipCodeFocusNode, "Zip Code", width, true,
+              inputType: TextInputType.number),
         ],
       );
 
@@ -312,9 +369,12 @@ class _DocumentRequestFormState extends State<DocumentRequestForm> {
               style: const TextStyle(color: Colors.grey, fontSize: 16),
               children: [
                 if (required)
-                  const TextSpan(text: '*', style: TextStyle(color: Colors.red)),
+                  const TextSpan(
+                      text: '*', style: TextStyle(color: Colors.red)),
                 if (optional)
-                  const TextSpan(text: ' (optional)', style: TextStyle(color: Colors.grey)),
+                  const TextSpan(
+                      text: ' (optional)',
+                      style: TextStyle(color: Colors.grey)),
               ],
             ),
           ),

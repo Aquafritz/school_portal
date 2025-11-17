@@ -2352,8 +2352,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
         return NewsUpdates();
       case 'FAQS':
         return FAQAdminPage();
-      case 'Reports':
-        return Reports();
+      // case 'Reports':
+      //   return Reports();
       case 'Dashboard':
         return _buildAnalytics();
       default:
@@ -2392,65 +2392,65 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }
 
   Widget _buildSubMenuContent() {
-  switch (_selectedSubMenu) {
-    case 'subjects':
-      final adviserStatus = _currentInstructorDoc!.get('adviser');
+    switch (_selectedSubMenu) {
+      case 'subjects':
+        final adviserStatus = _currentInstructorDoc!.get('adviser');
 
-      // 🔹 Fetch current teacher’s educ_level dynamically
-      return FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .get(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(color: Colors.green),
-            );
-          }
+        // 🔹 Fetch current teacher’s educ_level dynamically
+        return FutureBuilder<DocumentSnapshot>(
+          future: FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .get(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(color: Colors.green),
+              );
+            }
 
-          if (!snapshot.hasData || !snapshot.data!.exists) {
-            return Center(child: Text('No user data found.'));
-          }
+            if (!snapshot.hasData || !snapshot.data!.exists) {
+              return Center(child: Text('No user data found.'));
+            }
 
-          final userData = snapshot.data!.data() as Map<String, dynamic>;
-          final educLevel = userData['educ_level'] ?? '';
+            final userData = snapshot.data!.data() as Map<String, dynamic>;
+            final educLevel = userData['educ_level'] ?? '';
 
-          // ✅ Logical branching for each education level
-          if (educLevel == 'Senior High School') {
-            return adviserStatus == 'yes'
-                ? _buildInstructorWithAdviserDrawer(_currentInstructorDoc!)
-                : _buildInstructorWithoutAdviserDrawer(_currentInstructorDoc!);
-          } else if (educLevel == 'Junior High School') {
-            return adviserStatus == 'yes'
-                ? _buildInstructorJuniorHighWithAdviserDrawer(
-                    _currentInstructorDoc!)
-                : _buildInstructorJuniorWithoutAdviserDrawer(
-                    _currentInstructorDoc!);
-          } else {
-            // Optional fallback for Elementary or other levels
-            return Center(
-              child: Text(
-                'This feature is only available for Senior High or Junior High teachers.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-            );
-          }
-        },
-      );
+            // ✅ Logical branching for each education level
+            if (educLevel == 'Senior High School') {
+              return adviserStatus == 'yes'
+                  ? _buildInstructorWithAdviserDrawer(_currentInstructorDoc!)
+                  : _buildInstructorWithoutAdviserDrawer(
+                      _currentInstructorDoc!);
+            } else if (educLevel == 'Junior High School') {
+              return adviserStatus == 'yes'
+                  ? _buildInstructorJuniorHighWithAdviserDrawer(
+                      _currentInstructorDoc!)
+                  : _buildInstructorWithoutAdviserDrawer(
+                      _currentInstructorDoc!);
+            } else {
+              // Optional fallback for Elementary or other levels
+              return Center(
+                child: Text(
+                  'This feature is only available for Senior High or Junior High teachers.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              );
+            }
+          },
+        );
 
-    case 'grades':
-      final adviserStatus = _currentInstructorDoc!.get('adviser');
-      return adviserStatus == 'yes'
-          ? _buildGradePrintadviser()
-          : _buildGradePrintnonadviser();
+      case 'grades':
+        final adviserStatus = _currentInstructorDoc!.get('adviser');
+        return adviserStatus == 'yes'
+            ? _buildGradePrintadviser()
+            : _buildGradePrintnonadviser();
 
-    default:
-      return Center(child: Text('Select a menu item'));
+      default:
+        return Center(child: Text('Select a menu item'));
+    }
   }
-}
-
 
   Widget _buildDashboardContent() {
     return Container(
@@ -3282,136 +3282,174 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }
 
   Future<void> _downloadPDF(List<Map<String, dynamic>> students) async {
-    print("Download PDF function called"); // Debugging line
+    print("Download PDF function called");
+
+    // Load logo from assets
+    final logoImage = pw.MemoryImage(
+      (await rootBundle.load('assets/LOGOFORSALOMAGUE.png'))
+          .buffer
+          .asUint8List(),
+    );
 
     final pdf = pw.Document();
 
     pdf.addPage(
       pw.Page(
-        pageFormat:
-            PdfPageFormat.a4.landscape, // Set the page orientation to landscape
+        pageFormat: PdfPageFormat.a4.landscape,
         build: (pw.Context context) {
-          return pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
+          return pw.Stack(
             children: [
-              pw.Text(
-                'Student Report',
-                style:
-                    pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold),
+              // WATERMARK
+              pw.Positioned.fill(
+                child: pw.Center(
+                  child: pw.Opacity(
+                    opacity: 0.12,
+                    child: pw.Image(
+                      logoImage,
+                      width: 350,
+                      fit: pw.BoxFit.contain,
+                    ),
+                  ),
+                ),
               ),
-              pw.SizedBox(height: 16),
-              pw.Table(
-                border: pw.TableBorder.all(),
-                columnWidths: {
-                  0: pw.FlexColumnWidth(1),
-                  1: pw.FlexColumnWidth(2.5),
-                  2: pw.FlexColumnWidth(2),
-                  3: pw.FlexColumnWidth(2),
-                  4: pw.FlexColumnWidth(1),
-                  5: pw.FlexColumnWidth(1),
-                },
+              // MAIN CONTENT
+              pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
-                  // Table Header
-                  pw.TableRow(
-                    decoration: pw.BoxDecoration(color: PdfColors.grey300),
+                  pw.Text(
+                    'Student Report',
+                    style: pw.TextStyle(
+                        fontSize: 24, fontWeight: pw.FontWeight.bold),
+                  ),
+                  pw.SizedBox(height: 16),
+                  pw.Table(
+                    border: pw.TableBorder.all(),
+                    columnWidths: {
+                      0: pw.FlexColumnWidth(1),
+                      1: pw.FlexColumnWidth(2.5),
+                      2: pw.FlexColumnWidth(2),
+                      3: pw.FlexColumnWidth(2),
+                      4: pw.FlexColumnWidth(1),
+                      5: pw.FlexColumnWidth(1),
+                    },
                     children: [
-                      pw.Padding(
-                        padding: const pw.EdgeInsets.all(4),
-                        child: pw.Text('Student ID',
-                            style:
-                                pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                      // Header
+                      pw.TableRow(
+                        decoration: pw.BoxDecoration(color: PdfColors.grey300),
+                        children: [
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(4),
+                            child: pw.Text(
+                              'Student ID',
+                              style:
+                                  pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                            ),
+                          ),
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(4),
+                            child: pw.Text(
+                              'Full Name',
+                              style:
+                                  pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                            ),
+                          ),
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(4),
+                            child: pw.Text(
+                              'Track',
+                              style:
+                                  pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                            ),
+                          ),
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(4),
+                            child: pw.Text(
+                              'Strand',
+                              style:
+                                  pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                            ),
+                          ),
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(4),
+                            child: pw.Text(
+                              'Grade Level',
+                              style:
+                                  pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                            ),
+                          ),
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(4),
+                            child: pw.Text(
+                              'Transferee',
+                              style:
+                                  pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                            ),
+                          ),
+                        ],
                       ),
-                      pw.Padding(
-                        padding: const pw.EdgeInsets.all(4),
-                        child: pw.Text('Full Name',
-                            style:
-                                pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                      ),
-                      pw.Padding(
-                        padding: const pw.EdgeInsets.all(4),
-                        child: pw.Text('Track',
-                            style:
-                                pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                      ),
-                      pw.Padding(
-                        padding: const pw.EdgeInsets.all(4),
-                        child: pw.Text('Strand',
-                            style:
-                                pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                      ),
-                      pw.Padding(
-                        padding: const pw.EdgeInsets.all(4),
-                        child: pw.Text('Grade Level',
-                            style:
-                                pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                      ),
-                      pw.Padding(
-                        padding: const pw.EdgeInsets.all(4),
-                        child: pw.Text('Transferee',
-                            style:
-                                pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                      ),
+                      // Data
+                      ...students.map((student) {
+                        final isEvenRow = students.indexOf(student) % 2 == 0;
+                        return pw.TableRow(
+                          decoration: pw.BoxDecoration(
+                            color:
+                                isEvenRow ? PdfColors.white : PdfColors.grey100,
+                          ),
+                          children: [
+                            pw.Padding(
+                              padding: const pw.EdgeInsets.all(4),
+                              child: pw.Text(student['student_id'] ?? ''),
+                            ),
+                            pw.Padding(
+                              padding: const pw.EdgeInsets.all(4),
+                              child: pw.Text(student['full_name'] ?? ''),
+                            ),
+                            pw.Padding(
+                              padding: const pw.EdgeInsets.all(4),
+                              child: pw.Text(student['seniorHigh_Track'] ?? ''),
+                            ),
+                            pw.Padding(
+                              padding: const pw.EdgeInsets.all(4),
+                              child:
+                                  pw.Text(student['seniorHigh_Strand'] ?? ''),
+                            ),
+                            pw.Padding(
+                              padding: const pw.EdgeInsets.all(4),
+                              child: pw.Text(student['grade_level'] ?? ''),
+                            ),
+                            pw.Padding(
+                              padding: const pw.EdgeInsets.all(4),
+                              child: pw.Text(student['transferee'] ?? ''),
+                            ),
+                          ],
+                        );
+                      }).toList(),
                     ],
                   ),
-                  // Table Data
-                  ...students.map((student) {
-                    final isEvenRow = students.indexOf(student) % 2 == 0;
-                    return pw.TableRow(
-                      decoration: pw.BoxDecoration(
-                        color: isEvenRow ? PdfColors.white : PdfColors.grey100,
-                      ),
+                  pw.SizedBox(height: 40),
+                  pw.Align(
+                    alignment: pw.Alignment.centerRight,
+                    child: pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.center,
                       children: [
-                        pw.Padding(
-                          padding: const pw.EdgeInsets.all(4),
-                          child: pw.Text(student['student_id'] ?? ''),
+                        pw.Text(
+                          'Bernardo A. Frialde',
+                          style: pw.TextStyle(
+                              fontSize: 14, fontWeight: pw.FontWeight.bold),
                         ),
-                        pw.Padding(
-                          padding: const pw.EdgeInsets.all(4),
-                          child: pw.Text(student['full_name'] ?? ''),
+                        pw.Container(
+                          width: 150,
+                          child: pw.Divider(thickness: 1),
                         ),
-                        pw.Padding(
-                          padding: const pw.EdgeInsets.all(4),
-                          child: pw.Text(student['seniorHigh_Track'] ?? ''),
-                        ),
-                        pw.Padding(
-                          padding: const pw.EdgeInsets.all(4),
-                          child: pw.Text(student['seniorHigh_Strand'] ?? ''),
-                        ),
-                        pw.Padding(
-                          padding: const pw.EdgeInsets.all(4),
-                          child: pw.Text(student['grade_level'] ?? ''),
-                        ),
-                        pw.Padding(
-                          padding: const pw.EdgeInsets.all(4),
-                          child: pw.Text(student['transferee'] ?? ''),
+                        pw.Text(
+                          'SCHOOL PRINCIPAL',
+                          style: pw.TextStyle(
+                              fontSize: 12, fontStyle: pw.FontStyle.italic),
                         ),
                       ],
-                    );
-                  }).toList(),
+                    ),
+                  ),
                 ],
-              ),
-              pw.SizedBox(height: 40), // Add space before the principal section
-              pw.Align(
-                alignment: pw.Alignment.centerRight,
-                child: pw.Column(
-                  crossAxisAlignment: pw.CrossAxisAlignment.center,
-                  children: [
-                    pw.Text(
-                      'Bernardo A. Frialde',
-                      style: pw.TextStyle(
-                          fontSize: 14, fontWeight: pw.FontWeight.bold),
-                    ),
-                    pw.Container(
-                      width: 150,
-                      child: pw.Divider(thickness: 1),
-                    ),
-                    pw.Text(
-                      'SCHOOL PRINCIPAL',
-                      style: pw.TextStyle(
-                          fontSize: 12, fontStyle: pw.FontStyle.italic),
-                    ),
-                  ],
-                ),
               ),
             ],
           );
@@ -3419,10 +3457,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
       ),
     );
 
-    // Save and share the file
     final pdfBytes = await pdf.save();
-
-    await Printing.sharePdf(bytes: pdfBytes, filename: 'students_report.pdf');
+    await Printing.sharePdf(
+      bytes: pdfBytes,
+      filename: 'students_report.pdf',
+    );
   }
 
   Future<List<Map<String, dynamic>>> _fetchStudentData() async {
@@ -3798,844 +3837,843 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }
 
   Widget _buildInstructorJuniorHighWithAdviserDrawer(DocumentSnapshot doc) {
-  final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
-  final Map<String, TextEditingController> _gradeControllers = {};
+    final TextEditingController _searchController = TextEditingController();
+    String _searchQuery = '';
+    final Map<String, TextEditingController> _gradeControllers = {};
 
-  return StatefulBuilder(
-    builder: (context, setState) {
-      Future<Map<String, dynamic>> _fetchData() async {
-  try {
-    // 1️⃣ Get the currently logged-in teacher
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) throw Exception("No logged in user.");
+    return StatefulBuilder(
+      builder: (context, setState) {
+        Future<Map<String, dynamic>> _fetchData() async {
+          try {
+            // 1️⃣ Get the currently logged-in teacher
+            final user = FirebaseAuth.instance.currentUser;
+            if (user == null) throw Exception("No logged in user.");
 
-    final teacherDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .get();
+            final teacherDoc = await FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .get();
 
-    if (!teacherDoc.exists) throw Exception("Teacher document not found.");
+            if (!teacherDoc.exists)
+              throw Exception("Teacher document not found.");
 
-    final teacher = teacherDoc.data() as Map<String, dynamic>;
-    final adviserName = '${teacher['first_name']} ${teacher['last_name']}';
-    final handledSection = teacher['handled_section'] ?? '';
+            final teacher = teacherDoc.data() as Map<String, dynamic>;
+            final adviserName =
+                '${teacher['first_name']} ${teacher['last_name']}';
+            final handledSection = teacher['handled_section'] ?? '';
 
-    if (handledSection.isEmpty) {
-      throw Exception("No handled section found for adviser.");
-    }
-
-    // 2️⃣ Fetch section info
-    final sectionSnap = await FirebaseFirestore.instance
-        .collection('sections')
-        .where('section_name', isEqualTo: handledSection)
-        .where('section_adviser', isEqualTo: adviserName)
-        .get();
-
-    if (sectionSnap.docs.isEmpty) {
-      throw Exception("No section found for $handledSection.");
-    }
-
-    final sectionData = sectionSnap.docs.first.data();
-    final quarter = sectionData['quarter'] ?? '1st';
-    String gradeLevel = sectionData['grade_level'] ?? '';
-    final educLevelFromSection = sectionData['educ_level'] ?? '';
-
-    // 3️⃣ Fetch all students in this section
-    final studentsSnap = await FirebaseFirestore.instance
-        .collection('users')
-        .where('section', isEqualTo: handledSection)
-        .where('accountType', isEqualTo: 'student')
-        .get();
-
-    final students = studentsSnap.docs
-        .map((d) => d.data() as Map<String, dynamic>)
-        .where((s) {
-          final fullName =
-              '${s['first_name']} ${s['last_name']}'.toLowerCase();
-          return fullName.contains(_searchQuery.toLowerCase());
-        })
-        .toList();
-
-    if (students.isEmpty) {
-      print("⚠️ No students found for section: $handledSection");
-      return {'students': [], 'subjects': []};
-    }
-
-    // 4️⃣ Fallback: get grade_level from student if missing in section
-    if (gradeLevel.isEmpty && students.isNotEmpty) {
-      gradeLevel = students.first['grade_level'] ?? '';
-    }
-
-    // ❌ Remove the "Grade " prefix logic — your DB uses just numbers (7,8,9,10)
-    // ✅ gradeLevel should stay as "7", "8", etc.
-
-    // Determine educ_level
-    final educLevel = educLevelFromSection.isNotEmpty
-        ? educLevelFromSection
-        : (students.first['educ_level'] ?? '');
-
-    print('DEBUG: Fetching subjects for:');
-    print('  quarter: $quarter');
-    print('  educ_level: $educLevel');
-    print('  grade_level: $gradeLevel');
-
-    // 5️⃣ Fetch subjects based on educ_level, quarter, and grade_level
-    Query subjectsQuery = FirebaseFirestore.instance
-        .collection('subjects')
-        .where('educ_level', isEqualTo: educLevel)
-        .where('quarter', isEqualTo: quarter)
-        .where('grade_level', isEqualTo: gradeLevel);
-
-    final subjectsSnap = await subjectsQuery.get();
-
-    if (subjectsSnap.docs.isEmpty) {
-      print('⚠️ No subjects found for these filters.');
-    }
-
-    final subjects = subjectsSnap.docs.map((d) {
-      final s = d.data() as Map<String, dynamic>;
-      return {
-        'subject_name': s['subject_name'] ?? 'Unknown Subject',
-        'subject_code': s['subject_code'] ?? '',
-        'sub_subjects': s['sub_subjects'] ?? {},
-        'grade': '',
-      };
-    }).toList();
-
-    // 6️⃣ Fetch existing grades from "{quarter} Quarter"
-    final collectionName = '$quarter Quarter';
-    final gradesDoc = await FirebaseFirestore.instance
-        .collection(collectionName)
-        .doc(educLevel)
-        .get();
-
-    final existingGrades =
-        gradesDoc.exists ? gradesDoc.data() as Map<String, dynamic> : {};
-
-    // 7️⃣ Pre-fill text controllers with existing grades
-    for (final student in students) {
-      final fullName = '${student['first_name']} ${student['last_name']}';
-      final studentGrades =
-          (existingGrades[fullName]?['grades'] ?? []) as List<dynamic>;
-
-      for (final subject in subjects) {
-        final subjName = subject['subject_name'];
-        final existingGrade = studentGrades.firstWhere(
-          (g) => g['subject_name'] == subjName,
-          orElse: () => null,
-        );
-
-        final key = '${student['uid']}_$subjName';
-        _gradeControllers[key] = TextEditingController(
-          text: existingGrade != null ? existingGrade['grade'] ?? '' : '',
-        );
-      }
-    }
-
-    return {
-      'students': students,
-      'subjects': subjects,
-      'quarter': quarter,
-      'educLevel': educLevel,
-      'gradeLevel': gradeLevel,
-      'section': handledSection,
-      'collectionName': '$quarter Quarter',
-    };
-  } catch (e) {
-    print('❌ Error fetching JHS data: $e');
-    return {'students': [], 'subjects': []};
-  }
-}
-
-
-
-      Future<void> _submitAllGrades(Map<String, dynamic> data) async {
-        try {
-          final students = data['students'] as List<dynamic>;
-          final subjects = data['subjects'] as List<dynamic>;
-          final quarter = data['quarter'] as String;
-          final educLevel = data['educLevel'] as String;
-          final collectionName = data['collectionName'] as String;
-
-          final docRef = FirebaseFirestore.instance
-                       .collection(quarter + ' ' + 'Quarter')
-            .doc(educLevel);
-          for (final student in students) {
-            final uid = student['uid'];
-            final fullName =
-                '${student['first_name']} ${student['last_name']}';
-            final studentId = student['student_id'] ?? '';
-
-            final grades = <Map<String, dynamic>>[];
-
-            for (final subject in subjects) {
-              final subjName = subject['subject_name'] as String;
-              final subjCode = subject['subject_code'] ?? '';
-
-              final key = '${uid}_$subjName';
-              final controller = _gradeControllers[key];
-              final gradeText = controller?.text.trim() ?? '';
-
-              if (subjName == 'MAPEH') {
-                // If the subject has sub_subjects stored in subject['sub_subjects'],
-                // and the UI doesn't provide sub-fields, we save what's available.
-                // If gradeText is empty but subject map includes sub_subjects with numbers,
-                // compute average from them.
-                String finalGrade = gradeText;
-                Map<String, dynamic> subSubjects =
-                    Map<String, dynamic>.from(subject['sub_subjects'] ?? {});
-
-                if ((finalGrade.isEmpty || finalGrade == 'Not Available') &&
-                    subSubjects.isNotEmpty) {
-                  // try to compute average from sub_subjects stored in the subject map
-                  var vals = subSubjects.values
-                      .map((v) => double.tryParse((v ?? '').toString()))
-                      .where((v) => v != null)
-                      .cast<double>()
-                      .toList();
-                  if (vals.length == subSubjects.length && vals.isNotEmpty) {
-                    final avg = vals.reduce((a, b) => a + b) / vals.length;
-                    finalGrade = avg.toStringAsFixed(2);
-                  } else {
-                    finalGrade = finalGrade; // leave as-is (maybe empty)
-                  }
-                }
-
-                final mapehEntry = {
-                  'student_id': studentId,
-                  'full_name': fullName,
-                  'uid': uid,
-                  'subject_name': 'MAPEH',
-                  'grade': finalGrade,
-                  'sub_subjects': subSubjects,
-                  'quarter': quarter,
-                  'average': finalGrade,
-                };
-                grades.add(mapehEntry);
-              } else {
-                // normal subjects
-                final entry = {
-                  'student_id': studentId,
-                  'full_name': fullName,
-                  'uid': uid,
-                  'subject_name': subjName,
-                  'grade': gradeText,
-                  'quarter': quarter,
-                };
-                grades.add(entry);
-              }
+            if (handledSection.isEmpty) {
+              throw Exception("No handled section found for adviser.");
             }
 
-            // Merge into document under fullName
-            await docRef.set({
-              fullName: {'grades': grades}
-            }, SetOptions(merge: true));
-          }
+            // 2️⃣ Fetch section info
+            final sectionSnap = await FirebaseFirestore.instance
+                .collection('sections')
+                .where('section_name', isEqualTo: handledSection)
+                .where('section_adviser', isEqualTo: adviserName)
+                .get();
 
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Grades submitted successfully!'),
-            backgroundColor: Colors.green,
-          ));
-        } catch (e) {
-          print('Error submitting grades: $e');
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Error submitting grades: $e'),
-            backgroundColor: Colors.red,
-          ));
-        }
-      }
-
-      // ====== UI stays exactly the same as you provided ======
-      return Container(
-        color: Colors.grey[200],
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                'Students and Grades',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: SizedBox(
-                width: 300,
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Search Student',
-                    prefixIcon: Icon(Iconsax.search_normal_1_copy),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                  onChanged: (v) => setState(() => _searchQuery = v),
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            Expanded(
-              child: FutureBuilder(
-                future: _fetchData(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                        child: CircularProgressIndicator(color: Colors.green));
-                  }
-                  if (!snapshot.hasData ||
-                      (snapshot.data!['students'] as List).isEmpty) {
-                    return Center(child: Text('No students found.'));
-                  }
-
-                  final data = snapshot.data as Map<String, dynamic>;
-                  final students = data['students'] as List<dynamic>;
-                  final subjects = data['subjects'] as List<dynamic>;
-
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: ConstrainedBox(
-                            constraints: BoxConstraints(
-                                minWidth:
-                                    MediaQuery.of(context).size.width),
-                            child: Table(
-                              border: TableBorder.all(color: Colors.grey),
-                              columnWidths: {
-                                0: const FixedColumnWidth(200),
-                                for (int i = 1; i <= subjects.length; i++)
-                                  i: const FixedColumnWidth(100),
-                              },
-                              defaultVerticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              children: [
-                                // HEADER ROW
-                                TableRow(
-                                  decoration:
-                                      BoxDecoration(color: Colors.grey[300]),
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                        width: 200,
-                                        child: Text(
-                                          'Full Name',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                          overflow: TextOverflow.ellipsis,
-                                          softWrap: false,
-                                        ),
-                                      ),
-                                    ),
-                                    ...subjects.map((s) => Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SizedBox(
-                                            width: 80,
-                                            child: Center(
-                                              child: Tooltip(
-                                                message: s['subject_name'],
-                                                child: Text(
-                                                  s['subject_name'],
-                                                  style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  softWrap: false,
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )),
-                                  ],
-                                ),
-
-                                // DATA ROWS
-                                ...students.map((student) {
-                                  final fullName =
-                                      '${student['first_name']} ${student['last_name']}';
-                                  final uid = student['uid'];
-                                  return TableRow(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SizedBox(
-                                          width: 200,
-                                          child: Text(
-                                            fullName,
-                                            overflow: TextOverflow.ellipsis,
-                                            softWrap: false,
-                                          ),
-                                        ),
-                                      ),
-                                      ...subjects.map((subject) {
-                                        final subjName =
-                                            subject['subject_name'];
-                                        final key = '${uid}_$subjName';
-                                        return Padding(
-                                          padding:
-                                              const EdgeInsets.all(4.0),
-                                          child: SizedBox(
-                                            width: 100,
-                                            height: 36,
-                                            child: TextField(
-                                              controller:
-                                                  _gradeControllers[key],
-                                              textAlign: TextAlign.center,
-                                              decoration:
-                                                  const InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        vertical: 8),
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ],
-                                  );
-                                }).toList(),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: ElevatedButton.icon(
-                            icon: Icon(Icons.save),
-                            label: Text('Submit All Grades'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 12),
-                            ),
-                            onPressed: () async {
-                              final data =
-                                  snapshot.data as Map<String, dynamic>;
-                              await _submitAllGrades(data);
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
-
-
-  
-                Widget _buildInstructorJuniorWithoutAdviserDrawer(DocumentSnapshot doc) {
-                  return Container();
-                }
-
-  Widget _buildInstructorWithAdviserDrawer(DocumentSnapshot doc) {
-  final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
-  final Map<String, TextEditingController> _gradeControllers = {};
-
-  return StatefulBuilder(
-    builder: (context, setState) {
-      Future<Map<String, dynamic>> _fetchData() async {
-        try {
-          // 1️⃣ Get the currently logged-in teacher
-          final user = FirebaseAuth.instance.currentUser;
-          if (user == null) throw Exception("No logged in user.");
-
-          final teacherDoc = await FirebaseFirestore.instance
-              .collection('users')
-              .doc(user.uid)
-              .get();
-
-          if (!teacherDoc.exists) throw Exception("Teacher document not found.");
-
-          final teacher = teacherDoc.data() as Map<String, dynamic>;
-          final adviserName =
-              '${teacher['first_name']} ${teacher['last_name']}';
-          final handledSection = teacher['handled_section'] ?? '';
-
-          if (handledSection.isEmpty) {
-            throw Exception("No handled section found for adviser.");
-          }
-
-          // 2️⃣ Fetch section info (semester, adviser name)
-          final sectionSnap = await FirebaseFirestore.instance
-              .collection('sections')
-              .where('section_name', isEqualTo: handledSection)
-              .where('section_adviser', isEqualTo: adviserName)
-              .get();
-
-          if (sectionSnap.docs.isEmpty) {
-            throw Exception("No section found for $handledSection.");
-          }
-
-          final sectionData = sectionSnap.docs.first.data();
-          final semester = sectionData['semester'] ?? '';
-          final gradeLevel = sectionData['grade_level'] ?? 'Grade 11';
-
-          // 3️⃣ Fetch all students under this section
-          final studentsSnap = await FirebaseFirestore.instance
-              .collection('users')
-              .where('section', isEqualTo: handledSection)
-              .where('accountType', isEqualTo: 'student')
-              .get();
-
-          final students = studentsSnap.docs
-              .map((d) => d.data() as Map<String, dynamic>)
-              .where((s) {
-                final fullName =
-                    '${s['first_name']} ${s['last_name']}'.toLowerCase();
-                return fullName.contains(_searchQuery.toLowerCase());
-              })
-              .toList();
-
-          if (students.isEmpty) return {'students': [], 'subjects': []};
-
-          // 4️⃣ Get strand (they share the same strand in section)
-          final strand = students.first['seniorHigh_Strand'] ?? '';
-          final strandCourse = getStrandCourse(strand);
-
-          // 5️⃣ Fetch subjects for that strand and semester
-          final subjectsSnap = await FirebaseFirestore.instance
-              .collection('subjects')
-              .where('strandcourse', isEqualTo: strandCourse)
-              .where('semester', isEqualTo: semester)
-              .get();
-
-          final subjects = subjectsSnap.docs.map((d) {
-            final s = d.data() as Map<String, dynamic>;
-            return {
-              'subject_name': s['subject_name'],
-              'subject_code': s['subject_code']
-            };
-          }).toList();
-
-          // 6️⃣ Fetch existing grades from collection like "Grade 11 - 1st Semester"
-          final gradesDoc = await FirebaseFirestore.instance
-              .collection(semester)
-              .doc(strand)
-              .get();
-
-          final existingGrades =
-              gradesDoc.exists ? gradesDoc.data() as Map<String, dynamic> : {};
-
-          // Pre-fill grade controllers
-          for (final student in students) {
-            final fullName =
-                '${student['first_name']} ${student['last_name']}';
-            final studentGrades =
-                (existingGrades[fullName]?['grades'] ?? []) as List<dynamic>;
-
-            for (final subject in subjects) {
-              final subjName = subject['subject_name'];
-              final existingGrade = studentGrades.firstWhere(
-                (g) => g['subject_name'] == subjName,
-                orElse: () => null,
-              );
-
-              final key = '${student['uid']}_$subjName';
-              _gradeControllers[key] = TextEditingController(
-                text: existingGrade != null ? existingGrade['grade'] ?? '' : '',
-              );
+            if (sectionSnap.docs.isEmpty) {
+              throw Exception("No section found for $handledSection.");
             }
-          }
 
-          return {
-            'students': students,
-            'subjects': subjects,
-            'semester': semester,
-            'strand': strand, // full strand name
-            'adviserName': adviserName,
-            'section': handledSection,
-          };
-        } catch (e) {
-          print('Error fetching data: $e');
-          return {'students': [], 'subjects': []};
-        }
-      }
+            final sectionData = sectionSnap.docs.first.data();
+            final quarter = sectionData['quarter'] ?? '1st';
+            String gradeLevel = sectionData['grade_level'] ?? '';
+            final educLevelFromSection = sectionData['educ_level'] ?? '';
 
-      Future<void> _submitAllGrades(Map<String, dynamic> data) async {
-        try {
-          final students = data['students'] as List<dynamic>;
-          final subjects = data['subjects'] as List<dynamic>;
-          final semester = data['semester'];
-          final strand = data['strand']; // Full name strand
+            // 3️⃣ Fetch all students in this section
+            final studentsSnap = await FirebaseFirestore.instance
+                .collection('users')
+                .where('section', isEqualTo: handledSection)
+                .where('accountType', isEqualTo: 'student')
+                .get();
 
-          final strandDoc =
-              FirebaseFirestore.instance.collection(semester).doc(strand);
+            final students = studentsSnap.docs
+                .map((d) => d.data() as Map<String, dynamic>)
+                .where((s) {
+              final fullName =
+                  '${s['first_name']} ${s['last_name']}'.toLowerCase();
+              return fullName.contains(_searchQuery.toLowerCase());
+            }).toList();
 
-          for (final student in students) {
-            final fullName =
-                '${student['first_name']} ${student['last_name']}';
-            final studentId = student['student_id'];
-            final studentUID = student['uid'];
+            if (students.isEmpty) {
+              print("⚠️ No students found for section: $handledSection");
+              return {'students': [], 'subjects': []};
+            }
 
-            final gradesToSave = subjects.map((subject) {
-              final subjName = subject['subject_name'];
-              final subjCode = subject['subject_code'];
-              final key = '${studentUID}_$subjName';
-              final controller = _gradeControllers[key];
-              final grade = controller?.text.trim().isNotEmpty == true
-                  ? controller!.text.trim()
-                  : '';
+            // 4️⃣ Fallback: get grade_level from student if missing in section
+            if (gradeLevel.isEmpty && students.isNotEmpty) {
+              gradeLevel = students.first['grade_level'] ?? '';
+            }
+
+            // ❌ Remove the "Grade " prefix logic — your DB uses just numbers (7,8,9,10)
+            // ✅ gradeLevel should stay as "7", "8", etc.
+
+            // Determine educ_level
+            final educLevel = educLevelFromSection.isNotEmpty
+                ? educLevelFromSection
+                : (students.first['educ_level'] ?? '');
+
+            print('DEBUG: Fetching subjects for:');
+            print('  quarter: $quarter');
+            print('  educ_level: $educLevel');
+            print('  grade_level: $gradeLevel');
+
+            // 5️⃣ Fetch subjects based on educ_level, quarter, and grade_level
+            Query subjectsQuery = FirebaseFirestore.instance
+                .collection('subjects')
+                .where('educ_level', isEqualTo: educLevel)
+                .where('quarter', isEqualTo: quarter)
+                .where('grade_level', isEqualTo: gradeLevel);
+
+            final subjectsSnap = await subjectsQuery.get();
+
+            if (subjectsSnap.docs.isEmpty) {
+              print('⚠️ No subjects found for these filters.');
+            }
+
+            final subjects = subjectsSnap.docs.map((d) {
+              final s = d.data() as Map<String, dynamic>;
               return {
-                'student_id': studentId,
-                'full_name': fullName,
-                'uid': studentUID,
-                'subject_code': subjCode,
-                'subject_name': subjName,
-                'grade': grade,
-                'semester': semester,
+                'subject_name': s['subject_name'] ?? 'Unknown Subject',
+                'subject_code': s['subject_code'] ?? '',
+                'sub_subjects': s['sub_subjects'] ?? {},
+                'grade': '',
               };
             }).toList();
 
-            // ✅ Save to correct path
-            await strandDoc.set(
-              {
-                fullName: {'grades': gradesToSave},
-              },
-              SetOptions(merge: true),
-            );
+            // 6️⃣ Fetch existing grades from "{quarter} Quarter"
+            final collectionName = '$quarter Quarter';
+            final gradesDoc = await FirebaseFirestore.instance
+                .collection(collectionName)
+                .doc(educLevel)
+                .get();
+
+            final existingGrades = gradesDoc.exists
+                ? gradesDoc.data() as Map<String, dynamic>
+                : {};
+
+            // 7️⃣ Pre-fill text controllers with existing grades
+            for (final student in students) {
+              final fullName =
+                  '${student['first_name']} ${student['last_name']}';
+              final studentGrades =
+                  (existingGrades[fullName]?['grades'] ?? []) as List<dynamic>;
+
+              for (final subject in subjects) {
+                final subjName = subject['subject_name'];
+                final existingGrade = studentGrades.firstWhere(
+                  (g) => g['subject_name'] == subjName,
+                  orElse: () => null,
+                );
+
+                final key = '${student['uid']}_$subjName';
+                _gradeControllers[key] = TextEditingController(
+                  text:
+                      existingGrade != null ? existingGrade['grade'] ?? '' : '',
+                );
+              }
+            }
+
+            return {
+              'students': students,
+              'subjects': subjects,
+              'quarter': quarter,
+              'educLevel': educLevel,
+              'gradeLevel': gradeLevel,
+              'section': handledSection,
+              'collectionName': '$quarter Quarter',
+            };
+          } catch (e) {
+            print('❌ Error fetching JHS data: $e');
+            return {'students': [], 'subjects': []};
           }
-
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Grades submitted successfully!'),
-            backgroundColor: Colors.green,
-          ));
-        } catch (e) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Error submitting grades: $e'),
-            backgroundColor: Colors.red,
-          ));
         }
-      }
 
-      return Container(
-        color: Colors.grey[200],
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                'Students and Grades',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: SizedBox(
-                width: 300,
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Search Student',
-                    prefixIcon: Icon(Iconsax.search_normal_1_copy),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                  onChanged: (v) => setState(() => _searchQuery = v),
+        Future<void> _submitAllGrades(Map<String, dynamic> data) async {
+          try {
+            final students = data['students'] as List<dynamic>;
+            final subjects = data['subjects'] as List<dynamic>;
+            final quarter = data['quarter'] as String;
+            final educLevel = data['educLevel'] as String;
+            final collectionName = data['collectionName'] as String;
+
+            final docRef = FirebaseFirestore.instance
+                .collection(quarter + ' ' + 'Quarter')
+                .doc(educLevel);
+            for (final student in students) {
+              final uid = student['uid'];
+              final fullName =
+                  '${student['first_name']} ${student['last_name']}';
+              final studentId = student['student_id'] ?? '';
+
+              final grades = <Map<String, dynamic>>[];
+
+              for (final subject in subjects) {
+                final subjName = subject['subject_name'] as String;
+                final subjCode = subject['subject_code'] ?? '';
+
+                final key = '${uid}_$subjName';
+                final controller = _gradeControllers[key];
+                final gradeText = controller?.text.trim() ?? '';
+
+                if (subjName == 'MAPEH') {
+                  // If the subject has sub_subjects stored in subject['sub_subjects'],
+                  // and the UI doesn't provide sub-fields, we save what's available.
+                  // If gradeText is empty but subject map includes sub_subjects with numbers,
+                  // compute average from them.
+                  String finalGrade = gradeText;
+                  Map<String, dynamic> subSubjects =
+                      Map<String, dynamic>.from(subject['sub_subjects'] ?? {});
+
+                  if ((finalGrade.isEmpty || finalGrade == 'Not Available') &&
+                      subSubjects.isNotEmpty) {
+                    // try to compute average from sub_subjects stored in the subject map
+                    var vals = subSubjects.values
+                        .map((v) => double.tryParse((v ?? '').toString()))
+                        .where((v) => v != null)
+                        .cast<double>()
+                        .toList();
+                    if (vals.length == subSubjects.length && vals.isNotEmpty) {
+                      final avg = vals.reduce((a, b) => a + b) / vals.length;
+                      finalGrade = avg.toStringAsFixed(2);
+                    } else {
+                      finalGrade = finalGrade; // leave as-is (maybe empty)
+                    }
+                  }
+
+                  final mapehEntry = {
+                    'student_id': studentId,
+                    'full_name': fullName,
+                    'uid': uid,
+                    'subject_name': 'MAPEH',
+                    'grade': finalGrade,
+                    'sub_subjects': subSubjects,
+                    'quarter': quarter,
+                    'average': finalGrade,
+                  };
+                  grades.add(mapehEntry);
+                } else {
+                  // normal subjects
+                  final entry = {
+                    'student_id': studentId,
+                    'full_name': fullName,
+                    'uid': uid,
+                    'subject_name': subjName,
+                    'grade': gradeText,
+                    'quarter': quarter,
+                  };
+                  grades.add(entry);
+                }
+              }
+
+              // Merge into document under fullName
+              await docRef.set({
+                fullName: {'grades': grades}
+              }, SetOptions(merge: true));
+            }
+
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Grades submitted successfully!'),
+              backgroundColor: Colors.green,
+            ));
+          } catch (e) {
+            print('Error submitting grades: $e');
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Error submitting grades: $e'),
+              backgroundColor: Colors.red,
+            ));
+          }
+        }
+
+        // ====== UI stays exactly the same as you provided ======
+        return Container(
+          color: Colors.grey[200],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'Students and Grades',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
               ),
-            ),
-            SizedBox(height: 10),
-            Expanded(
-              child: FutureBuilder(
-                future: _fetchData(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                        child: CircularProgressIndicator(color: Colors.green));
-                  }
-                  if (!snapshot.hasData ||
-                      (snapshot.data!['students'] as List).isEmpty) {
-                    return Center(child: Text('No students found.'));
-                  }
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: SizedBox(
+                  width: 300,
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      hintText: 'Search Student',
+                      prefixIcon: Icon(Iconsax.search_normal_1_copy),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    onChanged: (v) => setState(() => _searchQuery = v),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Expanded(
+                child: FutureBuilder(
+                  future: _fetchData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                          child:
+                              CircularProgressIndicator(color: Colors.green));
+                    }
+                    if (!snapshot.hasData ||
+                        (snapshot.data!['students'] as List).isEmpty) {
+                      return Center(child: Text('No students found.'));
+                    }
 
-                  final data = snapshot.data as Map<String, dynamic>;
-                  final students = data['students'] as List<dynamic>;
-                  final subjects = data['subjects'] as List<dynamic>;
+                    final data = snapshot.data as Map<String, dynamic>;
+                    final students = data['students'] as List<dynamic>;
+                    final subjects = data['subjects'] as List<dynamic>;
 
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: ConstrainedBox(
-                            constraints: BoxConstraints(
-                                minWidth:
-                                    MediaQuery.of(context).size.width),
-                            child: Table(
-                              border: TableBorder.all(color: Colors.grey),
-                              columnWidths: {
-                                0: const FixedColumnWidth(200),
-                                for (int i = 1; i <= subjects.length; i++)
-                                  i: const FixedColumnWidth(100),
-                              },
-                              defaultVerticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              children: [
-                                // HEADER ROW
-                                TableRow(
-                                  decoration:
-                                      BoxDecoration(color: Colors.grey[300]),
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                        width: 200,
-                                        child: Text(
-                                          'Full Name',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                          overflow: TextOverflow.ellipsis,
-                                          softWrap: false,
-                                        ),
-                                      ),
-                                    ),
-                                    ...subjects.map((s) => Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SizedBox(
-                                            width: 80,
-                                            child: Center(
-                                              child: Tooltip(
-                                                message: s['subject_name'],
-                                                child: Text(
-                                                  s['subject_name'],
-                                                  style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  softWrap: false,
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )),
-                                  ],
-                                ),
-
-                                // DATA ROWS
-                                ...students.map((student) {
-                                  final fullName =
-                                      '${student['first_name']} ${student['last_name']}';
-                                  final uid = student['uid'];
-                                  return TableRow(
+                    return Column(
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                  minWidth: MediaQuery.of(context).size.width),
+                              child: Table(
+                                border: TableBorder.all(color: Colors.grey),
+                                columnWidths: {
+                                  0: const FixedColumnWidth(200),
+                                  for (int i = 1; i <= subjects.length; i++)
+                                    i: const FixedColumnWidth(100),
+                                },
+                                defaultVerticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                children: [
+                                  // HEADER ROW
+                                  TableRow(
+                                    decoration:
+                                        BoxDecoration(color: Colors.grey[300]),
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: SizedBox(
                                           width: 200,
                                           child: Text(
-                                            fullName,
+                                            'Full Name',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
                                             overflow: TextOverflow.ellipsis,
                                             softWrap: false,
                                           ),
                                         ),
                                       ),
-                                      ...subjects.map((subject) {
-                                        final subjName =
-                                            subject['subject_name'];
-                                        final key = '${uid}_$subjName';
-                                        return Padding(
-                                          padding:
-                                              const EdgeInsets.all(4.0),
-                                          child: SizedBox(
-                                            width: 100,
-                                            height: 36,
-                                            child: TextField(
-                                              controller:
-                                                  _gradeControllers[key],
-                                              textAlign: TextAlign.center,
-                                              decoration:
-                                                  const InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        vertical: 8),
+                                      ...subjects.map((s) => Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: 80,
+                                              child: Center(
+                                                child: Tooltip(
+                                                  message: s['subject_name'],
+                                                  child: Text(
+                                                    s['subject_name'],
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    softWrap: false,
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        );
-                                      }).toList(),
+                                          )),
                                     ],
-                                  );
-                                }).toList(),
-                              ],
+                                  ),
+
+                                  // DATA ROWS
+                                  ...students.map((student) {
+                                    final fullName =
+                                        '${student['first_name']} ${student['last_name']}';
+                                    final uid = student['uid'];
+                                    return TableRow(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: SizedBox(
+                                            width: 200,
+                                            child: Text(
+                                              fullName,
+                                              overflow: TextOverflow.ellipsis,
+                                              softWrap: false,
+                                            ),
+                                          ),
+                                        ),
+                                        ...subjects.map((subject) {
+                                          final subjName =
+                                              subject['subject_name'];
+                                          final key = '${uid}_$subjName';
+                                          return Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: SizedBox(
+                                              width: 100,
+                                              height: 36,
+                                              child: TextField(
+                                                controller:
+                                                    _gradeControllers[key],
+                                                textAlign: TextAlign.center,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  border: OutlineInputBorder(),
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          vertical: 8),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ],
+                                    );
+                                  }).toList(),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: ElevatedButton.icon(
-                            icon: Icon(Icons.save),
-                            label: Text('Submit All Grades'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 12),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: ElevatedButton.icon(
+                              icon: Icon(Icons.save),
+                              label: Text('Submit All Grades'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 12),
+                              ),
+                              onPressed: () async {
+                                final data =
+                                    snapshot.data as Map<String, dynamic>;
+                                await _submitAllGrades(data);
+                              },
                             ),
-                            onPressed: () async {
-                              final data =
-                                  snapshot.data as Map<String, dynamic>;
-                              await _submitAllGrades(data);
-                            },
                           ),
                         ),
-                      ),
-                    ],
-                  );
-                },
+                      ],
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // Widget _buildInstructorJuniorWithoutAdviserDrawer(DocumentSnapshot doc) {
+  //   return Container();
+  // }
+
+  Widget _buildInstructorWithAdviserDrawer(DocumentSnapshot doc) {
+    final TextEditingController _searchController = TextEditingController();
+    String _searchQuery = '';
+    final Map<String, TextEditingController> _gradeControllers = {};
+
+    return StatefulBuilder(
+      builder: (context, setState) {
+        Future<Map<String, dynamic>> _fetchData() async {
+          try {
+            // 1️⃣ Get the currently logged-in teacher
+            final user = FirebaseAuth.instance.currentUser;
+            if (user == null) throw Exception("No logged in user.");
+
+            final teacherDoc = await FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .get();
+
+            if (!teacherDoc.exists)
+              throw Exception("Teacher document not found.");
+
+            final teacher = teacherDoc.data() as Map<String, dynamic>;
+            final adviserName =
+                '${teacher['first_name']} ${teacher['last_name']}';
+            final handledSection = teacher['handled_section'] ?? '';
+
+            if (handledSection.isEmpty) {
+              throw Exception("No handled section found for adviser.");
+            }
+
+            // 2️⃣ Fetch section info (semester, adviser name)
+            final sectionSnap = await FirebaseFirestore.instance
+                .collection('sections')
+                .where('section_name', isEqualTo: handledSection)
+                .where('section_adviser', isEqualTo: adviserName)
+                .get();
+
+            if (sectionSnap.docs.isEmpty) {
+              throw Exception("No section found for $handledSection.");
+            }
+
+            final sectionData = sectionSnap.docs.first.data();
+            final semester = sectionData['semester'] ?? '';
+            final gradeLevel = sectionData['grade_level'] ?? 'Grade 11';
+
+            // 3️⃣ Fetch all students under this section
+            final studentsSnap = await FirebaseFirestore.instance
+                .collection('users')
+                .where('section', isEqualTo: handledSection)
+                .where('accountType', isEqualTo: 'student')
+                .get();
+
+            final students = studentsSnap.docs
+                .map((d) => d.data() as Map<String, dynamic>)
+                .where((s) {
+              final fullName =
+                  '${s['first_name']} ${s['last_name']}'.toLowerCase();
+              return fullName.contains(_searchQuery.toLowerCase());
+            }).toList();
+
+            if (students.isEmpty) return {'students': [], 'subjects': []};
+
+            // 4️⃣ Get strand (they share the same strand in section)
+            final strand = students.first['seniorHigh_Strand'] ?? '';
+            final strandCourse = getStrandCourse(strand);
+
+            // 5️⃣ Fetch subjects for that strand and semester
+            final subjectsSnap = await FirebaseFirestore.instance
+                .collection('subjects')
+                .where('strandcourse', isEqualTo: strandCourse)
+                .where('semester', isEqualTo: semester)
+                .get();
+
+            final subjects = subjectsSnap.docs.map((d) {
+              final s = d.data() as Map<String, dynamic>;
+              return {
+                'subject_name': s['subject_name'],
+                'subject_code': s['subject_code']
+              };
+            }).toList();
+
+            // 6️⃣ Fetch existing grades from collection like "Grade 11 - 1st Semester"
+            final gradesDoc = await FirebaseFirestore.instance
+                .collection(semester)
+                .doc(strand)
+                .get();
+
+            final existingGrades = gradesDoc.exists
+                ? gradesDoc.data() as Map<String, dynamic>
+                : {};
+
+            // Pre-fill grade controllers
+            for (final student in students) {
+              final fullName =
+                  '${student['first_name']} ${student['last_name']}';
+              final studentGrades =
+                  (existingGrades[fullName]?['grades'] ?? []) as List<dynamic>;
+
+              for (final subject in subjects) {
+                final subjName = subject['subject_name'];
+                final existingGrade = studentGrades.firstWhere(
+                  (g) => g['subject_name'] == subjName,
+                  orElse: () => null,
+                );
+
+                final key = '${student['uid']}_$subjName';
+                _gradeControllers[key] = TextEditingController(
+                  text:
+                      existingGrade != null ? existingGrade['grade'] ?? '' : '',
+                );
+              }
+            }
+
+            return {
+              'students': students,
+              'subjects': subjects,
+              'semester': semester,
+              'strand': strand, // full strand name
+              'adviserName': adviserName,
+              'section': handledSection,
+            };
+          } catch (e) {
+            print('Error fetching data: $e');
+            return {'students': [], 'subjects': []};
+          }
+        }
+
+        Future<void> _submitAllGrades(Map<String, dynamic> data) async {
+          try {
+            final students = data['students'] as List<dynamic>;
+            final subjects = data['subjects'] as List<dynamic>;
+            final semester = data['semester'];
+            final strand = data['strand']; // Full name strand
+
+            final strandDoc =
+                FirebaseFirestore.instance.collection(semester).doc(strand);
+
+            for (final student in students) {
+              final fullName =
+                  '${student['first_name']} ${student['last_name']}';
+              final studentId = student['student_id'];
+              final studentUID = student['uid'];
+
+              final gradesToSave = subjects.map((subject) {
+                final subjName = subject['subject_name'];
+                final subjCode = subject['subject_code'];
+                final key = '${studentUID}_$subjName';
+                final controller = _gradeControllers[key];
+                final grade = controller?.text.trim().isNotEmpty == true
+                    ? controller!.text.trim()
+                    : '';
+                return {
+                  'student_id': studentId,
+                  'full_name': fullName,
+                  'uid': studentUID,
+                  'subject_code': subjCode,
+                  'subject_name': subjName,
+                  'grade': grade,
+                  'semester': semester,
+                };
+              }).toList();
+
+              // ✅ Save to correct path
+              await strandDoc.set(
+                {
+                  fullName: {'grades': gradesToSave},
+                },
+                SetOptions(merge: true),
+              );
+            }
+
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Grades submitted successfully!'),
+              backgroundColor: Colors.green,
+            ));
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Error submitting grades: $e'),
+              backgroundColor: Colors.red,
+            ));
+          }
+        }
+
+        return Container(
+          color: Colors.grey[200],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'Students and Grades',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: SizedBox(
+                  width: 300,
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      hintText: 'Search Student',
+                      prefixIcon: Icon(Iconsax.search_normal_1_copy),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    onChanged: (v) => setState(() => _searchQuery = v),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Expanded(
+                child: FutureBuilder(
+                  future: _fetchData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                          child:
+                              CircularProgressIndicator(color: Colors.green));
+                    }
+                    if (!snapshot.hasData ||
+                        (snapshot.data!['students'] as List).isEmpty) {
+                      return Center(child: Text('No students found.'));
+                    }
+
+                    final data = snapshot.data as Map<String, dynamic>;
+                    final students = data['students'] as List<dynamic>;
+                    final subjects = data['subjects'] as List<dynamic>;
+
+                    return Column(
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                  minWidth: MediaQuery.of(context).size.width),
+                              child: Table(
+                                border: TableBorder.all(color: Colors.grey),
+                                columnWidths: {
+                                  0: const FixedColumnWidth(200),
+                                  for (int i = 1; i <= subjects.length; i++)
+                                    i: const FixedColumnWidth(100),
+                                },
+                                defaultVerticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                children: [
+                                  // HEADER ROW
+                                  TableRow(
+                                    decoration:
+                                        BoxDecoration(color: Colors.grey[300]),
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: 200,
+                                          child: Text(
+                                            'Full Name',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: false,
+                                          ),
+                                        ),
+                                      ),
+                                      ...subjects.map((s) => Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: 80,
+                                              child: Center(
+                                                child: Tooltip(
+                                                  message: s['subject_name'],
+                                                  child: Text(
+                                                    s['subject_name'],
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    softWrap: false,
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )),
+                                    ],
+                                  ),
+
+                                  // DATA ROWS
+                                  ...students.map((student) {
+                                    final fullName =
+                                        '${student['first_name']} ${student['last_name']}';
+                                    final uid = student['uid'];
+                                    return TableRow(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: SizedBox(
+                                            width: 200,
+                                            child: Text(
+                                              fullName,
+                                              overflow: TextOverflow.ellipsis,
+                                              softWrap: false,
+                                            ),
+                                          ),
+                                        ),
+                                        ...subjects.map((subject) {
+                                          final subjName =
+                                              subject['subject_name'];
+                                          final key = '${uid}_$subjName';
+                                          return Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: SizedBox(
+                                              width: 100,
+                                              height: 36,
+                                              child: TextField(
+                                                controller:
+                                                    _gradeControllers[key],
+                                                textAlign: TextAlign.center,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  border: OutlineInputBorder(),
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          vertical: 8),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ],
+                                    );
+                                  }).toList(),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: ElevatedButton.icon(
+                              icon: Icon(Icons.save),
+                              label: Text('Submit All Grades'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 12),
+                              ),
+                              onPressed: () async {
+                                final data =
+                                    snapshot.data as Map<String, dynamic>;
+                                await _submitAllGrades(data);
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
 // 🔹 Reuse your getStrandCourse() function
-String getStrandCourse(String strand) {
-  switch (strand) {
-    case 'Accountancy, Business, and Management (ABM)':
-      return 'ABM';
-    case 'Information and Communication Technology (ICT)':
-      return 'ICT';
-    case 'Science, Technology, Engineering and Mathematics (STEM)':
-      return 'STEM';
-    case 'Humanities and Social Sciences (HUMSS)':
-      return 'HUMSS';
-    case 'Cookery (CO)':
-      return 'CO';
-    default:
-      return '';
+  String getStrandCourse(String strand) {
+    switch (strand) {
+      case 'Accountancy, Business, and Management (ABM)':
+        return 'ABM';
+      case 'Information and Communication Technology (ICT)':
+        return 'ICT';
+      case 'Science, Technology, Engineering and Mathematics (STEM)':
+        return 'STEM';
+      case 'Humanities and Social Sciences (HUMSS)':
+        return 'HUMSS';
+      case 'Cookery (CO)':
+        return 'CO';
+      default:
+        return '';
+    }
   }
-}
-
 
   Widget _buildGradePrintadviser() {
     return Container(
@@ -4693,6 +4731,12 @@ String getStrandCourse(String strand) {
                       // Create a PDF document
                       final pdf = pw.Document();
 
+                      // Load watermark logo
+                      final logoBytes =
+                          await rootBundle.load('assets/LOGOFORSALOMAGUE.png');
+                      final logoImage =
+                          pw.MemoryImage(logoBytes.buffer.asUint8List());
+
                       // stream builder ito ng adviser
                       final snapshotData = await _getFilteredStudentGrade();
 
@@ -4727,10 +4771,29 @@ String getStrandCourse(String strand) {
                       // Log the filtered data
                       print('Filtered Data: $filteredData');
 
-                      // Add content to the PDF
+                      // Add content to the PDF with watermark background
                       pdf.addPage(
                         pw.MultiPage(
-                          pageFormat: PdfPageFormat.a4.landscape,
+                          // Use pageTheme so watermark is applied to ALL pages
+                          pageTheme: pw.PageTheme(
+                            pageFormat: PdfPageFormat.a4.landscape,
+                            buildBackground: (pw.Context context) {
+                              return pw.FullPage(
+                                ignoreMargins: true,
+                                child: pw.Center(
+                                  child: pw.Opacity(
+                                    opacity: 0.08, // faded
+                                    child: pw.Image(
+                                      logoImage,
+                                      width: PdfPageFormat.a4.landscape.width *
+                                          0.8,
+                                      fit: pw.BoxFit.contain,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                           build: (pw.Context context) {
                             // Section Header
                             final section = filteredData.isNotEmpty
@@ -4742,8 +4805,9 @@ String getStrandCourse(String strand) {
                               pw.Text(
                                 'Section: $section',
                                 style: pw.TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: pw.FontWeight.normal),
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.normal,
+                                ),
                               ),
                               pw.SizedBox(height: 20),
 
@@ -4796,7 +4860,8 @@ String getStrandCourse(String strand) {
                                             // Header Row
                                             pw.TableRow(
                                               decoration: pw.BoxDecoration(
-                                                  color: PdfColors.grey300),
+                                                color: PdfColors.grey300,
+                                              ),
                                               children: [
                                                 // Conditionally show/hide subject_code based on educ_level
                                                 if (entry.value
@@ -4807,31 +4872,36 @@ String getStrandCourse(String strand) {
                                                         const pw.EdgeInsets.all(
                                                             8.0),
                                                     child: pw.Text(
-                                                        'Subject Code',
-                                                        style: pw.TextStyle(
-                                                            fontWeight: pw
-                                                                .FontWeight
-                                                                .bold)),
+                                                      'Subject Code',
+                                                      style: pw.TextStyle(
+                                                        fontWeight:
+                                                            pw.FontWeight.bold,
+                                                      ),
+                                                    ),
                                                   ),
                                                 pw.Padding(
                                                   padding:
                                                       const pw.EdgeInsets.all(
                                                           8.0),
-                                                  child: pw.Text('Subject Name',
-                                                      style: pw.TextStyle(
-                                                          fontWeight: pw
-                                                              .FontWeight
-                                                              .bold)),
+                                                  child: pw.Text(
+                                                    'Subject Name',
+                                                    style: pw.TextStyle(
+                                                      fontWeight:
+                                                          pw.FontWeight.bold,
+                                                    ),
+                                                  ),
                                                 ),
                                                 pw.Padding(
                                                   padding:
                                                       const pw.EdgeInsets.all(
                                                           8.0),
-                                                  child: pw.Text('Grade',
-                                                      style: pw.TextStyle(
-                                                          fontWeight: pw
-                                                              .FontWeight
-                                                              .bold)),
+                                                  child: pw.Text(
+                                                    'Grade',
+                                                    style: pw.TextStyle(
+                                                      fontWeight:
+                                                          pw.FontWeight.bold,
+                                                    ),
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -4846,24 +4916,27 @@ String getStrandCourse(String strand) {
                                                     pw.Padding(
                                                       padding: const pw
                                                           .EdgeInsets.all(8.0),
-                                                      child: pw.Text(subject[
-                                                              'subject_Code'] ??
-                                                          ''),
+                                                      child: pw.Text(
+                                                        subject['subject_Code'] ??
+                                                            '',
+                                                      ),
                                                     ),
                                                   pw.Padding(
                                                     padding:
                                                         const pw.EdgeInsets.all(
                                                             8.0),
-                                                    child: pw.Text(subject[
-                                                            'subject_Name'] ??
-                                                        ''),
+                                                    child: pw.Text(
+                                                      subject['subject_Name'] ??
+                                                          '',
+                                                    ),
                                                   ),
                                                   pw.Padding(
                                                     padding:
                                                         const pw.EdgeInsets.all(
                                                             8.0),
                                                     child: pw.Text(
-                                                        subject['Grade'] ?? ''),
+                                                      subject['Grade'] ?? '',
+                                                    ),
                                                   ),
                                                 ],
                                               );
@@ -4901,8 +4974,10 @@ String getStrandCourse(String strand) {
                       print('Error generating or sharing PDF: $e');
                     }
                   },
-                  child: Text('Download to PDF',
-                      style: TextStyle(color: Colors.black)),
+                  child: Text(
+                    'Download to PDF',
+                    style: TextStyle(color: Colors.black),
+                  ),
                   style: OutlinedButton.styleFrom(
                     backgroundColor: Colors.white,
                     side: BorderSide(color: Colors.black),
@@ -5381,8 +5456,8 @@ String getStrandCourse(String strand) {
                       final studentsToInclude = selectedStudents.isEmpty
                           ? snapshotData
                           : snapshotData
-                              .where((student) => selectedStudents
-                                  .contains(student['student_id']))
+                              .where((student) =>
+                                  selectedStudents.contains(student['lrn']))
                               .toList();
 
                       if (studentsToInclude.isEmpty) {
@@ -5401,163 +5476,238 @@ String getStrandCourse(String strand) {
                       // Create a PDF document
                       final pdf = pw.Document();
 
+                      final logoBytes =
+                          await rootBundle.load('assets/LOGOFORSALOMAGUE.png');
+                      final logoImage =
+                          pw.MemoryImage(logoBytes.buffer.asUint8List());
+
                       pdf.addPage(
                         pw.MultiPage(
                           pageFormat: PdfPageFormat.a4.landscape,
                           build: (pw.Context context) {
                             return [
-                              pw.Column(
-                                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                              pw.Stack(
                                 children: [
-                                  pw.Text(
-                                    'Student Grades \n$instructorSubjectName',
-                                    style: pw.TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: pw.FontWeight.bold),
+                                  // ⭐ BIGGER WATERMARK
+                                  pw.Positioned.fill(
+                                    child: pw.Center(
+                                      child: pw.Opacity(
+                                        opacity: 0.08, // faded look
+                                        child: pw.Image(
+                                          logoImage,
+                                          width:
+                                              PdfPageFormat.a4.landscape.width *
+                                                  0.85,
+                                          // 👆 Before: 0.5 — Now SUPER BIG (fills almost entire page)
+                                          fit: pw.BoxFit.contain,
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  pw.SizedBox(height: 20),
-                                  pw.Table(
-                                    border: pw.TableBorder.all(),
-                                    columnWidths: {
-                                      0: pw.FlexColumnWidth(2),
-                                      1: pw.FlexColumnWidth(2),
-                                      2: pw.FlexColumnWidth(2),
-                                      3: pw.FlexColumnWidth(2),
-                                      4: pw.FlexColumnWidth(2),
-                                      5: pw.FlexColumnWidth(3),
-                                      if (isSeniorHighSchool)
-                                        6: pw.FlexColumnWidth(2),
-                                      7: pw.FlexColumnWidth(1),
-                                    },
+
+                                  // ⭐ CONTENT
+                                  pw.Column(
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
                                     children: [
-                                      pw.TableRow(
-                                        decoration: pw.BoxDecoration(
-                                            color: PdfColors.grey300),
-                                        children: [
-                                          pw.Padding(
-                                            padding: const pw.EdgeInsets.all(4),
-                                            child: pw.Text('Student ID',
-                                                style: pw.TextStyle(
-                                                    fontWeight:
-                                                        pw.FontWeight.bold)),
-                                          ),
-                                          pw.Padding(
-                                            padding: const pw.EdgeInsets.all(4),
-                                            child: pw.Text('First Name',
-                                                style: pw.TextStyle(
-                                                    fontWeight:
-                                                        pw.FontWeight.bold)),
-                                          ),
-                                          pw.Padding(
-                                            padding: const pw.EdgeInsets.all(4),
-                                            child: pw.Text('Last Name',
-                                                style: pw.TextStyle(
-                                                    fontWeight:
-                                                        pw.FontWeight.bold)),
-                                          ),
-                                          pw.Padding(
-                                            padding: const pw.EdgeInsets.all(4),
-                                            child: pw.Text('Middle Name',
-                                                style: pw.TextStyle(
-                                                    fontWeight:
-                                                        pw.FontWeight.bold)),
-                                          ),
-                                          pw.Padding(
-                                            padding: const pw.EdgeInsets.all(4),
-                                            child: pw.Text('Section',
-                                                style: pw.TextStyle(
-                                                    fontWeight:
-                                                        pw.FontWeight.bold)),
-                                          ),
-                                          pw.Padding(
-                                            padding: const pw.EdgeInsets.all(4),
-                                            child: pw.Text('Subject Name',
-                                                style: pw.TextStyle(
-                                                    fontWeight:
-                                                        pw.FontWeight.bold)),
-                                          ),
+                                      pw.SizedBox(height: 20),
+
+                                      // Header table
+                                      pw.Table(
+                                        border: pw.TableBorder.all(),
+                                        columnWidths: {
+                                          0: pw.FlexColumnWidth(2),
+                                          1: pw.FlexColumnWidth(2),
+                                          2: pw.FlexColumnWidth(2),
+                                          3: pw.FlexColumnWidth(2),
+                                          4: pw.FlexColumnWidth(2),
+                                          5: pw.FlexColumnWidth(3),
                                           if (isSeniorHighSchool)
-                                            pw.Padding(
-                                              padding:
-                                                  const pw.EdgeInsets.all(4),
-                                              child: pw.Text('Subject Code',
-                                                  style: pw.TextStyle(
-                                                      fontWeight:
-                                                          pw.FontWeight.bold)),
+                                            6: pw.FlexColumnWidth(2),
+                                          7: pw.FlexColumnWidth(1),
+                                        },
+                                        children: [
+                                          pw.TableRow(
+                                            decoration: pw.BoxDecoration(
+                                              color: PdfColors.grey300,
                                             ),
-                                          pw.Padding(
-                                            padding: const pw.EdgeInsets.all(4),
-                                            child: pw.Text('Grade',
-                                                style: pw.TextStyle(
+                                            children: [
+                                              pw.Padding(
+                                                padding:
+                                                    const pw.EdgeInsets.all(4),
+                                                child: pw.Text(
+                                                  'LRN',
+                                                  style: pw.TextStyle(
                                                     fontWeight:
-                                                        pw.FontWeight.bold)),
+                                                        pw.FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              pw.Padding(
+                                                padding:
+                                                    const pw.EdgeInsets.all(4),
+                                                child: pw.Text(
+                                                  'First Name',
+                                                  style: pw.TextStyle(
+                                                    fontWeight:
+                                                        pw.FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              pw.Padding(
+                                                padding:
+                                                    const pw.EdgeInsets.all(4),
+                                                child: pw.Text(
+                                                  'Last Name',
+                                                  style: pw.TextStyle(
+                                                    fontWeight:
+                                                        pw.FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              pw.Padding(
+                                                padding:
+                                                    const pw.EdgeInsets.all(4),
+                                                child: pw.Text(
+                                                  'Middle Name',
+                                                  style: pw.TextStyle(
+                                                    fontWeight:
+                                                        pw.FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              pw.Padding(
+                                                padding:
+                                                    const pw.EdgeInsets.all(4),
+                                                child: pw.Text(
+                                                  'Section',
+                                                  style: pw.TextStyle(
+                                                    fontWeight:
+                                                        pw.FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              pw.Padding(
+                                                padding:
+                                                    const pw.EdgeInsets.all(4),
+                                                child: pw.Text(
+                                                  'Subject Name',
+                                                  style: pw.TextStyle(
+                                                    fontWeight:
+                                                        pw.FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              if (isSeniorHighSchool)
+                                                pw.Padding(
+                                                  padding:
+                                                      const pw.EdgeInsets.all(
+                                                          4),
+                                                  child: pw.Text(
+                                                    'Subject Code',
+                                                    style: pw.TextStyle(
+                                                      fontWeight:
+                                                          pw.FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              pw.Padding(
+                                                padding:
+                                                    const pw.EdgeInsets.all(4),
+                                                child: pw.Text(
+                                                  'Grade',
+                                                  style: pw.TextStyle(
+                                                    fontWeight:
+                                                        pw.FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ],
+                                      ),
+
+                                      pw.SizedBox(height: 10),
+
+                                      // ⭐ Data table
+                                      pw.Table(
+                                        border: pw.TableBorder.all(),
+                                        columnWidths: {
+                                          0: pw.FlexColumnWidth(2),
+                                          1: pw.FlexColumnWidth(2),
+                                          2: pw.FlexColumnWidth(2),
+                                          3: pw.FlexColumnWidth(2),
+                                          4: pw.FlexColumnWidth(2),
+                                          5: pw.FlexColumnWidth(3),
+                                          if (isSeniorHighSchool)
+                                            6: pw.FlexColumnWidth(2),
+                                          7: pw.FlexColumnWidth(1),
+                                        },
+                                        children:
+                                            studentsToInclude.map((student) {
+                                          return pw.TableRow(
+                                            children: [
+                                              pw.Padding(
+                                                padding:
+                                                    const pw.EdgeInsets.all(4),
+                                                child: pw.Text(
+                                                    student['lrn'] ?? ''),
+                                              ),
+                                              pw.Padding(
+                                                padding:
+                                                    const pw.EdgeInsets.all(4),
+                                                child: pw.Text(
+                                                    student['first_name'] ??
+                                                        ''),
+                                              ),
+                                              pw.Padding(
+                                                padding:
+                                                    const pw.EdgeInsets.all(4),
+                                                child: pw.Text(
+                                                    student['last_name'] ?? ''),
+                                              ),
+                                              pw.Padding(
+                                                padding:
+                                                    const pw.EdgeInsets.all(4),
+                                                child: pw.Text(
+                                                    student['middle_name'] ??
+                                                        ''),
+                                              ),
+                                              pw.Padding(
+                                                padding:
+                                                    const pw.EdgeInsets.all(4),
+                                                child: pw.Text(
+                                                    student['section'] ?? ''),
+                                              ),
+                                              pw.Padding(
+                                                padding:
+                                                    const pw.EdgeInsets.all(4),
+                                                child: pw.Text(
+                                                    student['subject_Name'] ??
+                                                        ''),
+                                              ),
+                                              if (isSeniorHighSchool)
+                                                pw.Padding(
+                                                  padding:
+                                                      const pw.EdgeInsets.all(
+                                                          4),
+                                                  child: pw.Text(
+                                                      student['subject_Code'] ??
+                                                          ''),
+                                                ),
+                                              pw.Padding(
+                                                padding:
+                                                    const pw.EdgeInsets.all(4),
+                                                child: pw.Text(
+                                                    student['Grade'] ?? ''),
+                                              ),
+                                            ],
+                                          );
+                                        }).toList(),
                                       ),
                                     ],
                                   ),
                                 ],
-                              ),
-                              pw.SizedBox(height: 10),
-                              pw.Table(
-                                border: pw.TableBorder.all(),
-                                columnWidths: {
-                                  0: pw.FlexColumnWidth(2),
-                                  1: pw.FlexColumnWidth(2),
-                                  2: pw.FlexColumnWidth(2),
-                                  3: pw.FlexColumnWidth(2),
-                                  4: pw.FlexColumnWidth(2),
-                                  5: pw.FlexColumnWidth(3),
-                                  if (isSeniorHighSchool)
-                                    6: pw.FlexColumnWidth(2),
-                                  7: pw.FlexColumnWidth(1),
-                                },
-                                children: studentsToInclude.map((student) {
-                                  return pw.TableRow(
-                                    children: [
-                                      pw.Padding(
-                                        padding: const pw.EdgeInsets.all(4),
-                                        child: pw.Text(
-                                            student['student_id'] ?? ''),
-                                      ),
-                                      pw.Padding(
-                                        padding: const pw.EdgeInsets.all(4),
-                                        child: pw.Text(
-                                            student['first_name'] ?? ''),
-                                      ),
-                                      pw.Padding(
-                                        padding: const pw.EdgeInsets.all(4),
-                                        child:
-                                            pw.Text(student['last_name'] ?? ''),
-                                      ),
-                                      pw.Padding(
-                                        padding: const pw.EdgeInsets.all(4),
-                                        child: pw.Text(
-                                            student['middle_name'] ?? ''),
-                                      ),
-                                      pw.Padding(
-                                        padding: const pw.EdgeInsets.all(4),
-                                        child:
-                                            pw.Text(student['section'] ?? ''),
-                                      ),
-                                      pw.Padding(
-                                        padding: const pw.EdgeInsets.all(4),
-                                        child: pw.Text(
-                                            student['subject_Name'] ?? ''),
-                                      ),
-                                      if (isSeniorHighSchool)
-                                        pw.Padding(
-                                          padding: const pw.EdgeInsets.all(4),
-                                          child: pw.Text(
-                                              student['subject_Code'] ?? ''),
-                                        ),
-                                      pw.Padding(
-                                        padding: const pw.EdgeInsets.all(4),
-                                        child: pw.Text(student['Grade'] ?? ''),
-                                      ),
-                                    ],
-                                  );
-                                }).toList(),
                               ),
                             ];
                           },
@@ -5566,8 +5716,9 @@ String getStrandCourse(String strand) {
 
                       final pdfBytes = await pdf.save();
                       await Printing.sharePdf(
-                          bytes: pdfBytes,
-                          filename: 'students_report_grade.pdf');
+                        bytes: pdfBytes,
+                        filename: 'students_report_grade.pdf',
+                      );
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('PDF downloaded')),
@@ -6520,8 +6671,8 @@ String getStrandCourse(String strand) {
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         decoration: const BoxDecoration(
                           border: Border(
-                            bottom:
-                                BorderSide(color: Color(0xFF03b97c), width: 2.0),
+                            bottom: BorderSide(
+                                color: Color(0xFF03b97c), width: 2.0),
                           ),
                         ),
                         child: Row(
@@ -6546,7 +6697,7 @@ String getStrandCourse(String strand) {
                                 child: Text('Requested Document',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold))),
-                          Expanded(
+                            Expanded(
                                 flex: 1,
                                 child: Center(
                                     child: Text('Actions',
@@ -6569,29 +6720,27 @@ String getStrandCourse(String strand) {
                                     const EdgeInsets.symmetric(vertical: 10.0),
                                 decoration: BoxDecoration(
                                   border: Border(
-                                    bottom: BorderSide(
-                                        color: Colors.grey.shade300),
+                                    bottom:
+                                        BorderSide(color: Colors.grey.shade300),
                                   ),
                                 ),
                                 child: Row(
                                   children: [
                                     Expanded(
                                         flex: 2,
-                                        child: Text(
-                                            data['first_name'] ?? '',
-                                            style: const TextStyle(
-                                                fontSize: 14))),
+                                        child: Text(data['first_name'] ?? '',
+                                            style:
+                                                const TextStyle(fontSize: 14))),
                                     Expanded(
                                         flex: 2,
                                         child: Text(data['last_name'] ?? '',
-                                            style: const TextStyle(
-                                                fontSize: 14))),
+                                            style:
+                                                const TextStyle(fontSize: 14))),
                                     Expanded(
                                         flex: 2,
-                                        child: Text(
-                                            data['middle_name'] ?? '',
-                                            style: const TextStyle(
-                                                fontSize: 14))),
+                                        child: Text(data['middle_name'] ?? '',
+                                            style:
+                                                const TextStyle(fontSize: 14))),
                                     Expanded(
                                         flex: 3,
                                         child: Text(
@@ -6599,33 +6748,33 @@ String getStrandCourse(String strand) {
                                             style: const TextStyle(
                                                 fontSize: 14,
                                                 color: Colors.black87))),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Center(
-                                      child: IconButton(
-                                        icon: const Icon(
-                                          Icons.remove_red_eye,
-                                          color: Color(0xFF03b97c),
-                                        ),
-                                        tooltip: "View Details",
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ViewDetailsDocumentRequest(
-                                                documentId: doc.id,
-                                                requestData: data,
+                                    Expanded(
+                                      flex: 1,
+                                      child: Center(
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.remove_red_eye,
+                                            color: Color(0xFF03b97c),
+                                          ),
+                                          tooltip: "View Details",
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewDetailsDocumentRequest(
+                                                  documentId: doc.id,
+                                                  requestData: data,
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        },
+                                            );
+                                          },
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                                                            );
+                                  ],
+                                ),
+                              );
                             }).toList(),
                           ),
                         ),
@@ -6640,7 +6789,6 @@ String getStrandCourse(String strand) {
       ),
     );
   }
-
 
   Widget _buildManageSubjects() {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -10243,7 +10391,7 @@ String getStrandCourse(String strand) {
               _buildDrawerItem('News and Updates', Iconsax.activity_copy,
                   'News and Updates'),
               _buildDrawerItem('FAQS', Iconsax.message_2_copy, 'FAQS'),
-              _buildDrawerItem('Reports', Iconsax.data_copy, 'Reports'),
+              // _buildDrawerItem('Reports', Iconsax.data_copy, 'Reports'),
               _buildDrawerItem('Dashboard', Iconsax.dash_dash, 'Dashboard'),
             ], // In your drawer ListView, replace the Subject Teacher drawer item with this:
 

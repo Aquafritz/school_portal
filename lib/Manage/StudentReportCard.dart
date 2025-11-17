@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:iconsax_flutter/iconsax_flutter.dart';
@@ -10,19 +11,15 @@ class StudentReportCards extends StatefulWidget {
   final Map<String, dynamic> studentData;
   final String studentDocId;
 
-  const StudentReportCards({
-    super.key, 
-    required this.studentData, 
-    required this.studentDocId
-    }
-    );
+  const StudentReportCards(
+      {super.key, required this.studentData, required this.studentDocId});
 
   @override
   State<StudentReportCards> createState() => _StudentReportCardsState();
 }
 
 class _StudentReportCardsState extends State<StudentReportCards> {
-    String _email = '';
+  String _email = '';
   String _accountType = '';
   String _firstName = '';
   String _lastName = '';
@@ -30,7 +27,6 @@ class _StudentReportCardsState extends State<StudentReportCards> {
   List<bool> isEditing = [];
   bool _hovering = false;
   bool _isLoading = true;
-
 
   Future<void> _fetchUserData() async {
     try {
@@ -68,66 +64,71 @@ class _StudentReportCardsState extends State<StudentReportCards> {
   }
 
   Future<List<Map<String, dynamic>>> _fetchGrades() async {
-  List<Map<String, dynamic>> allGrades = [];
+    List<Map<String, dynamic>> allGrades = [];
 
-  List<String> collections = [
-    'Grade 11 - 1st Semester',
-    'Grade 11 - 2nd Semester',
-    'Grade 12 - 1st Semester',
-    'Grade 12 - 2nd Semester'
-  ];
+    List<String> collections = [
+      'Grade 11 - 1st Semester',
+      'Grade 11 - 2nd Semester',
+      'Grade 12 - 1st Semester',
+      'Grade 12 - 2nd Semester'
+    ];
 
-  // Construct the full name from studentData
-  String fullName = '${widget.studentData['first_name']} ${widget.studentData['last_name']}';
+    // Construct the full name from studentData
+    String fullName =
+        '${widget.studentData['first_name']} ${widget.studentData['last_name']}';
 
-  for (String collection in collections) {
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection(collection)
-        .doc(widget.studentData['seniorHigh_Strand']) // Ensure this is the correct document ID
-        .get(); // Get the document
+    for (String collection in collections) {
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection(collection)
+          .doc(widget.studentData[
+              'seniorHigh_Strand']) // Ensure this is the correct document ID
+          .get(); // Get the document
 
-    print('Querying collection: $collection'); // Debugging line
-    if (snapshot.exists) { // Check if the document exists
-      var gradesData = snapshot.data() as Map<String, dynamic>; // Cast to Map
-      print('Document data: $gradesData'); // Log the document data
+      print('Querying collection: $collection'); // Debugging line
+      if (snapshot.exists) {
+        // Check if the document exists
+        var gradesData = snapshot.data() as Map<String, dynamic>; // Cast to Map
+        print('Document data: $gradesData'); // Log the document data
 
-      // Access the grades array for the student
-      if (gradesData.containsKey(fullName)) {
-        var studentGrades = gradesData[fullName]['grades']; // Access the grades array
-        for (var gradeEntry in studentGrades) {
-          allGrades.add({
-            'subject_name': gradeEntry['subject_name'], // Fetch subject name
-            'subject_code': gradeEntry['subject_code'], // Fetch subject code
-            'grade': gradeEntry['grade'], // Fetch grade
-          });
+        // Access the grades array for the student
+        if (gradesData.containsKey(fullName)) {
+          var studentGrades =
+              gradesData[fullName]['grades']; // Access the grades array
+          for (var gradeEntry in studentGrades) {
+            allGrades.add({
+              'subject_name': gradeEntry['subject_name'], // Fetch subject name
+              'subject_code': gradeEntry['subject_code'], // Fetch subject code
+              'grade': gradeEntry['grade'], // Fetch grade
+            });
+          }
+        } else {
+          print(
+              'No grades found for student: $fullName in collection: $collection');
         }
       } else {
-        print('No grades found for student: $fullName in collection: $collection');
+        print(
+            'No document found in collection: $collection'); // Improved logging
       }
-    } else {
-      print('No document found in collection: $collection'); // Improved logging
     }
+
+    return allGrades;
   }
 
-  return allGrades;
-}
-
-
-@override
-void initState() {
-  super.initState();
-  _fetchUserData();
-  _fetchGrades().then((grades) {
-    setState(() {
-      subjects = grades;
-      _isLoading = false; // Set loading to false after fetching
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+    _fetchGrades().then((grades) {
+      setState(() {
+        subjects = grades;
+        _isLoading = false; // Set loading to false after fetching
+      });
     });
-  });
-}
+  }
 
   @override
   Widget build(BuildContext context) {
-  String combinedAddress = [
+    String combinedAddress = [
       widget.studentData['house_number'] ?? '',
       widget.studentData['street_name'] ?? '',
       widget.studentData['subdivision_barangay'] ?? '',
@@ -135,7 +136,7 @@ void initState() {
       widget.studentData['province'] ?? '',
       widget.studentData['country'] ?? '',
     ].where((s) => s.isNotEmpty).join(', ');
-  
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
@@ -358,91 +359,96 @@ void initState() {
                     ),
                   ),
                   SizedBox(width: 16),
-                  
                   Expanded(
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: SingleChildScrollView(
-                              physics: BouncingScrollPhysics(),
-                              child: Table(
-                                border: TableBorder.all(),
-                                children: [
-                                  // Header Row
-                                  TableRow(
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[300],
-                                    ),
-                                    children: [
-                                      TableCell(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Subject Code',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TableCell(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Subject Name',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TableCell(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Grade',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  // Grades Rows
-                                  for (var grade in subjects) // Display each grade
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: SingleChildScrollView(
+                                physics: BouncingScrollPhysics(),
+                                child: Table(
+                                  border: TableBorder.all(),
+                                  children: [
+                                    // Header Row
                                     TableRow(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[300],
+                                      ),
                                       children: [
                                         TableCell(
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Text(grade['subject_code'] ?? ''),
+                                            child: Text(
+                                              'Subject Code',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                              ),
+                                            ),
                                           ),
                                         ),
                                         TableCell(
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Text(grade['subject_name'] ?? ''),
+                                            child: Text(
+                                              'Subject Name',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                              ),
+                                            ),
                                           ),
                                         ),
                                         TableCell(
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Text(grade['grade'] ?? ''),
+                                            child: Text(
+                                              'Grade',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
-                                ],
+                                    // Grades Rows
+                                    for (var grade
+                                        in subjects) // Display each grade
+                                      TableRow(
+                                        children: [
+                                          TableCell(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                  grade['subject_code'] ?? ''),
+                                            ),
+                                          ),
+                                          TableCell(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                  grade['subject_name'] ?? ''),
+                                            ),
+                                          ),
+                                          TableCell(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(grade['grade'] ?? ''),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
                             Container(
                               height: 30,
                               width: 300,
@@ -451,25 +457,21 @@ void initState() {
                                   backgroundColor:
                                       WidgetStateProperty.all<Color>(
                                           Color(0xFF002f24)),
-                                  elevation:
-                                      WidgetStateProperty.all<double>(5),
-                                  shape: WidgetStateProperty.all<
-                                      OutlinedBorder>(
+                                  elevation: WidgetStateProperty.all<double>(5),
+                                  shape:
+                                      WidgetStateProperty.all<OutlinedBorder>(
                                     RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(8),
+                                      borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
                                 ),
                                 onPressed: _generatePDF,
-
                                 child: Text(
                                   'Download to PDF',
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ),
                             ),
-                            
                           ],
                         ),
                       ),
@@ -484,7 +486,7 @@ void initState() {
     );
   }
 
-Widget _buildDetailRow(IconData icon, String title, String value) {
+  Widget _buildDetailRow(IconData icon, String title, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -502,67 +504,96 @@ Widget _buildDetailRow(IconData icon, String title, String value) {
       ),
     );
   }
-  void _generatePDF() async {
-  final pdf = pw.Document();
-  
-  pdf.addPage(
-  pw.MultiPage(
-    pageFormat: PdfPageFormat.a4.landscape,
-    build: (context) {
-      return [
-        pw.Column(
-          crossAxisAlignment: pw.CrossAxisAlignment.start,
-          children: [
-            pw.Text(
-              'Student Report Card',
-              style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold),
-            ),
-            pw.SizedBox(height: 10),
-            pw.Text(
-              '${widget.studentData['first_name']} ${widget.studentData['last_name']}',
-              style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.normal),
-            ),
-            pw.SizedBox(height: 20),
-          ],
-        ),
-        pw.Table.fromTextArray(
-          headers: ['Subject Code', 'Subject Name', 'Grade'],
-          data: subjects.map((grade) {
-            return [
-              grade['subject_code'] ?? '',
-              grade['subject_name'] ?? '',
-              grade['grade'] ?? '',
-            ];
-          }).toList(),
-        ),
-        pw.SizedBox(height: 40), // Add space before the principal section
-        pw.Align(
-          alignment: pw.Alignment.centerRight,
-          child: pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.center,
-            children: [
-              pw.Text(
-                'Bernardo A. Frialde',
-                style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),
-              ),
-              pw.Container(
-                width: 150,
-                child: pw.Divider(thickness: 1),
-              ),
-              pw.Text(
-                'SCHOOL PRINCIPAL',
-                style: pw.TextStyle(fontSize: 12, fontStyle: pw.FontStyle.italic),
-              ),
-            ],
-          ),
-        ),
-      ];
-    },
-  ),
-);
 
-  final pdfBytes = await pdf.save();
-      await Printing.sharePdf(
-          bytes: pdfBytes, filename: 'report_grade.pdf');
+  void _generatePDF() async {
+    // Load logo from assets
+    final logoImage = pw.MemoryImage(
+      (await rootBundle.load('assets/LOGOFORSALOMAGUE.png'))
+          .buffer
+          .asUint8List(),
+    );
+
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4.landscape,
+        build: (context) {
+          return [
+            pw.Stack(
+              children: [
+                // WATERMARK
+                pw.Positioned.fill(
+                  child: pw.Center(
+                    child: pw.Opacity(
+                      opacity: 0.12,
+                      child: pw.Image(
+                        logoImage,
+                        width: 350,
+                        fit: pw.BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ),
+                // MAIN CONTENT
+                pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.Text(
+                      'Student Report Card',
+                      style: pw.TextStyle(
+                          fontSize: 24, fontWeight: pw.FontWeight.bold),
+                    ),
+                    pw.SizedBox(height: 10),
+                    pw.Text(
+                      '${widget.studentData['first_name']} ${widget.studentData['last_name']}',
+                      style: pw.TextStyle(
+                          fontSize: 20, fontWeight: pw.FontWeight.normal),
+                    ),
+                    pw.SizedBox(height: 20),
+                    pw.Table.fromTextArray(
+                      headers: ['Subject Code', 'Subject Name', 'Grade'],
+                      data: subjects.map((grade) {
+                        return [
+                          grade['subject_code'] ?? '',
+                          grade['subject_name'] ?? '',
+                          grade['grade'] ?? '',
+                        ];
+                      }).toList(),
+                    ),
+                    pw.SizedBox(height: 40),
+                    pw.Align(
+                      alignment: pw.Alignment.centerRight,
+                      child: pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.center,
+                        children: [
+                          pw.Text(
+                            'Bernardo A. Frialde',
+                            style: pw.TextStyle(
+                                fontSize: 14, fontWeight: pw.FontWeight.bold),
+                          ),
+                          pw.Container(
+                            width: 150,
+                            child: pw.Divider(thickness: 1),
+                          ),
+                          pw.Text(
+                            'SCHOOL PRINCIPAL',
+                            style: pw.TextStyle(
+                                fontSize: 12, fontStyle: pw.FontStyle.italic),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ];
+        },
+      ),
+    );
+
+    final pdfBytes = await pdf.save();
+    await Printing.sharePdf(bytes: pdfBytes, filename: 'report_grade.pdf');
   }
 }

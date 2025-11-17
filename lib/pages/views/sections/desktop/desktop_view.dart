@@ -165,6 +165,49 @@ class _DesktopViewState extends State<DesktopView>
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+
+    // --- responsive values ---
+    final bool isSmall = screenWidth < 900;
+
+    final double appBarHeight =
+        clampDouble(screenWidth / 16, 60, 80); // min & max height
+    final double logoSize =
+        clampDouble(screenWidth / 20, 40, 60); // min & max logo size
+    final double titleFontSize =
+        clampDouble(screenWidth / 50, 14, 22); // SNHS text
+
+    final double navFontSize = isSmall ? 12 : 14;
+    final double buttonHeight = isSmall ? 32 : 40;
+    final double buttonFontSize = isSmall ? 12 : 14;
+    final EdgeInsets buttonPadding =
+        EdgeInsets.symmetric(horizontal: isSmall ? 12 : 20);
+    final double gap = isSmall ? 12 : 25;
+
+    Widget buildNavButton(String text, VoidCallback onPressed) {
+      return ConstrainedBox(
+        constraints: BoxConstraints(minHeight: buttonHeight),
+        child: TextButton(
+          style: TextButton.styleFrom(
+            padding: buttonPadding,
+            minimumSize: Size(0, buttonHeight),
+            backgroundColor: const Color(0xFF002f24),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          onPressed: onPressed,
+          child: Text(
+            text,
+            style: TextStyle(
+              fontFamily: "B",
+              fontSize: buttonFontSize,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ).moveUpOnHover;
+    }
+
     return Scaffold(
       body: Stack(
         children: [
@@ -174,9 +217,7 @@ class _DesktopViewState extends State<DesktopView>
               children: [
                 FirstSection(onGetStartedPressed: toggleTAC),
                 SecondSection(),
-                Footer(
-                  key: _footerKey,
-                ),
+                Footer(key: _footerKey),
               ],
             ),
           ),
@@ -188,263 +229,202 @@ class _DesktopViewState extends State<DesktopView>
               animation: _textController2,
               builder: (context, child) {
                 return FadeTransition(
-                    opacity: _textOpacityAnimation2,
-                    child: AppBar(
-                      automaticallyImplyLeading: false,
-                      toolbarHeight: screenWidth / 16,
-                      elevation: 8,
-                      backgroundColor: _appBarColor,
-                      title: Container(
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Launcher(
-                                      scrollToFooter: false,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Row(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: Image.asset(
-                                        "assets/LOGOFORSALOMAGUE.png",
-                                        height: screenWidth / 20,
-                                        width: screenWidth / 20,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    "SNHS",
-                                    style: TextStyle(
-                                      color: Colors.yellowAccent,
-                                      fontFamily: "B",
-                                      fontSize: screenWidth / 50,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ).showCursorOnHover,
-                            Spacer(),
-                            MouseRegion(
-                              onEnter: (_) {
-                                setState(() {
-                                  _textColor2 = Color(0xFF002f24);
-                                });
-                              },
-                              onExit: (_) {
-                                setState(() {
-                                  _textColor2 = Colors.yellowAccent;
-                                });
-                              },
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => AboutUs(),
-                                      ));
-                                },
-                                child: Text(
-                                  "About us",
-                                  style: TextStyle(
-                                    fontFamily: "SB",
-                                    fontSize: 14,
-                                    color: _textColor2,
-                                  ),
-                                ).showCursorOnHover.moveUpOnHover,
-                              ),
-                            ),
-                            SizedBox(width: 25),
-                            MouseRegion(
-                              onEnter: (_) {
-                                setState(() {
-                                  _textColor3 = Color(0xFF002f24);
-                                });
-                              },
-                              onExit: (_) {
-                                setState(() {
-                                  _textColor3 = Colors.yellowAccent;
-                                });
-                              },
-                              child: GestureDetector(
-                                onTap: () {
-                                  scrollToSection(_footerKey);
-                                },
-                                child: Text(
-                                  "Contact us",
-                                  style: TextStyle(
-                                    fontFamily: "SB",
-                                    fontSize: 14,
-                                    color: _textColor3,
-                                  ),
-                                ).showCursorOnHover.moveUpOnHover,
-                              ),
-                            ),
-                            SizedBox(width: 25),
-                            SizedBox(
-                              width: screenWidth / 12,
-                              height: screenWidth / 35,
-                              child: TextButton(
-                                style: ButtonStyle(
-                                  backgroundColor: WidgetStateProperty.all(
-                                      Color(0xFF002f24)),
-                                  shape: WidgetStateProperty.all(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                ),
-                                onPressed: toggleSignInCard,
-                                child: Text(
-                                  "Sign In",
-                                  style: TextStyle(
-                                    fontFamily: "B",
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                  ),
+                  opacity: _textOpacityAnimation2,
+                  child: AppBar(
+                    automaticallyImplyLeading: false,
+                    toolbarHeight: appBarHeight,
+                    elevation: 8,
+                    backgroundColor: _appBarColor,
+                    title: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Launcher(
+                                  scrollToFooter: false,
                                 ),
                               ),
-                            ).moveUpOnHover,
-                            SizedBox(width: 25),
-                            SizedBox(
-                              width: screenWidth / 12,
-                              height: screenWidth / 35,
-                              child: TextButton(
-                                style: ButtonStyle(
-                                  backgroundColor: WidgetStateProperty.all(
-                                      Color(0xFF002f24)),
-                                  shape: WidgetStateProperty.all(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                ),
-                                onPressed: toggleTAC,
-                                child: Text(
-                                  "Enroll Now",
-                                  style: TextStyle(
-                                    fontFamily: "B",
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                  ),
+                            );
+                          },
+                          child: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Image.asset(
+                                  "assets/LOGOFORSALOMAGUE.png",
+                                  height: logoSize,
+                                  width: logoSize,
                                 ),
                               ),
-                            ).moveUpOnHover,
-                              SizedBox(width: 25),
-                            SizedBox(
-                              width: screenWidth / 8,
-                              height: screenWidth / 35,
-                              child: TextButton(
-                                style: ButtonStyle(
-                                  backgroundColor: WidgetStateProperty.all(
-                                      Color(0xFF002f24)),
-                                  shape: WidgetStateProperty.all(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                ),
-                                onPressed: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => DocumentRequestForm()));
-                                },
-                                child: Text(
-                                  "Document Request",
-                                  style: TextStyle(
-                                    fontFamily: "B",
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                  ),
+                              const SizedBox(width: 5),
+                              Text(
+                                "SNHS",
+                                style: TextStyle(
+                                  color: Colors.yellowAccent,
+                                  fontFamily: "B",
+                                  fontSize: titleFontSize,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ).moveUpOnHover,
-                          ],
+                            ],
+                          ),
+                        ).showCursorOnHover,
+                        const Spacer(),
+                        MouseRegion(
+                          onEnter: (_) {
+                            setState(
+                                () => _textColor2 = const Color(0xFF002f24));
+                          },
+                          onExit: (_) {
+                            setState(() => _textColor2 = Colors.yellowAccent);
+                          },
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const AboutUs(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              "About us",
+                              style: TextStyle(
+                                fontFamily: "SB",
+                                fontSize: navFontSize,
+                                color: _textColor2,
+                              ),
+                            ).showCursorOnHover.moveUpOnHover,
+                          ),
                         ),
-                      ),
-                    ));
+                        SizedBox(width: gap),
+                        MouseRegion(
+                          onEnter: (_) {
+                            setState(
+                                () => _textColor3 = const Color(0xFF002f24));
+                          },
+                          onExit: (_) {
+                            setState(() => _textColor3 = Colors.yellowAccent);
+                          },
+                          child: GestureDetector(
+                            onTap: () => scrollToSection(_footerKey),
+                            child: Text(
+                              "Contact us",
+                              style: TextStyle(
+                                fontFamily: "SB",
+                                fontSize: navFontSize,
+                                color: _textColor3,
+                              ),
+                            ).showCursorOnHover.moveUpOnHover,
+                          ),
+                        ),
+                        SizedBox(width: gap),
+                        // --- Sign In button ---
+                        buildNavButton("Sign In", toggleSignInCard),
+                        SizedBox(width: gap),
+                        // --- Enroll Now button ---
+                        buildNavButton("Enroll Now", toggleTAC),
+                        SizedBox(width: gap),
+                        // --- Document Request button ---
+                        buildNavButton(
+                          "Document Request",
+                          () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const DocumentRequestForm(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               },
             ),
           ),
+          // (rest of your AnimatedSwitcher overlays stay the same)
           AnimatedSwitcher(
-            duration: Duration(milliseconds: 550),
+            duration: const Duration(milliseconds: 550),
             child: _showSignInCard
-                ? Stack(children: [
-                    Positioned.fill(
-                      child: GestureDetector(
-                        onTap: closeSignInCard,
-                        child: Stack(
-                          children: [
-                            BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-                              child: Container(
-                                  color: Colors.black.withOpacity(0.5)),
-                            ),
-                            Center(
-                              child: GestureDetector(
-                                onTap: () {},
-                                child: AnimatedContainer(
-                                  duration: Duration(milliseconds: 500),
-                                  width: screenWidth / 1.2,
-                                  height: screenHeight / 1.2,
-                                  curve: Curves.easeInOut,
-                                  child: SignInDesktop(
-                                    key: ValueKey('signInCard'),
-                                    closeSignInCardCallback: closeSignInCard,
+                ? Stack(
+                    children: [
+                      Positioned.fill(
+                        child: GestureDetector(
+                          onTap: closeSignInCard,
+                          child: Stack(
+                            children: [
+                              BackdropFilter(
+                                filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                                child: Container(
+                                  color: Colors.black.withOpacity(0.5),
+                                ),
+                              ),
+                              Center(
+                                child: GestureDetector(
+                                  onTap: () {},
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 500),
+                                    width: screenWidth / 1.2,
+                                    height: screenHeight / 1.2,
+                                    curve: Curves.easeInOut,
+                                    child: SignInDesktop(
+                                      key: const ValueKey('signInCard'),
+                                      closeSignInCardCallback: closeSignInCard,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ])
-                : SizedBox.shrink(),
+                    ],
+                  )
+                : const SizedBox.shrink(),
           ),
           AnimatedSwitcher(
-            duration: Duration(milliseconds: 550),
+            duration: const Duration(milliseconds: 550),
             child: _TAC
-                ? Stack(children: [
-                    Positioned.fill(
-                      child: GestureDetector(
-                        onTap: closeTAC,
-                        child: Stack(
-                          children: [
-                            BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-                              child: Container(
-                                  color: Colors.black.withOpacity(0.5)),
-                            ),
-                            Center(
-                              child: GestureDetector(
-                                onTap: () {},
-                                child: AnimatedContainer(
-                                  duration: Duration(milliseconds: 500),
-                                  width: screenWidth / 1.2,
-                                  height: screenHeight / 1.2,
-                                  curve: Curves.easeInOut,
-                                  child: TACWebView(
-                                    key: ValueKey('closeTAC'),
-                                    closeTAC: closeTAC,
+                ? Stack(
+                    children: [
+                      Positioned.fill(
+                        child: GestureDetector(
+                          onTap: closeTAC,
+                          child: Stack(
+                            children: [
+                              BackdropFilter(
+                                filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                                child: Container(
+                                  color: Colors.black.withOpacity(0.5),
+                                ),
+                              ),
+                              Center(
+                                child: GestureDetector(
+                                  onTap: () {},
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 500),
+                                    width: screenWidth / 1.2,
+                                    height: screenHeight / 1.2,
+                                    curve: Curves.easeInOut,
+                                    child: TACWebView(
+                                      key: const ValueKey('closeTAC'),
+                                      closeTAC: closeTAC,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ])
-                : SizedBox.shrink(),
+                    ],
+                  )
+                : const SizedBox.shrink(),
           ),
         ],
       ),
