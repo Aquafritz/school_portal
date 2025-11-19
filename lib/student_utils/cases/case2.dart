@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class EnrollmentStatusWidget extends StatelessWidget {
+class EnrollmentStatusWidget extends StatefulWidget {
   final String? enrollmentStatus;
   final String? studentId;
   final String? fullName;
@@ -21,7 +21,7 @@ class EnrollmentStatusWidget extends StatelessWidget {
   final Function(String?)? onSectionChanged;
   final VoidCallback? onLoadSubjects;
   final VoidCallback? onFinalize;
-  final VoidCallback? checkEnrollmentStatus; // Add this line
+  final VoidCallback? checkEnrollmentStatus;
   final String? educLevel;
 
   const EnrollmentStatusWidget({
@@ -42,10 +42,199 @@ class EnrollmentStatusWidget extends StatelessWidget {
     this.onSectionChanged,
     this.onLoadSubjects,
     this.onFinalize,
-    this.checkEnrollmentStatus, // Add this line
+    this.checkEnrollmentStatus,
     this.FinalizedData,
-    required this.educLevel, // Add this
+    required this.educLevel,
   }) : super(key: key);
+
+  @override
+  _EnrollmentStatusWidgetState createState() =>
+      _EnrollmentStatusWidgetState();
+}
+
+class _EnrollmentStatusWidgetState extends State<EnrollmentStatusWidget> {
+  // Cached list of instructors from Firestore
+  List<Map<String, dynamic>> _instructors = [];
+
+  // Subjects with appended teacher_name (populated after matching)
+  List<Map<String, dynamic>> _subjectsWithTeachers = [];
+
+  // Loading state for fetching instructors/matching
+  bool _loadingInstructors = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchInstructorsAndAttachTeachers();
+  }
+
+  Future<void> _fetchInstructorsAndAttachTeachers() async {
+    setState(() {
+      _loadingInstructors = true;
+    });
+
+    try {
+      // Fetch instructors once and cache them
+      QuerySnapshot instructorSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('accountType', isEqualTo: 'instructor')
+          .get();
+
+      _instructors = instructorSnapshot.docs
+          .map((d) {
+            final data = d.data() as Map<String, dynamic>;
+            // Normalize keys to ease matching (we'll access both possibilities)
+            return {
+              ...data,
+              'docId': d.id,
+            };
+          })
+          .toList();
+
+      // Attach teacher names to the subjects provided in widget.subjects
+      _attachTeacherNamesToSubjects();
+    } catch (e) {
+      // Log error (you may want to show UI feedback)
+      // print('Error fetching instructors: $e');
+      _instructors = [];
+      _subjectsWithTeachers = widget.subjects
+          .map((s) => {...s, 'teacher_name': ''})
+          .toList();
+    } finally {
+      if (mounted) {
+        setState(() {
+          _loadingInstructors = false;
+        });
+      }
+    }
+  }
+
+  void _attachTeacherNamesToSubjects() {
+    // We'll create a new list copying widget.subjects and append teacher_name
+    final List<Map<String, dynamic>> updated = [];
+
+    for (final subject in widget.subjects) {
+      final String subjNameRaw =
+          (subject['subject_name'] ?? subject['subject_Name'] ?? '')
+              .toString();
+      final String subjCodeRaw =
+          (subject['subject_code'] ?? subject['subject_Code'] ?? '')
+              .toString();
+
+      final String subjName = subjNameRaw.trim().toLowerCase();
+      final String subjCode = subjCodeRaw.trim().toLowerCase();
+
+      Map<String, dynamic>? matchedInstructor;
+
+      if ((widget.educLevel ?? '').toLowerCase() ==
+          'senior high school') {
+        // Match both subject name and code for SHS
+        matchedInstructor = _instructors.firstWhere(
+          (ins) {
+            final String insName =
+                ((ins['subject_Name'] ?? ins['subject_name'] ?? '') as String)
+                    .trim()
+                    .toLowerCase();
+            final String insCode =
+                ((ins['subject_Code'] ?? ins['subject_Code'] ?? ins['subject_Code'] ?? ins['subject_Code'] ?? '') as String)
+                    .trim()
+                    .toLowerCase();
+            // There may be various key casings in your DB; handle common ones.
+            // Try several keys for code:
+            String insCodeAlt = ((ins['subject_Code'] ??
+                        ins['subject_code'] ??
+                        ins['subjectCode'] ??
+                        '') as String)
+                    .trim()
+                    .toLowerCase();
+            final bool nameMatches = insName == subjName;
+            final bool codeMatches = insCodeAlt == subjCode || insCode == subjCode;
+            return nameMatches && codeMatches;
+          },
+          orElse: () => <String, dynamic>{},
+        );
+        if ((matchedInstructor ?? {}).isEmpty) matchedInstructor = null;
+      } else {
+        // Junior High School: match by subject name only
+        matchedInstructor = _instructors.firstWhere(
+          (ins) {
+            final String insName =
+                ((ins['subject_Name'] ?? ins['subject_name'] ?? '') as String)
+                    .trim()
+                    .toLowerCase();
+            return insName == subjName;
+          },
+          orElse: () => <String, dynamic>{},
+        );
+        if ((matchedInstructor ?? {}).isEmpty) matchedInstructor = null;
+      }
+
+      String teacherFullName = '';
+
+      if (matchedInstructor != null) {
+        final String first =
+            (matchedInstructor['first_name'] ?? matchedInstructor['firstName'] ?? '')
+                .toString()
+                .trim();
+        final String middle =
+            (matchedInstructor['middle_name'] ?? matchedInstructor['middleName'] ?? '')
+                .toString()
+                .trim();
+        final String last =
+            (matchedInstructor['last_name'] ?? matchedInstructor['lastName'] ?? '')
+                .toString()
+                .trim();
+
+        // Build full name: first + (middle if exists) + last
+        if (middle.isNotEmpty) {
+          teacherFullName = '$first $middle $last'.trim();
+        } else {
+          teacherFullName = '$first $last'.trim();
+        }
+      }
+
+      updated.add({
+        ...subject,
+        'teacher_name': teacherFullName,
+      });
+    }
+
+    setState(() {
+      _subjectsWithTeachers = updated;
+    });
+  }
+
+  // Call this to refresh instructors + re-attach teachers (e.g., when Load Section pressed)
+  Future<void> _refreshInstructorsAndSubjects() async {
+    await _fetchInstructorsAndAttachTeachers();
+  }
+
+  // Helper small cell widget
+  Widget _cellWidget(String text, {double? fontSize}) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: fontSize,
+        ),
+      ),
+    );
+  }
+
+  @override
+  void didUpdateWidget(covariant EnrollmentStatusWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // If subjects input changed from parent, re-attach teacher names
+    if (oldWidget.subjects != widget.subjects) {
+      _attachTeacherNamesToSubjects();
+    }
+    // If education level changed, re-attach
+    if (oldWidget.educLevel != widget.educLevel) {
+      _attachTeacherNamesToSubjects();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +273,7 @@ class EnrollmentStatusWidget extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20), // Add spacing below the title
-                if (enrollmentStatus == null)
+                if (widget.enrollmentStatus == null)
                   Center(
                     child: DefaultTextStyle(
                       style: TextStyle(
@@ -100,10 +289,10 @@ class EnrollmentStatusWidget extends StatelessWidget {
                       ),
                     ),
                   )
-                else if (enrollmentStatus == 'reEnrollSubmitted')
+                else if (widget.enrollmentStatus == 'reEnrollSubmitted')
                   _buildReEnrollSubmittedContent(imageSize, textFontSize)
-                else if (enrollmentStatus == 'approved')
-                  if (isFinalized)
+                else if (widget.enrollmentStatus == 'approved')
+                  if (widget.isFinalized)
                     _buildFinalizedContent(context, textFontSize)
                   else
                     _buildApprovedContent(context, textFontSize),
@@ -150,68 +339,75 @@ class EnrollmentStatusWidget extends StatelessWidget {
   Widget _buildFinalizedContent(BuildContext context, double textFontSize) {
     return Column(
       children: [
-        StreamBuilder<DocumentSnapshot>(
+        StreamBuilder<QuerySnapshot>(
+          // Fetch user doc where student_id equals widget.studentId and then get sections/doc
           stream: FirebaseFirestore.instance
               .collection('users')
-              .where('student_id', isEqualTo: studentId)
+              .where('student_id', isEqualTo: widget.studentId)
               .limit(1)
-              .snapshots()
-              .asyncMap((snapshot) async {
-            if (snapshot.docs.isNotEmpty) {
-              String docId = snapshot.docs.first.id;
-              return await FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(docId)
-                  .collection('sections')
-                  .doc(docId)
-                  .get();
-            }
-            throw Exception('User not found');
-          }),
+              .snapshots(),
           builder: (context, snapshot) {
-            if (snapshot.hasData && snapshot.data != null) {
-              final data = snapshot.data!.data() as Map<String, dynamic>?;
+            if (snapshot.hasData &&
+                snapshot.data != null &&
+                snapshot.data!.docs.isNotEmpty) {
+              final userDoc = snapshot.data!.docs.first;
+              final String docId = userDoc.id;
 
-              if (data != null && data['finalizationTimestamp'] != null) {
-                final Timestamp timestamp =
-                    data['finalizationTimestamp'] as Timestamp;
-                final DateTime dateTime = timestamp.toDate();
-                final String formattedDate =
-                    DateFormat('MMMM dd, yyyy hh:mm a').format(dateTime);
+              return FutureBuilder<DocumentSnapshot>(
+                future: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(docId)
+                    .collection('sections')
+                    .doc(docId)
+                    .get(),
+                builder: (context, snap2) {
+                  if (snap2.hasData && snap2.data != null) {
+                    final data = snap2.data!.data() as Map<String, dynamic>?;
+                    if (data != null && data['finalizationTimestamp'] != null) {
+                      final Timestamp timestamp =
+                          data['finalizationTimestamp'] as Timestamp;
+                      final DateTime dateTime = timestamp.toDate();
+                      final String formattedDate =
+                          DateFormat('MMMM dd, yyyy hh:mm a').format(dateTime);
 
-                return Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(8.0),
-                  margin: const EdgeInsets.only(bottom: 16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    'Finalized on: $formattedDate',
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              }
+                      return Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(8.0),
+                        margin: const EdgeInsets.only(bottom: 16.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          'Finalized on: $formattedDate',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+                    }
+                  }
+                  return const SizedBox();
+                },
+              );
             }
-            return const SizedBox(); // Return empty widget if no data
+
+            return const SizedBox();
           },
         ),
-        _buildStudentDataRow('Student ID no:', studentId, textFontSize),
-        _buildStudentDataRow('Student Full Name:', fullName, textFontSize),
+        _buildStudentDataRow('Student ID no:', widget.studentId, textFontSize),
+        _buildStudentDataRow('Student Full Name:', widget.fullName, textFontSize),
 
         // Conditionally show strand, track, and semester based on educLevel
-        if (educLevel == 'Senior High School') ...[
-          _buildStudentDataRow('Strand:', strand, textFontSize),
-          _buildStudentDataRow('Track:', track, textFontSize),
-          _buildStudentDataRow('Semester:', semester, textFontSize),
-        ] else if (educLevel == 'Junior High School') ...[
-          _buildStudentDataRow('Quarter:', quarter, textFontSize),
+        if ((widget.educLevel ?? '') == 'Senior High School') ...[
+          _buildStudentDataRow('Strand:', widget.strand, textFontSize),
+          _buildStudentDataRow('Track:', widget.track, textFontSize),
+          _buildStudentDataRow('Semester:', widget.semester, textFontSize),
+        ] else if ((widget.educLevel ?? '') == 'Junior High School') ...[
+          _buildStudentDataRow('Quarter:', widget.quarter, textFontSize),
         ],
 
         // Show selected section as text
@@ -225,7 +421,7 @@ class EnrollmentStatusWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
-              'Section: ${selectedSection}',
+              'Section: ${widget.selectedSection}',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: textFontSize,
@@ -240,7 +436,7 @@ class EnrollmentStatusWidget extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                'Section Adviser: ${sectionAdviser}',
+                'Section Adviser: ${widget.sectionAdviser}',
                 style: TextStyle(
                     fontSize: textFontSize,
                     fontWeight: FontWeight.bold,
@@ -252,74 +448,10 @@ class EnrollmentStatusWidget extends StatelessWidget {
         ),
 
         // Conditionally show the subjects table for Senior High School
-        if (educLevel == 'Senior High School')
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 20),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Table(
-              border: TableBorder.all(color: Colors.white.withOpacity(0.3)),
-              columnWidths: const {
-                0: FlexColumnWidth(2),
-                1: FlexColumnWidth(4),
-                2: FlexColumnWidth(2),
-              },
-              children: [
-                TableRow(
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                  ),
-                  children: [
-                    _buildHeaderCell('Subject Code'),
-                    _buildHeaderCell('Subject Name'),
-                    _buildHeaderCell('Category'),
-                  ],
-                ),
-                ...subjects
-                    .map((subject) => TableRow(
-                          children: [
-                            _buildCell(subject['subject_code'] ?? ''),
-                            _buildCell(subject['subject_name'] ?? ''),
-                            _buildCell(subject['category'] ?? ''),
-                          ],
-                        ))
-                    .toList(),
-              ],
-            ),
-          ),
-        if (educLevel == 'Junior High School')
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 20),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Table(
-              border: TableBorder.all(color: Colors.white.withOpacity(0.3)),
-              columnWidths: const {
-                0: FlexColumnWidth(2), // Only one column for Junior High
-              },
-              children: [
-                TableRow(
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                  ),
-                  children: [
-                    _buildHeaderCell('Subject Name'),
-                  ],
-                ),
-                ...subjects
-                    .map((subject) => TableRow(
-                          children: [
-                            _buildCell(subject['subject_name'] ?? ''),
-                          ],
-                        ))
-                    .toList(),
-              ],
-            ),
-          ),
+        if ((widget.educLevel ?? '') == 'Senior High School')
+          _buildSubjectsTable(_subjectsWithTeachers, textFontSize),
+        if ((widget.educLevel ?? '') == 'Junior High School')
+          _buildJHSSubjectsTable(_subjectsWithTeachers, textFontSize),
       ],
     );
   }
@@ -327,32 +459,38 @@ class EnrollmentStatusWidget extends StatelessWidget {
   Widget _buildApprovedContent(BuildContext context, double textFontSize) {
     return Column(
       children: [
-        _buildStudentDataRow('Student ID no:', studentId, textFontSize),
-        _buildStudentDataRow('Student Full Name:', fullName, textFontSize),
+        _buildStudentDataRow('Student ID no:', widget.studentId, textFontSize),
+        _buildStudentDataRow('Student Full Name:', widget.fullName, textFontSize),
 
         // Conditionally show Strand, Track, and Semester for Senior High School
-        if (educLevel == 'Senior High School') ...[
-          _buildStudentDataRow('Strand:', strand, textFontSize),
-          _buildStudentDataRow('Track:', track, textFontSize),
-          _buildStudentDataRow('Semester:', semester, textFontSize),
+        if ((widget.educLevel ?? '') == 'Senior High School') ...[
+          _buildStudentDataRow('Strand:', widget.strand, textFontSize),
+          _buildStudentDataRow('Track:', widget.track, textFontSize),
+          _buildStudentDataRow('Semester:', widget.semester, textFontSize),
         ],
 
-        _buildStudentDataRow('Grade Level:', gradeLevel, textFontSize),
+        _buildStudentDataRow('Grade Level:', widget.gradeLevel, textFontSize),
         _buildSectionDropdown(),
 
-        if (!isFinalized)
+        if (!widget.isFinalized)
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: ElevatedButton(
-              onPressed: onLoadSubjects,
+              onPressed: () async {
+                // Trigger parent load subjects and also refresh teacher mapping
+                if (widget.onLoadSubjects != null) widget.onLoadSubjects!();
+                // Recompute teacher names after load - small delay might be needed if parent updates subjects asynchronously
+                // We'll attempt to refresh instructors and attach teachers:
+                await _refreshInstructorsAndSubjects();
+              },
               style: ElevatedButton.styleFrom(
-                foregroundColor: Color(0xFF002f24),
+                foregroundColor: const Color(0xFF002f24),
                 backgroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
-                minimumSize: Size(80, 20),
+                minimumSize: const Size(80, 20),
               ),
               child: const Text('Load Section'),
             ),
@@ -364,7 +502,7 @@ class EnrollmentStatusWidget extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                'Section Adviser: ${sectionAdviser}',
+                'Section Adviser: ${widget.sectionAdviser}',
                 style: TextStyle(
                     fontSize: textFontSize,
                     fontWeight: FontWeight.bold,
@@ -374,11 +512,12 @@ class EnrollmentStatusWidget extends StatelessWidget {
             ],
           ),
         ),
-        if (educLevel == 'Junior High School')
-          _buildJHSSubjectsTable(), // Show Junior High School Table
-        if (educLevel == 'Senior High School')
-          _buildSubjectsTable(), // Show Senior High School Table
+        if ((widget.educLevel ?? '') == 'Junior High School')
+          _buildJHSSubjectsTable(_subjectsWithTeachers, textFontSize),
+        if ((widget.educLevel ?? '') == 'Senior High School')
+          _buildSubjectsTable(_subjectsWithTeachers, textFontSize),
 
+        const SizedBox(height: 12),
         _buildFinalizeButton(),
       ],
     );
@@ -389,19 +528,7 @@ class EnrollmentStatusWidget extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       child: Text(
         text,
-        style: TextStyle(
-          color: Colors.white,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCell(String text) {
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Text(
-        text,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
         ),
       ),
@@ -443,32 +570,58 @@ class EnrollmentStatusWidget extends StatelessWidget {
           border: Border.all(color: Colors.black, width: 1.0),
         ),
         child: DropdownButton<String>(
-          value: selectedSection,
+          value: widget.selectedSection,
           hint: const Text('Select a section'),
-          items: sections.map((String section) {
+          items: widget.sections.map((String section) {
             return DropdownMenuItem<String>(
               value: section,
               child: Text(section),
             );
           }).toList(),
-          onChanged: isFinalized ? null : onSectionChanged,
+          onChanged: widget.isFinalized ? null : widget.onSectionChanged,
         ),
       ),
     );
   }
 
-  Widget _buildJHSSubjectsTable() {
+  Widget _buildJHSSubjectsTable(
+      List<Map<String, dynamic>> subjects, double textFontSize) {
+    final List<Map<String, dynamic>> rows =
+        subjects.isNotEmpty ? subjects : widget.subjects;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20.0),
       child: Table(
         border: TableBorder.all(color: Colors.black),
         columnWidths: const {
-          0: FlexColumnWidth(2), // Only one column for Junior High
+          0: FlexColumnWidth(3),
+          1: FlexColumnWidth(3),
         },
         children: [
           _buildJHSTableHeaderRow(),
-          if (subjects.isNotEmpty)
-            ...subjects.map((subject) => _buildJHSSubjectRow(subject))
+          if (rows.isNotEmpty)
+            ...rows.map((subject) {
+              final String subjName = (subject['subject_name'] ??
+                      subject['subject_Name'] ??
+                      '')
+                  .toString();
+              final String teacherName = (subject['teacher_name'] ?? '').toString();
+              return TableRow(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(subjName, style: TextStyle(color: Colors.white)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      teacherName.isNotEmpty ? teacherName : 'N/A',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              );
+            }).toList()
           else
             _buildJHSPlaceholderRow(),
         ],
@@ -483,17 +636,10 @@ class EnrollmentStatusWidget extends StatelessWidget {
           padding: EdgeInsets.all(8.0),
           child: Text('Subject', style: TextStyle(color: Colors.white)),
         ),
-      ],
-    );
-  }
-
-  TableRow _buildJHSSubjectRow(Map<String, dynamic> subject) {
-    return TableRow(
-      children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(subject['subject_name'],
-              style: const TextStyle(color: Colors.white)),
+          padding: EdgeInsets.all(8.0),
+          child:
+              Text('Subject Teacher', style: TextStyle(color: Colors.white)),
         ),
       ],
     );
@@ -507,11 +653,19 @@ class EnrollmentStatusWidget extends StatelessWidget {
           child: Text('No subjects available',
               style: TextStyle(color: Colors.red, fontStyle: FontStyle.italic)),
         ),
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: SizedBox(),
+        ),
       ],
     );
   }
 
-  Widget _buildSubjectsTable() {
+  Widget _buildSubjectsTable(
+      List<Map<String, dynamic>> subjects, double textFontSize) {
+    final List<Map<String, dynamic>> rows =
+        subjects.isNotEmpty ? subjects : widget.subjects;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20.0),
       child: Table(
@@ -524,8 +678,28 @@ class EnrollmentStatusWidget extends StatelessWidget {
         },
         children: [
           _buildTableHeaderRow(),
-          if (subjects.isNotEmpty)
-            ...subjects.map((subject) => _buildSubjectRow(subject))
+          if (rows.isNotEmpty)
+            ...rows.map((subject) {
+              final String code = (subject['subject_code'] ??
+                      subject['subject_Code'] ??
+                      '')
+                  .toString();
+              final String name = (subject['subject_name'] ??
+                      subject['subject_Name'] ??
+                      '')
+                  .toString();
+              final String category = (subject['category'] ?? '').toString();
+              final String teacherName = (subject['teacher_name'] ?? '').toString();
+
+              return TableRow(
+                children: [
+                  _cellWidget(code),
+                  _cellWidget(name),
+                  _cellWidget(category),
+                  _cellWidget(teacherName.isNotEmpty ? teacherName : 'N/A'),
+                ],
+              );
+            }).toList()
           else
             _buildPlaceholderRow(),
         ],
@@ -556,32 +730,6 @@ class EnrollmentStatusWidget extends StatelessWidget {
     );
   }
 
-  TableRow _buildSubjectRow(Map<String, dynamic> subject) {
-    return TableRow(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(subject['subject_code'] ?? 'N/A',
-              style: const TextStyle(color: Colors.white)),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(subject['subject_name'],
-              style: const TextStyle(color: Colors.white)),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(subject['category'] ?? 'N/A',
-              style: const TextStyle(color: Colors.white)),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text('N/A', style: const TextStyle(color: Colors.white)),
-        ),
-      ],
-    );
-  }
-
   TableRow _buildPlaceholderRow() {
     return const TableRow(
       children: [
@@ -597,22 +745,22 @@ class EnrollmentStatusWidget extends StatelessWidget {
         ),
         SizedBox(),
         SizedBox(),
-        SizedBox(), // <- add this
+        SizedBox(),
       ],
     );
   }
 
   Widget _buildFinalizeButton() {
     return ElevatedButton(
-      onPressed: isFinalized ? null : onFinalize,
+      onPressed: widget.isFinalized ? null : widget.onFinalize,
       style: ElevatedButton.styleFrom(
-        foregroundColor: Color.fromARGB(255, 1, 93, 168),
+        foregroundColor: const Color.fromARGB(255, 1, 93, 168),
         backgroundColor: Colors.white,
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
-        minimumSize: Size(80, 20),
+        minimumSize: const Size(80, 20),
       ),
       child: const Text('Finalize'),
     );
