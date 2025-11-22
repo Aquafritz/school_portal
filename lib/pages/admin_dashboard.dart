@@ -1875,7 +1875,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 print('Grades list for $studentFullName:');
                 gradesList.forEach((grade) {
                   print(
-                      'Subject: ${grade['subject_name']}, Code: ${grade['subject_code']}, Student ID: ${grade['student_id']}');
+                      'Subject: ${grade['subject_name']}, Code: ${grade['subject_code']}, LRN: ${grade['LRN']}');
                 });
 
                 final filteredGrades = gradesList.where((gradeData) {
@@ -2298,8 +2298,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   Widget _buildBodyContent() {
     switch (_selectedDrawerItem) {
-      case 'Home':
-        return _buildDashboardContent();
+      // case 'Home':
+      //   return _buildDashboardContent();
+      case 'Dashboard':
+        return _buildAnalytics();
       case 'Students':
         return _buildStudentsContent();
       case 'Subject Teacher':
@@ -2354,8 +2356,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         return FAQAdminPage();
       // case 'Reports':
       //   return Reports();
-      case 'Dashboard':
-        return _buildAnalytics();
+
       default:
         return Center(child: Text('Body Content Here'));
     }
@@ -3340,7 +3341,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           pw.Padding(
                             padding: const pw.EdgeInsets.all(4),
                             child: pw.Text(
-                              'Student ID',
+                              'LRN',
                               style:
                                   pw.TextStyle(fontWeight: pw.FontWeight.bold),
                             ),
@@ -3398,7 +3399,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           children: [
                             pw.Padding(
                               padding: const pw.EdgeInsets.all(4),
-                              child: pw.Text(student['student_id'] ?? ''),
+                              child: pw.Text(student['lrn'] ?? ''),
                             ),
                             pw.Padding(
                               padding: const pw.EdgeInsets.all(4),
@@ -4006,7 +4007,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               final uid = student['uid'];
               final fullName =
                   '${student['first_name']} ${student['last_name']}';
-              final studentId = student['student_id'] ?? '';
+              final studentId = student['lrn'] ?? '';
 
               final grades = <Map<String, dynamic>>[];
 
@@ -4044,7 +4045,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   }
 
                   final mapehEntry = {
-                    'student_id': studentId,
+                    'lrn': studentId,
                     'full_name': fullName,
                     'uid': uid,
                     'subject_name': 'MAPEH',
@@ -4057,7 +4058,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 } else {
                   // normal subjects
                   final entry = {
-                    'student_id': studentId,
+                    'lrn': studentId,
                     'full_name': fullName,
                     'uid': uid,
                     'subject_name': subjName,
@@ -5038,7 +5039,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 final searchQuery = _searchController.text.toLowerCase();
                 var searchFilteredStudents = allStudents.where((student) {
                   final studentId =
-                      student['student_id']?.toString().toLowerCase() ?? '';
+                      student['lrn']?.toString().toLowerCase() ?? '';
                   final firstName =
                       student['first_name']?.toString().toLowerCase() ?? '';
                   final lastName =
@@ -5074,7 +5075,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 // Group students by student ID
                 Map<String, List<Map<String, dynamic>>> groupedStudents = {};
                 for (var student in filteredStudents) {
-                  String studentId = student['student_id'];
+                  String studentId = student['lrn'];
                   if (!groupedStudents.containsKey(studentId)) {
                     groupedStudents[studentId] = [];
                   }
@@ -5087,7 +5088,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     Row(
                       children: [
                         // SizedBox(width: 32),
-                        Expanded(child: Text('Student ID')),
+                        Expanded(child: Text('LRN')),
                         Expanded(child: Text('First Name')),
                         Expanded(child: Text('Last Name')),
                         Expanded(child: Text('Middle Name')),
@@ -5130,8 +5131,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                   SizedBox(width: 8),
                                   Expanded(
                                       flex: 2,
-                                      child: Text(
-                                          firstRecord['student_id'] ?? '')),
+                                      child: Text(firstRecord['lrn'] ?? '')),
                                   Expanded(
                                       flex: 2,
                                       child: Text(
@@ -5336,7 +5336,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         child: Row(
                           children: [
                             Expanded(
-                                child: Text('Student ID',
+                                child: Text('LRN',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold))),
                             Expanded(
@@ -5380,8 +5380,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                 child: Row(
                                   children: [
                                     Expanded(
-                                        child: Text(
-                                            studentData['student_id'] ?? '')),
+                                        child: Text(studentData['lrn'] ?? '')),
                                     Expanded(
                                       child: Text(
                                           '${studentData['first_name'] ?? ''} ${studentData['last_name'] ?? ''}'),
@@ -5786,7 +5785,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
                   var searchFilteredStudents = allStudents.where((student) {
                     final studentId =
-                        student['student_id']?.toString().toLowerCase() ?? '';
+                        student['lrn']?.toString().toLowerCase() ?? '';
                     final firstName =
                         student['first_name']?.toString().toLowerCase() ?? '';
                     final lastName =
@@ -5843,7 +5842,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         Row(
           children: [
             SizedBox(width: 32),
-            Expanded(child: Text('Student ID')),
+            Expanded(child: Text('LRN')),
             Expanded(child: Text('First Name')),
             Expanded(child: Text('Last Name')),
             Expanded(child: Text('Middle Name')),
@@ -5872,8 +5871,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               alignment: Alignment.center,
               children: [
                 Checkbox(
-                  value:
-                      _selectedSubjectStudents[student['student_id']] ?? false,
+                  value: _selectedSubjectStudents[student['lrn']] ?? false,
                   onChanged: (bool? value) async {
                     setState(() => isLoading = true);
                     try {
@@ -5898,7 +5896,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
             );
           },
         ),
-        Expanded(child: Text(student['student_id'] ?? '')),
+        Expanded(child: Text(student['lrn'] ?? '')),
         Expanded(child: Text(student['first_name'] ?? '')),
         Expanded(child: Text(student['last_name'] ?? '')),
         Expanded(child: Text(student['middle_name'] ?? '')),
@@ -6014,7 +6012,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     final data = student.data() as Map<String, dynamic>;
                     final query = _searchQuery.toLowerCase();
 
-                    final studentId = data['student_id']?.toLowerCase() ?? '';
+                    final studentId = data['lrn']?.toLowerCase() ?? '';
                     final firstName = data['first_name']?.toLowerCase() ?? '';
                     final lastName = data['last_name']?.toLowerCase() ?? '';
                     final middleName = data['middle_name']?.toLowerCase() ?? '';
@@ -9945,7 +9943,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       // Fixed header row
                       Row(
                         children: [
-                          Expanded(child: Text('Student ID')),
+                          Expanded(child: Text('LRN')),
                           Expanded(child: Text('First Name')),
                           Expanded(child: Text('Last Name')),
                           Expanded(child: Text('Middle Name')),
@@ -10059,8 +10057,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                   student.data() as Map<String, dynamic>;
                               return Row(
                                 children: [
-                                  Expanded(
-                                      child: Text(data['student_id'] ?? '')),
+                                  Expanded(child: Text(data['lrn'] ?? '')),
                                   Expanded(
                                       child: Text(data['first_name'] ?? '')),
                                   Expanded(
@@ -10236,7 +10233,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
               ),
             ),
             if (_accountType == 'ADMIN') ...[
-              _buildDrawerItem('Home', Iconsax.main_component, 'Home'),
+              // _buildDrawerItem('Home', Iconsax.main_component, 'Home'),
+              _buildDrawerItem('Dashboard', Iconsax.dash_dash, 'Dashboard'),
               _buildDrawerItem('Students', Iconsax.user, 'Students'),
               _buildDrawerItem('Manage Student Report Cards', Iconsax.task,
                   'Manage Student Report Cards'),
@@ -10392,7 +10390,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   'News and Updates'),
               _buildDrawerItem('FAQS', Iconsax.message_2_copy, 'FAQS'),
               // _buildDrawerItem('Reports', Iconsax.data_copy, 'Reports'),
-              _buildDrawerItem('Dashboard', Iconsax.dash_dash, 'Dashboard'),
             ], // In your drawer ListView, replace the Subject Teacher drawer item with this:
 
             if (_accountType == 'INSTRUCTOR') ...[

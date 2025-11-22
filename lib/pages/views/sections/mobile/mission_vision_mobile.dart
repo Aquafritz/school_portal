@@ -7,13 +7,39 @@ class MissionAndVisionMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
-    Widget buildProfileItem() {
+    // List of profiles for the 4 smaller images
+    final List<Map<String, String>> profiles = [
+      {
+        "image": "assets/dante.jpg",
+        "name": "Dante V. Ravancho",
+        "position": "Head Teacher III",
+      },
+      {
+        "image": "assets/aurora.png",
+        "name": "Aurora G. Maza",
+        "position": "Head Teacher III",
+      },
+      {
+        "image": "assets/delia.jpg",
+        "name": "Delia R. Soriano",
+        "position": "Head Teacher III",
+      },
+      {
+        "image": "assets/jenelyn.jpg",
+        "name": "Jenelyn F. Alviar",
+        "position": "Head Teacher III",
+      },
+    ];
+
+    // Reusable profile item for the 4 small images
+    Widget buildProfileItem(String imagePath, String name, String title) {
       return Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: Image.asset(
-              "assets/snhsprincipal.jpg",
+              imagePath,
               height: screenWidth / 2.8,
               width: screenWidth / 2.8,
               fit: BoxFit.cover,
@@ -21,18 +47,20 @@ class MissionAndVisionMobile extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            "Bernardo A. Frialde, EdD",
+            name,
+            textAlign: TextAlign.center,
             style: TextStyle(
-              color: const Color.fromARGB(255, 0, 30, 54),
+              color: Colors.grey,
               fontFamily: "B",
               fontSize: screenWidth / 26,
             ),
           ),
           const SizedBox(height: 2),
           Text(
-            "Principal IV",
+            title,
+            textAlign: TextAlign.center,
             style: TextStyle(
-              color: const Color.fromARGB(255, 50, 50, 50),
+              color: Colors.grey,
               fontFamily: "R",
               fontSize: screenWidth / 34,
               fontStyle: FontStyle.italic,
@@ -69,7 +97,7 @@ class MissionAndVisionMobile extends StatelessWidget {
                 ),
                 const SizedBox(height: 18),
 
-                // Top main image
+                // Top main image (Principal)
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.asset(
@@ -101,12 +129,20 @@ class MissionAndVisionMobile extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                // Four smaller images
+                // Four smaller images (different image + name + title)
                 Wrap(
                   spacing: 12,
                   runSpacing: 12,
                   alignment: WrapAlignment.center,
-                  children: List.generate(4, (_) => buildProfileItem()),
+                  children: profiles
+                      .map(
+                        (profile) => buildProfileItem(
+                          profile["image"]!,
+                          profile["name"]!,
+                          profile["position"]!,
+                        ),
+                      )
+                      .toList(),
                 ),
               ],
             ),

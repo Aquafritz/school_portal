@@ -36,13 +36,19 @@ class _MissionAndVisionState extends State<MissionAndVision>
     super.dispose();
   }
 
-  Widget buildProfileItem(double screenWidth) {
+  // Updated profile item builder
+  Widget buildProfileItem(
+    double screenWidth, {
+    required String imagePath,
+    required String name,
+    required String position,
+  }) {
     return Column(
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: Image.asset(
-            "assets/snhsprincipal.jpg",
+            imagePath,
             height: screenWidth / 8,
             width: screenWidth / 8,
             fit: BoxFit.cover,
@@ -50,7 +56,7 @@ class _MissionAndVisionState extends State<MissionAndVision>
         ),
         const SizedBox(height: 8),
         Text(
-          "Bernardo A. Frialde, EdD",
+          name,
           style: TextStyle(
             color: const Color.fromARGB(255, 0, 30, 54),
             fontFamily: "B",
@@ -58,7 +64,7 @@ class _MissionAndVisionState extends State<MissionAndVision>
           ),
         ),
         Text(
-          "Principal IV",
+          position,
           style: TextStyle(
             color: const Color.fromARGB(255, 0, 30, 54),
             fontFamily: "R",
@@ -74,6 +80,30 @@ class _MissionAndVisionState extends State<MissionAndVision>
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
+    // 4 custom profiles
+    final List<Map<String, String>> profiles = [
+      {
+        "image": "assets/dante.jpg",
+        "name": "Dante V. Ravancho",
+        "position": "Head Teacher III",
+      },
+      {
+        "image": "assets/aurora.png",
+        "name": "Aurora G. Maza",
+        "position": "Head Teacher III",
+      },
+      {
+        "image": "assets/delia.jpg",
+        "name": "Delia R. Soriano",
+        "position": "Head Teacher III",
+      },
+      {
+        "image": "assets/jenelyn.jpg",
+        "name": "Jenelyn F. Alviar",
+        "position": "Head Teacher III",
+      },
+    ];
+
     return FadeTransition(
       opacity: _fadeIn,
       child: Transform.translate(
@@ -84,7 +114,7 @@ class _MissionAndVisionState extends State<MissionAndVision>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // --- Top section: 5 images with labels ---
+                // --- Top section ---
                 Column(
                   children: [
                     // 1 image on top
@@ -121,17 +151,23 @@ class _MissionAndVisionState extends State<MissionAndVision>
                         ],
                       ),
                     ),
+
                     const SizedBox(height: 20),
-                    // 4 images below with same labels
+
+                    // --- 4 customized images ---
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        4,
-                        (index) => Padding(
+                      children: profiles.map((p) {
+                        return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: buildProfileItem(screenWidth),
-                        ),
-                      ),
+                          child: buildProfileItem(
+                            screenWidth,
+                            imagePath: p["image"]!,
+                            name: p["name"]!,
+                            position: p["position"]!,
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ],
                 ),

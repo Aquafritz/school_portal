@@ -25,7 +25,7 @@ class _EnrollmentReportState extends State<EnrollmentReport> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "Enrollment Report",
+                "Dashboard",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width / 35,
                   fontFamily: "BL",

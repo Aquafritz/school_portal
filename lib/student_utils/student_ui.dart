@@ -156,7 +156,7 @@ class _ExampleSidebarXState extends State<ExampleSidebarX> {
     });
   }
 
-  String? _studentId;
+  String? _lrn;
   String? _imageUrl; // Variable to store the student's image URL
 
   Future<void> _loadStudentData() async {
@@ -173,7 +173,7 @@ class _ExampleSidebarXState extends State<ExampleSidebarX> {
           DocumentSnapshot userDoc = userSnapshot.docs.first;
 
           setState(() {
-            _studentId = userDoc['student_id'];
+            _lrn = userDoc['lrn'];
             widget.imageNotifier.value = userDoc['image_url'];
           });
         } else {
@@ -259,7 +259,7 @@ class _ExampleSidebarXState extends State<ExampleSidebarX> {
                 ),
                 if (extended)
                   Text(
-                    _studentId ?? "No ID", // Display student ID if available
+                    _lrn ?? "No ID", // Display student ID if available
                     style: TextStyle(color: Colors.white),
                   ),
                 SizedBox(
@@ -332,6 +332,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
   bool _passwordMismatch = false;
 
   String? _studentId;
+  String? lrn;
   String? _fullName;
   late String _strand;
   String? _track;
@@ -649,7 +650,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
         setState(() {
           // Set the enrollment status and other general fields
           _enrollmentStatus = data['enrollment_status'];
-          _studentId = data['student_id'];
+          lrn = data['lrn'];
 
           String firstName = data['first_name'] ?? '';
           String middleName = data['middle_name'] ?? '';
@@ -2127,7 +2128,7 @@ class _ScreensExampleState extends State<_ScreensExample> {
                   )
                 : EnrollmentStatusWidget(
                     enrollmentStatus: _enrollmentStatus,
-                    studentId: _studentId,
+                    lrn: lrn,
                     fullName: _fullName,
                     strand: _strand,
                     track: _track,
@@ -2892,44 +2893,44 @@ class _ScreensExampleState extends State<_ScreensExample> {
                                       ),
                                     ],
                                   ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        "Student Number",
-                                        style: TextStyle(
-                                          fontFamily: "M",
-                                          fontSize: 15,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      SizedBox(height: 13),
-                                      Container(
-                                        width: fieldWidth,
-                                        child: TextFormField(
-                                          initialValue:
-                                              "${userData['student_id'] ?? 'N/A'}",
-                                          enabled: false,
-                                          style: TextStyle(
-                                            color: Colors.grey[700],
-                                            fontFamily: "R",
-                                            fontSize: 13,
-                                          ),
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                EdgeInsets.only(left: 10),
-                                            disabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: BorderSide(
-                                                  color: Colors.white),
-                                            ),
-                                            filled: true,
-                                            fillColor: Colors.grey[300],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  // Column(
+                                  //   children: [
+                                  //     Text(
+                                  //       "Student Number",
+                                  //       style: TextStyle(
+                                  //         fontFamily: "M",
+                                  //         fontSize: 15,
+                                  //         color: Colors.white,
+                                  //       ),
+                                  //     ),
+                                  //     SizedBox(height: 13),
+                                  //     Container(
+                                  //       width: fieldWidth,
+                                  //       child: TextFormField(
+                                  //         initialValue:
+                                  //             "${userData['student_id'] ?? 'N/A'}",
+                                  //         enabled: false,
+                                  //         style: TextStyle(
+                                  //           color: Colors.grey[700],
+                                  //           fontFamily: "R",
+                                  //           fontSize: 13,
+                                  //         ),
+                                  //         decoration: InputDecoration(
+                                  //           contentPadding:
+                                  //               EdgeInsets.only(left: 10),
+                                  //           disabledBorder: OutlineInputBorder(
+                                  //             borderRadius:
+                                  //                 BorderRadius.circular(10),
+                                  //             borderSide: BorderSide(
+                                  //                 color: Colors.white),
+                                  //           ),
+                                  //           filled: true,
+                                  //           fillColor: Colors.grey[300],
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
                                   Column(
                                     children: [
                                       Text(
