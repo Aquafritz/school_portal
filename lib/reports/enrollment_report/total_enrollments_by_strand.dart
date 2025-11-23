@@ -6,14 +6,13 @@ import 'package:salomague_nhs/reports/enrollment_report/presentation/resources/a
 class TEBS extends StatelessWidget {
   const TEBS({super.key});
 
-  static const strandLabels = ['ABM', 'HUMMS', 'STEM', 'ICT', 'CO'];
+  static const strandLabels = ['HUMMS', 'FBS', 'ICT', 'CO'];
 
   static const strandMapping = {
-    "Accountancy, Business, and Management (ABM)": 0,
-    "Humanities and Social Sciences (HUMSS)": 1,
-    "Science, Technology, Engineering and Mathematics (STEM)": 2,
-    "Information and Communication Technology (ICT)": 3,
-    "Cookery (CO)": 4,
+    "Humanities and Social Sciences (HUMSS)": 0,
+    "Food and Beverages Services (FBS)": 1,
+    "Information and Communication Technology (ICT)": 2,
+    "Cosmetology (CO)": 3,
   };
 
   Stream<Map<int, int>> fetchStrandData() {

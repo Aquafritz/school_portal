@@ -1466,11 +1466,10 @@ class _ScreensExampleState extends State<_ScreensExample> {
     try {
       // Define the mapping between seniorHigh_Strand descriptive names and abbreviations
       Map<String, String> strandMap = {
-        'Science, Technology, Engineering and Mathematics (STEM)': 'STEM',
         'Humanities and Social Sciences (HUMSS)': 'HUMSS',
-        'Accountancy, Business, and Management (ABM)': 'ABM',
+        'Food and Beverages Services (FBS)': 'FBS',
         'Information and Communication Technology (ICT)': 'ICT',
-        'Cookery (CO)': 'CO',
+        'Cosmetology (CO)': 'CO',
       };
 
       // Get the currently logged-in user
@@ -1650,15 +1649,13 @@ class _ScreensExampleState extends State<_ScreensExample> {
 
   String getStrandCourse(String seniorHighStrand) {
     switch (seniorHighStrand) {
-      case 'Accountancy, Business, and Management (ABM)':
-        return 'ABM';
       case 'Information and Communication Technology (ICT)':
         return 'ICT';
-      case 'Science, Technology, Engineering and Mathematics (STEM)':
-        return 'STEM';
+      case 'Food and Beverages Services (FBS)':
+        return 'FBS';
       case 'Humanities and Social Sciences (HUMSS)':
         return 'HUMSS';
-      case 'Cookery (CO)':
+      case 'Cosmetology (CO)':
         return 'CO';
       default:
         return ''; // Return an empty string or some default value if there's no match

@@ -277,15 +277,13 @@ class _SubjectsandGradeState extends State<SubjectsandGrade> {
 
   String getStrandCourse(String seniorHighStrand) {
     switch (seniorHighStrand) {
-      case 'Accountancy, Business, and Management (ABM)':
-        return 'ABM';
+      case 'Food and Beverages Services (FBS)':
+        return 'FBS';
       case 'Information and Communication Technology (ICT)':
         return 'ICT';
-      case 'Science, Technology, Engineering and Mathematics (STEM)':
-        return 'STEM';
       case 'Humanities and Social Sciences (HUMSS)':
         return 'HUMSS';
-      case 'Cookery (CO)':
+      case 'Cosmetology (CO)':
         return 'CO';
       default:
         return ''; // Return an empty string or some default value if there's no match

@@ -34,20 +34,17 @@ Stream<QuerySnapshot> getNewcomersStudents(
     // para sa strand
    if (selectedStrand != 'ALL') {
      switch (selectedStrand) {
-       case 'STEM':
-         query = query.where('seniorHigh_Strand', isEqualTo: 'Science, Technology, Engineering and Mathematics (STEM)');
-         break;
        case 'HUMSS':
          query = query.where('seniorHigh_Strand', isEqualTo: 'Humanities and Social Sciences (HUMSS)');
          break;
-       case 'ABM':
-         query = query.where('seniorHigh_Strand', isEqualTo: 'Accountancy, Business, and Management (ABM)');
+       case 'FBS':
+         query = query.where('seniorHigh_Strand', isEqualTo: 'Food and Beverages Services (FBS)');
          break;
        case 'ICT':
          query = query.where('seniorHigh_Strand', isEqualTo: 'Information and Communication Technology (ICT)');
          break;
-       case 'COOKERY':
-         query = query.where('seniorHigh_Strand', isEqualTo: 'Cookery (CO)');
+       case 'CO':
+         query = query.where('seniorHigh_Strand', isEqualTo: 'Cosmetology (CO)');
          break;
      }
    }
@@ -98,20 +95,17 @@ Stream<QuerySnapshot> getReEnrolledStudents(String selectedLevel,
     // para sa strand
    if (selectedStrand != 'ALL') {
      switch (selectedStrand) {
-       case 'STEM':
-         query = query.where('seniorHigh_Strand', isEqualTo: 'Science, Technology, Engineering and Mathematics (STEM)');
-         break;
        case 'HUMSS':
          query = query.where('seniorHigh_Strand', isEqualTo: 'Humanities and Social Sciences (HUMSS)');
          break;
-       case 'ABM':
-         query = query.where('seniorHigh_Strand', isEqualTo: 'Accountancy, Business, and Management (ABM)');
+       case 'FBS':
+         query = query.where('seniorHigh_Strand', isEqualTo: 'Food and Beverages Services (FBS)');
          break;
        case 'ICT':
          query = query.where('seniorHigh_Strand', isEqualTo: 'Information and Communication Technology (ICT)');
          break;
-       case 'COOKERY':
-         query = query.where('seniorHigh_Strand', isEqualTo: 'Cookery (CO)');
+       case 'CO':
+         query = query.where('seniorHigh_Strand', isEqualTo: 'Cosmetology (CO)');
          break;
      }
    }

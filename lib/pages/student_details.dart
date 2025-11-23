@@ -115,13 +115,12 @@ class _StudentDetailsState extends State<StudentDetails> {
     setState(() {
       if (track == 'Technical-Vocational-Livelihood (TVL)') {
         strandOptions = [
-          'Cookery (CO)',
+          'Cosmetology (CO)',
+          'Food and Beverages Services (FBS)',
           'Information and Communication Technology (ICT)',
         ];
       } else if (track == 'Academic Track') {
         strandOptions = [
-          'Accountancy, Business, and Management (ABM)',
-          'Science, Technology, Engineering and Mathematics (STEM)',
           'Humanities and Social Sciences (HUMSS)',
         ];
       } else {

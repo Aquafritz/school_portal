@@ -95,13 +95,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }
 
   Map<String, String> strandMapping = {
-    'STEM': 'Science, Technology, Engineering and Mathematics (STEM)',
     'HUMSS': 'Humanities and Social Sciences (HUMSS)',
-    'ABM': 'Accountancy, Business, and Management (ABM)',
+    'FBS': 'Food and Beverages Services (FBS)',
     'ICT': 'Information and Communication Technology (ICT)',
-    'CO': 'Cookery (CO)',
+    'CO': 'Cosmetology (CO)',
   };
-
+  
   String _selectedSubMenu = 'subjects'; // Default value
 
   String _selectedSubject = "All"; // Add this line
@@ -4660,15 +4659,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
 // 🔹 Reuse your getStrandCourse() function
   String getStrandCourse(String strand) {
     switch (strand) {
-      case 'Accountancy, Business, and Management (ABM)':
-        return 'ABM';
+      case 'Food and Beverages Services (FBS)':
+        return 'FBS';
       case 'Information and Communication Technology (ICT)':
         return 'ICT';
-      case 'Science, Technology, Engineering and Mathematics (STEM)':
-        return 'STEM';
       case 'Humanities and Social Sciences (HUMSS)':
         return 'HUMSS';
-      case 'Cookery (CO)':
+      case 'Cosmetology (CO)':
         return 'CO';
       default:
         return '';
@@ -6849,7 +6846,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     SizedBox(width: 16),
                     DropdownButton<String>(
                       value: selectedCourse,
-                      items: ["All", "STEM", "ABM", "HUMSS", "ICT", "CO"]
+                          items: ['All', 'HUMMS', 'FBS', 'ICT', 'CO']
                           .map((course) => DropdownMenuItem<String>(
                                 value: course,
                                 child: Text(course),

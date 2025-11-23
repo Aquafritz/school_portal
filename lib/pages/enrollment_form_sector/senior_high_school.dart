@@ -307,8 +307,7 @@ class SeniorHighSchoolState extends State<SeniorHighSchool>
     } else if (_selectedTrack == 'Technical-Vocational-Livelihood (TVL)') {
       return [
         'Food and Beverages Services (FBS)',
-        'Cosmetology',
-        'Drafting',
+        'Cosmetology (CO)',
         'Information and Communication Technology (ICT)',
         
       ].map((String value) => DropdownMenuItem<String>(
