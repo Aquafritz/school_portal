@@ -2787,9 +2787,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                     itemBuilder: (BuildContext context) {
                                       return [
                                         'ALL',
-                                        'STEM',
                                         'HUMSS',
-                                        'ABM',
+                                        'FBS',
                                         'ICT',
                                         'CO'
                                       ].map((String strand) {
@@ -3163,10 +3162,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                     },
                                     itemBuilder: (BuildContext context) {
                                       return [
-                                        'ALL',
-                                        'STEM',
+                                         'ALL',
                                         'HUMSS',
-                                        'ABM',
+                                        'FBS',
                                         'ICT',
                                         'CO'
                                       ].map((String strand) {
@@ -3726,10 +3724,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                     },
                                     itemBuilder: (BuildContext context) {
                                       return [
-                                        'ALL',
-                                        'STEM',
+                                         'ALL',
                                         'HUMSS',
-                                        'ABM',
+                                        'FBS',
                                         'ICT',
                                         'CO'
                                       ].map((String strand) {
@@ -5443,18 +5440,17 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     if (snapshotData != null && snapshotData.isNotEmpty) {
                       // Check if there are selected students
                       final selectedStudents = _selectedSubjectStudents.entries
-                          .where(
-                              (entry) => entry.value) // Only include selected
-                          .map((entry) => entry.key)
-                          .toSet();
+    .where((entry) => entry.value)
+    .map((entry) => entry.key.toString())
+    .toSet();
 
-                      // If no students are selected, use all students
-                      final studentsToInclude = selectedStudents.isEmpty
-                          ? snapshotData
-                          : snapshotData
-                              .where((student) =>
-                                  selectedStudents.contains(student['lrn']))
-                              .toList();
+final studentsToInclude = selectedStudents.isEmpty
+    ? snapshotData
+    : snapshotData
+        .where((student) =>
+            selectedStudents.contains(student['lrn']?.toString() ?? ''))
+        .toList();
+
 
                       if (studentsToInclude.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -5856,55 +5852,60 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }
 
   Widget _buildStudentRow(
-      Map<String, dynamic> student, bool isSeniorHighSchool) {
-    return Row(
-      children: [
-        SizedBox(width: 8),
-        StatefulBuilder(
-          builder: (context, setState) {
-            bool isLoading = false;
+    Map<String, dynamic> student, bool isSeniorHighSchool) {
 
-            return Stack(
-              alignment: Alignment.center,
-              children: [
-                Checkbox(
-                  value: _selectedSubjectStudents[student['lrn']] ?? false,
-                  onChanged: (bool? value) async {
-                    setState(() => isLoading = true);
-                    try {
-                      await Future.delayed(
-                          Duration(milliseconds: 500)); // Simulate processing
-                      setState(() {
-                        _selectedSubjectStudents[student['student_id']] =
-                            value!;
-                      });
-                    } finally {
-                      setState(() => isLoading = false);
-                    }
-                  },
+  // ✅ Force consistent key
+  final String lrn = student['lrn']?.toString() ?? '';
+
+  return Row(
+    children: [
+      SizedBox(width: 8),
+
+      StatefulBuilder(
+        builder: (context, setState) {
+          bool isLoading = false;
+
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              Checkbox(
+                value: _selectedSubjectStudents[lrn] ?? false,
+                onChanged: (bool? value) async {
+                  setState(() => isLoading = true);
+
+                  try {
+                    await Future.delayed(Duration(milliseconds: 100));
+                    setState(() {
+                      _selectedSubjectStudents[lrn] = value ?? false;
+                    });
+                  } finally {
+                    setState(() => isLoading = false);
+                  }
+                },
+              ),
+
+              if (isLoading)
+                Positioned.fill(
+                  child: CircularProgressIndicator(strokeWidth: 2),
                 ),
-                if (isLoading)
-                  Positioned.fill(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                    ),
-                  ),
-              ],
-            );
-          },
-        ),
-        Expanded(child: Text(student['lrn'] ?? '')),
-        Expanded(child: Text(student['first_name'] ?? '')),
-        Expanded(child: Text(student['last_name'] ?? '')),
-        Expanded(child: Text(student['middle_name'] ?? '')),
-        Expanded(child: Text(student['section'] ?? '')),
-        Expanded(child: Text(student['subject_Name'] ?? '')),
-        if (isSeniorHighSchool)
-          Expanded(child: Text(student['subject_Code'] ?? '')), // Only for SHS
-        Expanded(child: Text(student['Grade'] ?? '')),
-      ],
-    );
-  }
+            ],
+          );
+        },
+      ),
+
+      Expanded(child: Text(lrn)),
+      Expanded(child: Text(student['first_name'] ?? '')),
+      Expanded(child: Text(student['last_name'] ?? '')),
+      Expanded(child: Text(student['middle_name'] ?? '')),
+      Expanded(child: Text(student['section'] ?? '')),
+      Expanded(child: Text(student['subject_Name'] ?? '')),
+      if (isSeniorHighSchool)
+        Expanded(child: Text(student['subject_Code'] ?? '')),
+      Expanded(child: Text(student['Grade'] ?? '')),
+    ],
+  );
+}
+
 
   Widget _buildNewcomersContent() {
     return Container(
@@ -6071,10 +6072,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                     },
                                     itemBuilder: (BuildContext context) {
                                       return [
-                                        'ALL',
-                                        'STEM',
+                                         'ALL',
                                         'HUMSS',
-                                        'ABM',
+                                        'FBS',
                                         'ICT',
                                         'CO'
                                       ].map((String strand) {
@@ -8866,10 +8866,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                     },
                                     itemBuilder: (BuildContext context) {
                                       return [
-                                        'ALL',
-                                        'STEM',
+                                         'ALL',
                                         'HUMSS',
-                                        'ABM',
+                                        'FBS',
                                         'ICT',
                                         'CO'
                                       ].map((String strand) {
@@ -9980,10 +9979,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                     },
                                     itemBuilder: (BuildContext context) {
                                       return [
-                                        'ALL',
-                                        'STEM',
+                                         'ALL',
                                         'HUMSS',
-                                        'ABM',
+                                        'FBS',
                                         'ICT',
                                         'CO'
                                       ].map((String strand) {

@@ -43,7 +43,7 @@ class _NewcomersvalidatorState extends State<Newcomersvalidator> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Student Details',
+                  'Newcomers Details',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 32,
@@ -86,7 +86,7 @@ class _NewcomersvalidatorState extends State<Newcomersvalidator> {
                       ),
                     ),
                     Text(
-                      'Student Details',
+                      'Newcomers Details',
                       style: TextStyle(
                         color: Colors.blue,
                         fontSize: 16,
@@ -255,11 +255,7 @@ class _NewcomersvalidatorState extends State<Newcomersvalidator> {
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
                           children: [
-                            Text(
-                              'STUDENT',
-                              style: TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.bold),
-                            ),
+                          
                             SizedBox(height: 16),
                             GestureDetector(
                               onTap: () {

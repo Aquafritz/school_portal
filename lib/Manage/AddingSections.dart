@@ -281,7 +281,7 @@ class _AddingSectionsState extends State<AddingSections> {
                           decoration: InputDecoration(
                             labelText: 'Section Name',
                             border: OutlineInputBorder(),
-                            hintText: 'Enter Section Name (e.g. Grade 7, 8, 9, 10-MAGANDA-A)',
+                            hintText: 'Enter Section Name (e.g. Grade 7, 8, 9, 10-MAGANDA)',
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -290,18 +290,17 @@ class _AddingSectionsState extends State<AddingSections> {
 
                             if (_selectedSchoolLevel == 'Junior High School') {
                               // Validator for Junior High School format: 7-10-Any word-Any letter
-                              final regExp =
-                                  RegExp(r'^(7|8|9|10)-[A-Za-z]+-[A-Za-z]$');
+                                  final regExp = RegExp(r'^(7|8|9|10)-[A-Za-z]+$');
                               if (!regExp.hasMatch(value)) {
-                                return 'Invalid format. Use: Grade Level-Strand-Section (e.g., 7-Grade-A)';
+                                return 'Invalid format. Use: Grade Level-Strand-Section (e.g., 7-Grade)';
                               }
                             } else if (_selectedSchoolLevel ==
                                 'Senior High School') {
                               // Validator for Senior High School format: 11-12-(STEM|HUMSS|ABM|ICT|HE|IA)-
                               final regExp = RegExp(
-                                  r'^(11|12)-(STEM|HUMSS|ABM|ICT|HE|IA)-[A-Za-z]$');
+                                  r'^(11|12)-(HUMSS|ICT|CO|FBS)-[A-Za-z]$');
                               if (!regExp.hasMatch(value)) {
-                                return 'Invalid format. Use: Grade Level-Strand-Section (e.g., 11-STEM-A)';
+                                return 'Invalid format. Use: Grade Level-Strand-Section (e.g., 11-HUMMS-A)';
                               }
                             }
 
@@ -379,18 +378,17 @@ class _AddingSectionsState extends State<AddingSections> {
 
                             if (_selectedSchoolLevel == 'Junior High School') {
                               // Validator for Junior High School format: 7-10-Any word-Any letter
-                              final regExp =
-                                  RegExp(r'^(7|8|9|10)-[A-Za-z]+-[A-Za-z]$');
+                                  final regExp = RegExp(r'^(7|8|9|10)-[A-Za-z]+$');
                               if (!regExp.hasMatch(value)) {
-                                return 'Invalid format. Use: Grade Level-Strand-Section (e.g., 7-Grade-A)';
+                                return 'Invalid format. Use: Grade Level-Strand-Section (e.g., 7-Grade)';
                               }
                             } else if (_selectedSchoolLevel ==
                                 'Senior High School') {
                               // Validator for Senior High School format: 11-12-(STEM|HUMSS|ABM|ICT|HE|IA)-
                               final regExp = RegExp(
-                                  r'^(11|12)-(STEM|HUMSS|ABM|ICT|HE|IA)-[A-Za-z]$');
+                                      r'^(11|12)-(HUMSS|ICT|CO|FBS)-[A-Za-z]$');
                               if (!regExp.hasMatch(value)) {
-                                return 'Invalid format. Use: Grade Level-Strand-Section (e.g., 11-STEM-A)';
+                                return 'Invalid format. Use: Grade Level-Strand-Section (e.g., 11-HUMMS-A)';
                               }
                             }
 
