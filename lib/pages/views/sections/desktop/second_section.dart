@@ -287,7 +287,8 @@ class _SecondSectionState extends State<SecondSection>
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20)),
                                     image: DecorationImage(
-                                      image: AssetImage("assets/jhsdashboard.jpg"),
+                                      image:
+                                          AssetImage("assets/jhsdashboard.jpg"),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -298,8 +299,7 @@ class _SecondSectionState extends State<SecondSection>
                                   decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20)),
-                                    color: Color(0xFF002f24)
-                                        .withOpacity(0.4),
+                                    color: Color(0xFF002f24).withOpacity(0.4),
                                   ),
                                 ),
                                 Positioned(
@@ -385,55 +385,54 @@ class _SecondSectionState extends State<SecondSection>
                                         child: Text(
                                           "SNHS offers various special programs",
                                           style: TextStyle(
-                                            fontFamily: "M",
-                                            fontSize: screenWidth / 85,
-                                            color: Colors.white
-                                          ),
+                                              fontFamily: "M",
+                                              fontSize: screenWidth / 85,
+                                              color: Colors.white),
                                         ),
                                       );
                                     },
                                   ),
                                 ),
-                                Positioned(
-                                  right: screenWidth * 0.02,
-                                  bottom: screenWidth * 0.02,
-                                  child:
-                                      BlocBuilder<DisplayOffset, ScrollOffset>(
-                                    buildWhen: (previous, current) {
-                                      if ((current.scrollOffsetValue >= 1210 ||
-                                              current.scrollOffsetValue <
-                                                  2000) ||
-                                          _seeProgram.isAnimating) {
-                                        return true;
-                                      } else {
-                                        return false;
-                                      }
-                                    },
-                                    builder: (context, state) {
-                                      if (state.scrollOffsetValue >= 1210) {
-                                        _seeProgram.forward();
-                                      } else {
-                                        _seeProgram.reverse();
-                                      }
-                                      return TextReveal(
-                                        maxHeight: screenWidth * 0.06,
-                                        textController: _seeProgram,
-                                        textRevealAnimation:
-                                            _seeProgramAnimation,
-                                        textOpacityAnimation:
-                                            _seeProgramOpacityAnimation,
-                                        child: Text(
-                                          "See Program",
-                                          style: TextStyle(
-                                            fontSize: screenWidth / 75,
-                                            fontFamily: "B",
-                                            color: Colors.white,
-                                          ),
-                                        ).moveUpOnHover,
-                                      );
-                                    },
-                                  ),
-                                ),
+                                // Positioned(
+                                //   right: screenWidth * 0.02,
+                                //   bottom: screenWidth * 0.02,
+                                //   child:
+                                //       BlocBuilder<DisplayOffset, ScrollOffset>(
+                                //     buildWhen: (previous, current) {
+                                //       if ((current.scrollOffsetValue >= 1210 ||
+                                //               current.scrollOffsetValue <
+                                //                   2000) ||
+                                //           _seeProgram.isAnimating) {
+                                //         return true;
+                                //       } else {
+                                //         return false;
+                                //       }
+                                //     },
+                                //     builder: (context, state) {
+                                //       if (state.scrollOffsetValue >= 1210) {
+                                //         _seeProgram.forward();
+                                //       } else {
+                                //         _seeProgram.reverse();
+                                //       }
+                                //       return TextReveal(
+                                //         maxHeight: screenWidth * 0.06,
+                                //         textController: _seeProgram,
+                                //         textRevealAnimation:
+                                //             _seeProgramAnimation,
+                                //         textOpacityAnimation:
+                                //             _seeProgramOpacityAnimation,
+                                //         child: Text(
+                                //           "See Program",
+                                //           style: TextStyle(
+                                //             fontSize: screenWidth / 75,
+                                //             fontFamily: "B",
+                                //             color: Colors.white,
+                                //           ),
+                                //         ).moveUpOnHover,
+                                //       );
+                                //     },
+                                //   ),
+                                // ),
                               ],
                             ).showCursorOnHover,
                             Stack(
@@ -445,7 +444,8 @@ class _SecondSectionState extends State<SecondSection>
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20)),
                                     image: DecorationImage(
-                                      image: AssetImage("assets/shsdashboard.jpg"),
+                                      image:
+                                          AssetImage("assets/shsdashboard.jpg"),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -456,8 +456,7 @@ class _SecondSectionState extends State<SecondSection>
                                   decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20)),
-                                    color: Color(0xFF002f24)
-                                        .withOpacity(0.4),
+                                    color: Color(0xFF002f24).withOpacity(0.4),
                                   ),
                                 ),
                                 Positioned(
@@ -545,58 +544,57 @@ class _SecondSectionState extends State<SecondSection>
                                         child: Text(
                                           "SNHS offers different strand and track",
                                           style: TextStyle(
-                                            fontFamily: "M",
-                                            fontSize: screenWidth / 85,
-                                            color: Colors.white
-                                          ),
+                                              fontFamily: "M",
+                                              fontSize: screenWidth / 85,
+                                              color: Colors.white),
                                         ),
                                       );
                                     },
                                   ),
                                 ),
-                                Positioned(
-                                  right: screenWidth * 0.02,
-                                  bottom: screenWidth * 0.02,
-                                  child: Container(
-                                    child: BlocBuilder<DisplayOffset,
-                                        ScrollOffset>(
-                                      buildWhen: (previous, current) {
-                                        if ((current.scrollOffsetValue >=
-                                                    1210 ||
-                                                current.scrollOffsetValue <
-                                                    2000) ||
-                                            _seeProgram.isAnimating) {
-                                          return true;
-                                        } else {
-                                          return false;
-                                        }
-                                      },
-                                      builder: (context, state) {
-                                        if (state.scrollOffsetValue >= 1210) {
-                                          _seeProgram.forward();
-                                        } else {
-                                          _seeProgram.reverse();
-                                        }
-                                        return TextReveal(
-                                          maxHeight: screenWidth * 0.06,
-                                          textController: _seeProgram,
-                                          textRevealAnimation:
-                                              _seeProgramAnimation,
-                                          textOpacityAnimation:
-                                              _seeProgramOpacityAnimation,
-                                          child: Text(
-                                            "See Program",
-                                            style: TextStyle(
-                                              fontSize: screenWidth / 75,
-                                              fontFamily: "B",
-                                              color: Colors.white,
-                                            ),
-                                          ).moveUpOnHover,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ),
+                                // Positioned(
+                                //   right: screenWidth * 0.02,
+                                //   bottom: screenWidth * 0.02,
+                                //   child: Container(
+                                //     child: BlocBuilder<DisplayOffset,
+                                //         ScrollOffset>(
+                                //       buildWhen: (previous, current) {
+                                //         if ((current.scrollOffsetValue >=
+                                //                     1210 ||
+                                //                 current.scrollOffsetValue <
+                                //                     2000) ||
+                                //             _seeProgram.isAnimating) {
+                                //           return true;
+                                //         } else {
+                                //           return false;
+                                //         }
+                                //       },
+                                //       builder: (context, state) {
+                                //         if (state.scrollOffsetValue >= 1210) {
+                                //           _seeProgram.forward();
+                                //         } else {
+                                //           _seeProgram.reverse();
+                                //         }
+                                //         return TextReveal(
+                                //           maxHeight: screenWidth * 0.06,
+                                //           textController: _seeProgram,
+                                //           textRevealAnimation:
+                                //               _seeProgramAnimation,
+                                //           textOpacityAnimation:
+                                //               _seeProgramOpacityAnimation,
+                                //           child: Text(
+                                //             "See Program",
+                                //             style: TextStyle(
+                                //               fontSize: screenWidth / 75,
+                                //               fontFamily: "B",
+                                //               color: Colors.white,
+                                //             ),
+                                //           ).moveUpOnHover,
+                                //         );
+                                //       },
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             ).showCursorOnHover,
                           ]),
